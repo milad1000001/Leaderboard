@@ -1,26 +1,26 @@
 <template>
     <div
-        class="flex flex-wrap p-2"
+        class="flex flex-wrap py-2 px-4 align-middle"
         :class="[
             mode === 'toprank'
                 ? 'rounded-base ' + look
-                : 'ranklist'
+                : 'ranklist justify-between '
         ]"
     >
         <div
             :class="{
                 'py-2 w-full justify-center':mode === 'toprank',
-                '':mode === 'ranklist'
+                'self-center w-1/6 order-3':mode === 'ranklist'
             }">
             <app-avatar
                 :variation="checkRankLevel"
             />
         </div>
         <div
-            :class="{
-                'w-full text-white text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
-                '':mode === 'ranklist'
-            }"
+            :class="['text-white',{
+                'w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
+                'w-1/6 text-lg order-2 self-center':mode === 'ranklist'
+            }]"
         >
             <app-rank
                 :rankNumber="item.rank"
@@ -29,7 +29,7 @@
         <div
             :class="{
                 'w-full text-center xxl:w-2/3 xxl:text-right xl:w-2/3 xl:text-right':mode === 'toprank',
-                '':mode === 'ranklist'
+                'w- /6 order-4':mode === 'ranklist'
             }"
         >
             <app-lorem :title="item.fullName" />
@@ -38,15 +38,21 @@
         </div>
         <div
             :class="{
-                'pt-2 pr-2 flex justify-between w-full ':mode === 'toprank',
-                '':mode === 'ranklist'
+                'w-1/3':mode === 'toprank',
+                'order-1 self-center':mode === 'ranklist'
             }"
         >
             <app-progress
-                :type="'up'"
                 :progressNumber="item.progress"
             />
-            <div class="flex align-center">
+        </div>
+        <div
+            :class="{
+                'pt-2 flex justify-between w-full ':mode === 'toprank',
+                'w-1/6 self-center order-6':mode === 'ranklist'
+            }"
+        >
+            <div :class="['flex',{'justify-end':mode ==='ranklist'}]">
                 <app-score
                     class="justify-start"
                     :scoreNumber="item.score"

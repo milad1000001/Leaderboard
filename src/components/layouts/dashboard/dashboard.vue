@@ -54,13 +54,13 @@ export default {
           fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 6, score: 1300, progress: 1,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 7, score: 1300, progress: 0,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 7, score: 1300, progress: -2,
         },
         {
           fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 8, score: 1300, progress: -2,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 9, score: 1300, progress: 0,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 9, score: 1300, progress: 5,
         },
         {
           fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 10, score: 1300, progress: 2,
