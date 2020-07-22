@@ -70,6 +70,8 @@
     "~pages": "./src/components/pages",
     "~icons": "./src/assets/compiled-svg",
     "~services": "./src/services",
+    "~store": "./src/store",
+    "~modules": "./src/store/modules",
     "~api": "./src/api",
     "~api$": "./src/api/index.js",
     "~router$": "./src/router/index.js"

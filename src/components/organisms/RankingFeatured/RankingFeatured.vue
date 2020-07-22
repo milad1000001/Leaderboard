@@ -36,7 +36,7 @@ export default {
 <style scoped>
 .RankingFeatured{
   display: grid;
-  grid-template-columns: repeat(3, minmax(max-content, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .one{
     background: linear-gradient(0deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to'));

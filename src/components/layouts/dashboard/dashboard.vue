@@ -9,7 +9,7 @@
                 :look="'one'"
             />
             <app-ranking
-                :title="'مدیران تیم'"
+                :title="'مدیران تیم ها'"
                 :featured="featured"
                 :list="list"
                 :look="'two'"
@@ -34,36 +34,36 @@ export default {
     return {
       featured: [
         {
-          fullName: 'میلاد میرزایی', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 1, score: 1300, trend: 2,
+          fullName: 'میلاد میرزایی', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 1, score: 1300, progress: 2,
         },
         {
-          fullName: 'ساسان محمدی', jobtitle: 'کارشناس فروش', position: 'ژنریک', rank: 2, score: 1300, trend: 5,
+          fullName: 'ساسان محمدی', jobtitle: 'کارشناس فروش', position: 'ژنریک', rank: 2, score: 1300, progress: 0,
         },
         {
-          fullName: 'ارسلان دشتی', jobtitle: 'کارشناس فروش', position: 'روماتولوژی', rank: 3, score: 1300, trend: -2,
+          fullName: 'ارسلان دشتی', jobtitle: 'کارشناس فروش', position: 'روماتولوژی', rank: 3, score: 1300, progress: -4,
         },
       ],
       list: [
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 4, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 4, score: 1300, progress: -2,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 5, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 5, score: 1300, progress: -3,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 6, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 6, score: 1300, progress: 1,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 7, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 7, score: 1300, progress: 0,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 8, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 8, score: 1300, progress: -2,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 9, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 9, score: 1300, progress: 0,
         },
         {
-          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 10, score: 1300,
+          fullName: 'نیما بدری', jobtitle: 'کارشناس فروش', position: 'انکولوژی شیمیایی', rank: 10, score: 1300, progress: 2,
         },
       ],
     };
@@ -78,8 +78,8 @@ export default {
 <style scoped>
 .rankingList{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(590px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
     text-align: center;
-    grid-gap:.5rem
+    grid-gap:1rem
 }
 </style>

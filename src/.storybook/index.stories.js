@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Avatar from '~atoms/Lorem/Avatar.vue';
+import Avatar from '~atoms/Lorem/index.vue';
 
 export default { title: 'Lorem' };
 

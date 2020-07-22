@@ -1,7 +1,7 @@
 <template>
     <div>
         <i
-            class="w-24 h-23 fas fa-medal"
+            class="w-8 fas fa-medal"
             :class="type"
         >
         </i>
@@ -23,13 +23,13 @@ export default {
 
 <style lang="scss" scoped>
 .bronz{
-
+    color:#FCD554;
 }
 .gold{
     color:#FCD554;
 }
 .silver{
-
+    color:#FCD554;
 }
 .node{
 

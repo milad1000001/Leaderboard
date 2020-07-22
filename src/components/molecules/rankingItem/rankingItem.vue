@@ -1,77 +1,72 @@
 <template>
     <div
-        class="grid justify-center align-middle py-2 px-4 gap-2"
+        class="flex flex-wrap p-2"
         :class="[
-            mode==='toprank' ? 'rounded-base ' + look : 'ranklist'
+            mode === 'toprank'
+                ? 'rounded-base ' + look
+                : 'ranklist'
         ]"
     >
-        <app-progress
-            :class="{
-                'progressTopRank':mode==='toprank',
-                'progressRankList':mode==='ranklist'
-            }"
-            :type="'up'"
-            :progressNumber="2"
-        />
-        <app-rank
-            :rankNumber="item.rank"
-            :class="{
-                'rank text-xl text-white':mode==='toprank',
-                'text-lg text-white':mode==='ranklist'
-            }"
-        />
-        <app-avatar
-            :variation="checkRankLevel"
-            :class="{
-                'avatarTopRank':mode==='toprank',
-                'avatarRankList':mode==='ranklist'
-            }"
-        />
         <div
             :class="{
-                'lorem text-right':mode==='toprank',
-                'grid text-right':mode==='ranklist'
-            }"
-        >
-            <app-lorem
-                class="rankingList__FullName col-span-2"
-                :title="item.fullName"
-            />
-            <app-lorem
-                class="rankingList__JobTitle"
-                :subtitle="item.jobtitle"
-            />
-            <app-lorem
-                class="rankingList__Position"
-                :class="{
-                    'position':mode==='toprank'
-                }"
-                :subtitle="item.position"
+                'py-2 w-full justify-center':mode === 'toprank',
+                '':mode === 'ranklist'
+            }">
+            <app-avatar
+                :variation="checkRankLevel"
             />
         </div>
         <div
             :class="{
-                'medalTopRank':mode==='toprank',
-                'medalRankList':mode==='ranklist'
-            }">
-            <app-score
-                :scoreNumber="item.score"
+                'w-full text-white text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
+                '':mode === 'ranklist'
+            }"
+        >
+            <app-rank
+                :rankNumber="item.rank"
             />
-            <app-medal
-                :type="'gold'"
-
+        </div>
+        <div
+            :class="{
+                'w-full text-center xxl:w-2/3 xxl:text-right xl:w-2/3 xl:text-right':mode === 'toprank',
+                '':mode === 'ranklist'
+            }"
+        >
+            <app-lorem :title="item.fullName" />
+            <app-lorem :subtitle="item.jobtitle" />
+            <app-lorem :subtitle="item.position" />
+        </div>
+        <div
+            :class="{
+                'pt-2 pr-2 flex justify-between w-full ':mode === 'toprank',
+                '':mode === 'ranklist'
+            }"
+        >
+            <app-progress
+                :type="'up'"
+                :progressNumber="item.progress"
             />
+            <div class="flex align-center">
+                <app-score
+                    class="justify-start"
+                    :scoreNumber="item.score"
+                />
+                <app-medal
+                    class="mt-1"
+                    :type="'gold'"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import Avatar from '~atoms/Avatar/Avatar.vue';
-import lorem from '~atoms/lorem/lorem.vue';
-import rank from '~atoms/rank/rank.vue';
-import score from '~atoms/score/score.vue';
-import medal from '~atoms/medal/medal.vue';
-import progress from '~atoms/progress/progress.vue';
+import Avatar from '~atoms/Avatar/index.vue';
+import lorem from '~atoms/Lorem/index.vue';
+import rank from '~atoms/Rank/index.vue';
+import score from '~atoms/Score/index.vue';
+import medal from '~atoms/Medal/index.vue';
+import progress from '~atoms/RankProgress/index.vue';
 
 export default {
   name: 'rankingItem',
@@ -105,53 +100,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.avatarTopRank{
-  grid-column: 1/4;
-  grid-row: 1/2;
-  justify-self: center;
-}
-.avatarRankList{
-  grid-column: 3;
-}
-.lorem{
-  grid-column: 2/4;
-}
-.scoreTopRank{
-  grid-row: 5;
-  grid-column: 2/3;
-  text-align: left;
-}
-.scoreRankList{
-  grid-column: 6;
-  text-align: left;
-}
-.rankingList{
-  grid-gap:.8rem;
-}
-.ranklist{
-  grid-template-columns:repeat(5, minmax(max-content, 1fr));
-  align-items: center;
-}
-.medalTopRank{
-  display: flex;
-  grid-row: 3/4;
-  grid-column: 3;
-  text-align: left;
-}
-.medalRankList{
-  display: flex;
-  grid-column: 6;
-  text-align: left;
-}
-.progressTopRank{
-  grid-row: 3/4;
-  grid-column: 1/2;
-  text-align: right;
-}
-.progressRankList{
-  grid-column: 1;
-  text-align: right;
-}
 .one{
   .ranklist:nth-child(even){
     background:#052C4170;
@@ -166,8 +114,5 @@ export default {
   .ranklist:nth-child(even){
     background: #052C4170;
   }
-}
-.position{
-  margin-top:-8px;
 }
 </style>

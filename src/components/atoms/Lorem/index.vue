@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'lorem',
+  name: 'Lorem',
   props: {
     title: {
       type: String,

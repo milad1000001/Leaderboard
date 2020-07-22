@@ -36,12 +36,12 @@ export default {
 
 <style scoped>
 .one{
-    background: linear-gradient(0deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to'));
+    background: linear-gradient(180deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to'));
 }
 .two{
-    background: linear-gradient(0deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to'));
+    background: linear-gradient(180deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to'));
 }
 .three{
-    background: linear-gradient(0deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to'));
+    background: linear-gradient(180deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to'));
 }
 </style>

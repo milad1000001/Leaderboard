@@ -1,13 +1,13 @@
 <template>
     <div
-        :class="{
+        :class="['m-auto',{
             'w-28 h-28':variation==='top',
             'w-14 h-14':variation==='list'
-        }"
+        }]"
     >
         <img
             class="block max-w-full max-h-full"
-            src="../../../assets/images/black.png"
+            src="../../../assets/images/white.png"
         >
     </div>
 </template>

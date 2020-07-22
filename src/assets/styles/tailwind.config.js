@@ -4,7 +4,8 @@ module.exports = {
       sm: '640px',
       md: '768px',
       lg: '1024px',
-      xl: '1280px',
+      xl: '1440px',
+      xxl: '2560px',
     },
     colors: {
       transparent: 'transparent',
@@ -101,6 +102,7 @@ module.exports = {
       lg: '1.5rem',
       xl: '2.5rem',
       '2xl': '3.5rem',
+      score: '1.125rem',
     },
     fontWeight: {
       hairline: '100',

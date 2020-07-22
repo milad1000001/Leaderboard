@@ -55,8 +55,4 @@ export default {
 .RankingList{
   direction:rtl
 }
-.RankingList:nth-child(2) {
-}
-.RankingList:nth-child(3) {
-}
 </style>

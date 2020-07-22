@@ -1,6 +1,6 @@
 <template>
     <div
-        class="rankingTitle font-bold py-1 rounded-base bg-purple-100 mb-1"
+        class="rankingTitle py-1 rounded-base mb-1"
         :class="look"
     >
         {{title}}
