@@ -6,7 +6,7 @@
         }]"
     >
         <img
-            class="block max-w-full max-h-full"
+            class="block"
             src="../../../assets/images/white.png"
         >
     </div>
@@ -24,5 +24,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

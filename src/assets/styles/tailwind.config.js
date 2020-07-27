@@ -15,18 +15,18 @@ module.exports = {
       gradient: {
         one: {
           primary: '#7774C4',
-          from: '#004C7350',
-          to: '#7774C450',
+          from: '#004C7380',
+          to: '#7774C480',
         },
         two: {
           primary: '#21868E',
-          from: '#004C7370',
-          to: '#21868E70',
+          from: '#004C7380',
+          to: '#21868E80',
         },
         three: {
           primary: '#0F87CF',
-          from: '#004c7370',
-          to: '#0F87CF70',
+          from: '#004c7380',
+          to: '#0F87CF80',
         },
       },
       gray: {

@@ -1,6 +1,6 @@
 <template>
     <div
-        class="grid grid-r text-white"
+        class="grid grid-r text-white justify-start"
         :class="type"
     >
         <span
@@ -50,7 +50,8 @@ export default {
           this.type = 'down';
           return '-';
         default:
-          return 'none';
+          this.type = 'none';
+          return '';
       }
     },
   },

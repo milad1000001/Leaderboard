@@ -11,6 +11,9 @@ export default {
   components: {
     'app-dashboard': dashboard,
   },
+  created() {
+    this.$store.dispatch('ranking/getRankingList');
+  },
 };
 </script>
 <style>
