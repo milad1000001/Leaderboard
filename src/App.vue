@@ -3,6 +3,11 @@
         <notifications
             group="Message"
             animation-type="velocity"/>
+        <vue-element-loading
+            :active="isActive"
+            spinner="bar-fade-scale"
+            color="#FF6700"/>
+
         <router-view />
     </div>
 </template>

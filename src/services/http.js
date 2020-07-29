@@ -16,3 +16,17 @@ export const setAuthHeader = (token) => {
 export const removeAuthHeader = () => {
   appAxios.defaults.headers.common.Authorization = null;
 };
+
+appAxios.interceptors.request.use(
+  (request) => {
+    console.log('request', request);
+    return request;
+  },
+);
+
+appAxios.interceptors.response.use(
+  (response) => {
+    console.log('response', response);
+    return response;
+  },
+);
