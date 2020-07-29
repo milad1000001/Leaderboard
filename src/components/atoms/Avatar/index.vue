@@ -6,8 +6,8 @@
         }]"
     >
         <img
-            class="block"
-            src="../../../assets/images/white.png"
+            class="block rounded-circle"
+            src="../../../assets/images/1.png"
         >
     </div>
 </template>

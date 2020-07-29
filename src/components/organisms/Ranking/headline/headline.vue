@@ -5,8 +5,8 @@
     </div>
 </template>
 <script>
-import logo from '~molecules/logo/logo.vue';
-import date from '~molecules/date/date.vue';
+import logo from '~molecules/Ranking/logo/logo.vue';
+import date from '~molecules/Ranking/date/date.vue';
 
 export default {
   name: 'headline',

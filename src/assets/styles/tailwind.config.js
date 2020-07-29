@@ -12,6 +12,7 @@ module.exports = {
       black: '#000',
       white: '#fff',
       subtitle: '#ffffff70',
+      bronz: '#D66100',
       gradient: {
         one: {
           primary: '#7774C4',
@@ -57,7 +58,7 @@ module.exports = {
         500: '#FA5A5A',
       },
       yellow: {
-        500: '#FCD554',
+        gold: '#FCD554',
       },
     },
     spacing: {

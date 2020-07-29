@@ -1,16 +1,16 @@
 <template>
     <div id="app">
-        <app-dashboard />
+        <notifications
+            group="Message"
+            animation-type="velocity"/>
+        <router-view />
     </div>
 </template>
 <script>
-import dashboard from '~layouts/dashboard/dashboard.vue';
+// import Ranking from '~pages/Ranking/Ranking.vue';
 
 export default {
   name: 'App',
-  components: {
-    'app-dashboard': dashboard,
-  },
   created() {
     this.$store.dispatch('ranking/getRankingList');
   },

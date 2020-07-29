@@ -22,16 +22,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.bronz{
-    color:#FCD554;
+.Bronze{
+    color: theme('colors.bronz');
 }
-.gold{
-    color:#FCD554;
+.Gold{
+    color:theme('colors.yellow.gold');
 }
-.silver{
-    color:#FCD554;
-}
-.node{
-
+.Silver{
+    color:theme('colors.gray.300');
 }
 </style>

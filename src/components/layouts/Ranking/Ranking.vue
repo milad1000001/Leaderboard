@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import RankingList from '~organisms/RankingList/RankingList.vue';
-import RankingTitle from '~organisms/RankingTitle/RankingTitle.vue';
-import RankingFeatured from '~organisms/RankingFeatured/RankingFeatured.vue';
+import RankingList from '~organisms/Ranking/RankingList/RankingList.vue';
+import RankingTitle from '~organisms/Ranking/RankingTitle/RankingTitle.vue';
+import RankingFeatured from '~organisms/Ranking/RankingFeatured/RankingFeatured.vue';
 
 export default {
   name: 'Ranking',

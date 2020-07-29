@@ -3,6 +3,6 @@ import appAxios from '~services/http';
 
 export default {
   getRankingList() {
-    return appAxios.get('rankings');
+    return appAxios.get('/rankings');
   },
 };

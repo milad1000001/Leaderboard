@@ -2,5 +2,24 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 body{
-    font-family: IranSans;
+    font-family: IRANSansWeb;
+}
+@font-face {
+    font-family: IRANSansWeb;
+    src: url(../fonts/IRANSansWeb.ttf);
+  }
+.vue-notification-group{
+    width: 100% !important;
+    bottom: 0px !important;
+    top:auto  !important;;
+    right:0px !important;
+    direction: rtl !important;
+    text-align: right !important;
+    padding: 0px 10px !important;
+}
+.vue-notification{
+    direction: rtl;
+    text-align: right;
+    font-size: 18px;
+    padding: 12px;
 }

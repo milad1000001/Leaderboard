@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import RankingItem from '~molecules/rankingItem/rankingItem.vue';
+import RankingItem from '~molecules/Ranking/rankingItem/rankingItem.vue';
 
 export default {
   name: 'RankingList',
@@ -35,13 +35,13 @@ export default {
 </script>
 
 <style scoped>
-.one{
+.FLSM{
     background: linear-gradient(180deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to'));
 }
-.two{
+.MEDREP{
     background: linear-gradient(180deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to'));
 }
-.three{
+.TEAMLEADER{
     background: linear-gradient(180deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to'));
 }
 </style>

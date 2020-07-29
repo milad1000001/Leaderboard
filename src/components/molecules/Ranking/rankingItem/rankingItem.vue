@@ -38,7 +38,7 @@
             >
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
-                    :subtitle="item.jobtitle" />
+                    :subtitle="item.jobTitle" />
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
                     :subtitle="item.position" />
@@ -51,7 +51,7 @@
             }"
         >
             <app-progress
-                :progressNumber="item.progress"
+                :progressNumber="item.progressLevel"
             />
         </div>
         <div
@@ -66,11 +66,11 @@
                 }]">
                 <app-score
                     class="justify-start"
-                    :scoreNumber="item.score"
+                    :scoreNumber="item.totalScore"
                 />
                 <app-medal
                     class="mt-1"
-                    :type="'gold'"
+                    :type="item.badgeType"
                 />
             </div>
         </div>

@@ -27,13 +27,13 @@ export default {
 .rankingTitle{
     color:#ffffff70
 }
-.one{
+.FLSM{
     background: theme('colors.gradient.one.to');
 }
-.two{
+.MEDREP{
     background: theme('colors.gradient.two.to');
 }
-.three{
+.TEAMLEADER{
     background: theme('colors.gradient.three.to');
 }
 </style>

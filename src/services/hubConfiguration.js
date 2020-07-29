@@ -1,4 +1,5 @@
 /* eslint-disable global-require */
+import { notifyHubHasWarning, notifyHubHasError, notifyHubIsConnected } from '~services/notificationHandler';
 
 export const signalR = require('@microsoft/signalr');
 
@@ -8,5 +9,41 @@ const connection = new signalR.HubConnectionBuilder()
   .withAutomaticReconnect([5000, 10000, 15000, 30000, 45000, 15000])
   .configureLogging(signalR.LogLevel.Information)
   .build();
+
+export const startConnection = () => {
+  connection.start().then(() => {
+    connection.invoke('subscribe', '');
+    notifyHubIsConnected();
+  })
+    .catch((e) => {
+      setTimeout(() => {
+        this.startConnection();
+      }, 60000);
+      notifyHubHasWarning();
+    });
+};
+
+connection.on('ReceiveMessage', (message) => {
+  console.log(message);
+});
+connection.on('UnauthorizedAccess', (message) => {
+  console.log(message);
+  connection.stop();
+});
+connection.on('ReceiveError', (message) => {
+  console.log(message);
+  notifyHubHasError();
+});
+connection.onreconnecting(() => {
+  console.log(connection.state);
+  notifyHubHasWarning();
+});
+connection.onreconnected(() => {
+  console.log(connection.state);
+  notifyHubIsConnected();
+});
+connection.onclose(() => {
+  console.log(connection.state);
+});
 
 export default connection;
