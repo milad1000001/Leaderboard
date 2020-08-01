@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from '../store/store';
 
 const appAxios = axios.create({
   header: {
@@ -19,14 +20,15 @@ export const removeAuthHeader = () => {
 
 appAxios.interceptors.request.use(
   (request) => {
-    console.log('request', request);
+    console.log(store);
+    store.commit('ranking/changeLoadingState', true);
     return request;
   },
 );
 
 appAxios.interceptors.response.use(
   (response) => {
-    console.log('response', response);
+    store.commit('ranking/changeLoadingState', false);
     return response;
   },
 );

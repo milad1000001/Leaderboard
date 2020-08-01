@@ -9,10 +9,12 @@ export const namespaced = true;
 export const state = {
   rankingList: [],
   message: '',
+  isActive: false,
 };
 
 export const getters = {
   rankingList: (state) => state.rankingList,
+  getLoadingState: () => state.isActive,
 };
 
 export const mutations = {
@@ -21,6 +23,9 @@ export const mutations = {
   },
   setHubErrorMessage(state, error) {
     Vue.set(state, 'message', error);
+  },
+  changeLoadingState(state, boolean) {
+    Vue.set(state, 'isActive', boolean);
   },
 };
 

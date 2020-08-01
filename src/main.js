@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import SvgIcon from 'vue-svgicon';
 import VueAxios from 'vue-axios';
+import VueElementLoading from 'vue-element-loading';
 import vuePersianFilters from 'vue-persian-filters';
 import axios from 'axios';
 import Notifications from 'vue-notification';
@@ -13,6 +14,7 @@ import '~styles/style.css';
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications, { velocity });
+Vue.component('VueElementLoading', VueElementLoading);
 
 Vue.use(SvgIcon, {
   tagName: 'svgicon',

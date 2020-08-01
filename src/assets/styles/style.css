@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 body{
     font-family: IRANSansWeb;
+    height: 100%;
 }
 @font-face {
     font-family: IRANSansWeb;
@@ -22,4 +23,12 @@ body{
     text-align: right;
     font-size: 18px;
     padding: 12px;
+}
+
+.velmld-overlay{
+    background-color: theme('colors.blue.700') !important;
+}
+
+.velmld-spinner svg{
+    display: inline;
 }
