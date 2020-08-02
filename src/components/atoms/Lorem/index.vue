@@ -19,9 +19,6 @@ export default {
     subtitle: {
       type: String,
     },
-    size: {
-      type: String,
-    },
   },
 };
 </script>

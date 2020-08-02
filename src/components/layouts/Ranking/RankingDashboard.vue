@@ -18,13 +18,13 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import HeadLine from '~organisms/Ranking/headline/headline.vue';
+import Headline from '~organisms/Ranking/Headline/Headline.vue';
 import Ranking from '~layouts/Ranking/Ranking.vue';
 
 export default {
-  name: 'dashboard',
+  name: 'RankingDashboard',
   components: {
-    'app-headline': HeadLine,
+    'app-headline': Headline,
     'app-ranking': Ranking,
   },
   computed: {

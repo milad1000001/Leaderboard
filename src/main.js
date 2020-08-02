@@ -5,7 +5,6 @@ import VueElementLoading from 'vue-element-loading';
 import vuePersianFilters from 'vue-persian-filters';
 import axios from 'axios';
 import Notifications from 'vue-notification';
-import velocity from 'velocity-animate';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
@@ -13,7 +12,7 @@ import '~styles/style.css';
 
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
-Vue.use(Notifications, { velocity });
+Vue.use(Notifications);
 Vue.component('VueElementLoading', VueElementLoading);
 
 Vue.use(SvgIcon, {

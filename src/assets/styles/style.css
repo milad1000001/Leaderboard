@@ -24,11 +24,3 @@ body{
     font-size: 18px;
     padding: 12px;
 }
-
-.velmld-overlay{
-    background-color: theme('colors.blue.700') !important;
-}
-
-.velmld-spinner svg{
-    display: inline;
-}

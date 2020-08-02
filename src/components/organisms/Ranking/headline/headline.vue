@@ -9,7 +9,7 @@ import logo from '~molecules/Ranking/logo/logo.vue';
 import date from '~molecules/Ranking/date/date.vue';
 
 export default {
-  name: 'headline',
+  name: 'Headline',
   components: {
     'app-logo': logo,
     'app-date': date,

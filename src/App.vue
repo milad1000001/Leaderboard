@@ -1,8 +1,7 @@
 <template>
     <div id="app">
         <notifications
-            group="Message"
-            animation-type="velocity"/>
+            group="Message"/>
         <vue-element-loading
             :active="loadingState"
             spinner="bar-fade-scale"
@@ -10,11 +9,13 @@
             is-full-screen
             text="چند لحظه صبر بفرمایید"
         />
+        <Navigation />
         <router-view />
     </div>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import Navigation from '~layouts/Navigation/Navigation.vue';
 
 export default {
 
@@ -26,6 +27,9 @@ export default {
     ...mapGetters(
       { loadingState: 'ranking/getLoadingState' },
     ),
+  },
+  components: {
+    Navigation,
   },
 };
 </script>

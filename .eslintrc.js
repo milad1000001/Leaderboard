@@ -21,7 +21,7 @@ module.exports = {
         ignoreRestSiblings: false,
       },
     ],
-    'lintOnSave':0,
+    lintOnSave: 0,
     'no-param-reassign': [
       'error',
       {
@@ -51,6 +51,5 @@ module.exports = {
         ignores: [],
       },
     ],
-    
   },
 };

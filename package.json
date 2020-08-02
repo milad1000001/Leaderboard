@@ -29,7 +29,6 @@
     "link-module-alias": "^1.2.0",
     "precss": "^4.0.0",
     "tailwindcss": "^1.4.6",
-    "velocity-animate": "^1.5.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-loader": "^15.9.3",
