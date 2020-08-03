@@ -1,10 +1,9 @@
 <template>
     <div>
         <span
-            :class="{'text-white text-base':!!title,'text-subtitle text-xs':!!subtitle}"
+            :class="`text-${color} text-${size}`"
         >
-            {{title}}
-            {{subtitle}}
+            {{text}}
         </span>
     </div>
 </template>
@@ -13,11 +12,18 @@
 export default {
   name: 'Lorem',
   props: {
-    title: {
+    text: {
       type: String,
     },
-    subtitle: {
+    color: {
       type: String,
+      requred: true,
+      default: 'white',
+    },
+    size: {
+      type: String,
+      requred: true,
+      default: 'base',
     },
   },
 };

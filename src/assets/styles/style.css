@@ -24,3 +24,7 @@ body{
     font-size: 18px;
     padding: 12px;
 }
+
+.velmld-spinner svg{
+    display: inline !important;;
+}

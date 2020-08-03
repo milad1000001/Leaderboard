@@ -39,12 +39,15 @@ export default {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .FLSM{
-    background: linear-gradient(0deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to'));
+    background-color: theme('colors.blue.800');
+    /* background: linear-gradient(0deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to')); */
 }
 .MEDREP{
-    background: linear-gradient(0deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to'));
+    background-color: theme('colors.blue.800');
+    /* background: linear-gradient(0deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to')); */
 }
 .TEAMLEADER{
-    background: linear-gradient(0deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to'));
+    background-color: theme('colors.blue.800');
+    /* background: linear-gradient(0deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to')); */
 }
 </style>

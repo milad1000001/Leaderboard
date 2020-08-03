@@ -28,12 +28,12 @@ export default {
     color:#ffffff70
 }
 .FLSM{
-    background: theme('colors.gradient.one.to');
+    background: theme('colors.blue.800');
 }
 .MEDREP{
-    background: theme('colors.gradient.two.to');
+    background: theme('colors.blue.800');
 }
 .TEAMLEADER{
-    background: theme('colors.gradient.three.to');
+    background: theme('colors.blue.800');
 }
 </style>

@@ -32,16 +32,26 @@
                 'flex flex-col listLorem text-right w-2/8 order-4 items-start':mode === 'ranklist'
             }"
         >
-            <app-lorem :title="item.fullName" />
+            <app-lorem
+                :text="item.fullName"
+                :size="'base'"
+                :color="'white'"
+            />
             <div
                 :class="{'flex gap-2':mode ==='ranklist'}"
             >
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
-                    :subtitle="item.jobTitle" />
+                    :text="item.jobTitle"
+                    :size="'xs'"
+                    :color="'white'"
+                />
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
-                    :subtitle="item.position" />
+                    :text="item.position"
+                    :size="'xs'"
+                    :color="'white'"
+                />
             </div>
         </div>
         <div

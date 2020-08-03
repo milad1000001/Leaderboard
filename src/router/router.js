@@ -14,6 +14,37 @@ const router = new VueRouter({
       name: 'userDashboard',
       path: '/userdashboard',
       component: UserDashboard,
+      meta: {
+        title: 'گزارش کلی',
+        icon: 'bars',
+      },
+    },
+    {
+      name: 'userDashboard',
+      path: '/userdashboard',
+      component: UserDashboard,
+      meta: {
+        title: 'عملکرد تیم',
+        icon: 'chart-line',
+      },
+    },
+    {
+      name: 'userDashboard',
+      path: '/userdashboard',
+      component: UserDashboard,
+      meta: {
+        title: 'اعضا',
+        icon: 'users',
+      },
+    },
+    {
+      name: 'userDashboard',
+      path: '/userdashboard',
+      component: UserDashboard,
+      meta: {
+        title: 'اعلان',
+        icon: 'bell',
+      },
     },
   ],
   mode: 'history',

@@ -1,23 +1,31 @@
 <template>
-    <div>
+    <div class="items-middle text-center">
         <Avatar
             :variation="'list'"
         />
-        <Username
-            :subtitle="'حمیدرضا علیاری'"
+        <TextFeild
+            class="mt-4"
+            :text="'حمیدرضا علیاری'"
+            :size="'base'"
+            :color="'white'"
+        />
+        <TextFeild
+            :text="'کارشناس فروش'"
+            :size="'xs'"
+            :color="'gray-400'"
         />
     </div>
 </template>
 
 <script>
 import Avatar from '~atoms/Avatar/index.vue';
-import Username from '~atoms/Lorem/index.vue';
+import TextFeild from '~atoms/Lorem/index.vue';
 
 export default {
   name: 'MenuUser',
   components: {
     Avatar,
-    Username,
+    TextFeild,
   },
 };
 </script>
