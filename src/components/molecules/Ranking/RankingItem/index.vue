@@ -44,13 +44,13 @@
                     :class="{'':mode ==='ranklist'}"
                     :text="item.jobTitle"
                     :size="'xs'"
-                    :color="'white'"
+                    :color="'gray-500'"
                 />
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
                     :text="item.position"
                     :size="'xs'"
-                    :color="'white'"
+                    :color="'gray-500'"
                 />
             </div>
         </div>
@@ -78,9 +78,11 @@
                     class="justify-start"
                     :scoreNumber="item.totalScore"
                 />
-                <app-medal
+                <app-icon
                     class="mt-1"
-                    :type="item.badgeType"
+                    :name="'fas fa-medal'"
+                    :color="item.badgeType"
+                    :size="'w-12'"
                 />
             </div>
         </div>
@@ -92,7 +94,7 @@ import Avatar from '~atoms/Avatar/index.vue';
 import lorem from '~atoms/Lorem/index.vue';
 import rank from '~atoms/Rank/index.vue';
 import score from '~atoms/Score/index.vue';
-import medal from '~atoms/Medal/index.vue';
+import Icon from '~atoms/Icon/index.vue';
 import progress from '~atoms/RankProgress/index.vue';
 
 export default {
@@ -102,7 +104,7 @@ export default {
     'app-lorem': lorem,
     'app-rank': rank,
     'app-score': score,
-    'app-medal': medal,
+    'app-icon': Icon,
     'app-progress': progress,
   },
   props: {

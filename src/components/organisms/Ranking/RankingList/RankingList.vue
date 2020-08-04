@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import RankingItem from '~molecules/Ranking/rankingItem/rankingItem.vue';
+import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
   name: 'RankingList',

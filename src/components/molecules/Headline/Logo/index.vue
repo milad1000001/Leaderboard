@@ -2,7 +2,7 @@
     <div>
         <svgicon
             name="logo2"
-            height="70px"
+            height="60px"
             color="#fff"
         />
     </div>

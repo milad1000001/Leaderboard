@@ -1,10 +1,12 @@
 <template>
     <div class="m-8">
-        <app-headline />
+        <Headline
+            @toggle="toggleNavigation($event)"
+        />
         <div
             class="rankingList"
         >
-            <app-ranking
+            <Ranking
                 v-for="(item,index) in rankingList"
                 :key="index"
                 :title="item.title"
@@ -18,19 +20,24 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import Headline from '~organisms/Ranking/Headline/Headline.vue';
+import Headline from '~organisms/Headline/Headline.vue';
 import Ranking from '~layouts/Ranking/Ranking.vue';
 
 export default {
   name: 'RankingDashboard',
   components: {
-    'app-headline': Headline,
-    'app-ranking': Ranking,
+    Headline,
+    Ranking,
   },
   computed: {
     ...mapGetters({
       rankingList: 'ranking/rankingList',
     }),
+  },
+  methods: {
+    toggleNavigation(val) {
+
+    },
   },
 };
 </script>

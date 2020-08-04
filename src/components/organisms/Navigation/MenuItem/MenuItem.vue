@@ -5,6 +5,7 @@
                 v-for="(item,index) in list"
                 :key="index">
                 <Items
+                    @navigationClickEvent="routeToPage($event)"
                     :items="item.meta"
                     :postion="'top'"
                 />
@@ -39,6 +40,11 @@ export default {
     list: {
       type: Array,
       required: false,
+    },
+  },
+  methods: {
+    routeToPage(routeNAME) {
+      this.$router.push({ name: routeNAME });
     },
   },
 };

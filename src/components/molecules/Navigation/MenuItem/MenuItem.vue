@@ -1,5 +1,6 @@
 <template>
     <div
+        @click="NavigationClick(items.name)"
         :class="['w-full text-white p-4 flex gap-2 text-center justify-end mt-4  cursor-pointer hover:bg-blue-500 hover:p-12',{
             'rounded-pill':postion == 'top',
             'fixed right-0 justify-center bottom-0':postion == 'bottom'
@@ -35,6 +36,11 @@ export default {
     postion: {
       type: String,
       required: true,
+    },
+  },
+  methods: {
+    NavigationClick(routeName) {
+      this.$emit('navigationClickEvent', routeName);
     },
   },
 };

@@ -17,33 +17,40 @@ const router = new VueRouter({
       meta: {
         title: 'گزارش کلی',
         icon: 'bars',
+        name: 'userDashboard',
       },
     },
     {
-      name: 'userDashboard',
-      path: '/userdashboard',
+      name: 'ranking',
+      path: '/ranking',
       component: UserDashboard,
       meta: {
         title: 'عملکرد تیم',
         icon: 'chart-line',
+        name: 'ranking',
+
       },
     },
     {
-      name: 'userDashboard',
-      path: '/userdashboard',
+      name: 'users',
+      path: '/users',
       component: UserDashboard,
       meta: {
         title: 'اعضا',
         icon: 'users',
+        name: 'users',
+
       },
     },
     {
-      name: 'userDashboard',
-      path: '/userdashboard',
+      name: 'notificatino',
+      path: '/notificatino',
       component: UserDashboard,
       meta: {
         title: 'اعلان',
         icon: 'bell',
+        name: 'notificatino',
+
       },
     },
   ],

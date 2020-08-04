@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import RankingTitle from '~molecules/Ranking/RankingTitle/RankingTitle.vue';
+import RankingTitle from '~molecules/Ranking/RankingTitle/index.vue';
 
 export default {
   name: 'RankingTitle',

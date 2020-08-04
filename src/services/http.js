@@ -20,7 +20,6 @@ export const removeAuthHeader = () => {
 
 appAxios.interceptors.request.use(
   (request) => {
-    console.log(store);
     store.commit('ranking/changeLoadingState', true);
     return request;
   },

@@ -24,26 +24,20 @@ export const startConnection = () => {
 };
 
 connection.on('ReceiveMessage', (message) => {
-  console.log(message);
 });
 connection.on('UnauthorizedAccess', (message) => {
-  console.log(message);
   connection.stop();
 });
 connection.on('ReceiveError', (message) => {
-  console.log(message);
   notifyHubHasError();
 });
 connection.onreconnecting(() => {
-  console.log(connection.state);
   notifyHubHasWarning();
 });
 connection.onreconnected(() => {
-  console.log(connection.state);
   notifyHubIsConnected();
 });
 connection.onclose(() => {
-  console.log(connection.state);
 });
 
 export default connection;

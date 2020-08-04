@@ -1,28 +1,30 @@
 <template>
     <div>
         <div
-            @click="drawer=false"
-            :class="{'fixed inset-0 transition z-sky':drawer}"
+            @click="closeNavigation()"
+            :class="{'fixed inset-0 transition z-sky':navigationState}"
         >
             <div
-                :class="{'absolute transition inset-0 bg-gray-900 opacity-75':drawer}"
+                :class="{'absolute transition inset-0 bg-gray-900 opacity-75':navigationState}"
             >
             </div>
         </div>
         <nav
             class="navbar fixed top-0 right-0 h-screen pt-16"
             :class="{
-                'navbar-open text-white bg-blue-800 z-sky':drawer,
-                'navbar-close ' : !drawer
+                'navbar-open text-white bg-blue-800 z-sky':navigationState,
+                'navbar-close ' : !navigationState
             }"
         >
             <User-Menu/>
-            <Menu-Item :list="getRouterLink"/>
+            <Menu-Item
+                :list="getRouterLink"/>
         </nav>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import UserMenu from '~molecules/Navigation/MenuUser/MenuUser.vue';
 import MenuItem from '~organisms/Navigation/MenuItem/MenuItem.vue';
 
@@ -32,14 +34,17 @@ export default {
     UserMenu,
     MenuItem,
   },
-  data() {
-    return {
-      drawer: true,
-    };
-  },
   computed: {
+    ...mapGetters(
+      { navigationState: 'global/navigationState' },
+    ),
     getRouterLink() {
       return this.$router.options.routes.filter((el) => el.name);
+    },
+  },
+  methods: {
+    closeNavigation() {
+      this.$store.commit('global/toggleNavigation', false);
     },
   },
 };
