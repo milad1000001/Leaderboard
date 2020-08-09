@@ -1,16 +1,20 @@
 <template>
     <div
         @click="NavigationClick(items.name)"
-        :class="['w-full text-white p-4 flex gap-2 text-center justify-end mt-4  cursor-pointer hover:bg-blue-500 hover:p-12',{
-            'rounded-pill':postion == 'top',
-            'fixed right-0 justify-center bottom-0':postion == 'bottom'
-        }]"
+        class="navigationTopCss"
+        :class="[
+            'w-full text-gray-200 p-4 flex gap-2 text-center justify-end mt-4 cursor-pointer hover:bg-blue-400 hover:p-12',
+            {
+                'rounded-pill':postion == 'top',
+                'fixed right-0 justify-center bottom-0':postion == 'bottom'
+            }
+        ]"
     >
         <Text-Feild
             v-if="items.title"
             :text="items.title"
             :size="'base'"
-            :color="'gray-400'"
+            :color="'gray-200'"
         />
         <i
             v-if="items.icon"
@@ -47,5 +51,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.router-link-exact-active .router-link-active{
+  .navigationTopCss{
+    background:theme('colors.blue.400');
+  }
+}
 </style>

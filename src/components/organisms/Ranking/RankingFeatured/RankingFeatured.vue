@@ -7,6 +7,7 @@
             :key="index"
             :item="item"
             :mode="'toprank'"
+            class="featuredWrapper"
             :look="look"
         />
     </div>
@@ -38,16 +39,7 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.FLSM{
-    background-color: theme('colors.blue.800');
-    /* background: linear-gradient(0deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to')); */
-}
-.MEDREP{
-    background-color: theme('colors.blue.800');
-    /* background: linear-gradient(0deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to')); */
-}
-.TEAMLEADER{
-    background-color: theme('colors.blue.800');
-    /* background: linear-gradient(0deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to')); */
+.featuredWrapper{
+  background-color: theme('colors.blue.600');
 }
 </style>

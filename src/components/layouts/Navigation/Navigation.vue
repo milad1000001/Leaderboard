@@ -5,7 +5,7 @@
             :class="{'fixed inset-0 transition z-sky':navigationState}"
         >
             <div
-                :class="{'absolute transition inset-0 bg-gray-900 opacity-75':navigationState}"
+                :class="{'absolute transition inset-0 bg-gray-800 opacity-75':navigationState}"
             >
             </div>
         </div>

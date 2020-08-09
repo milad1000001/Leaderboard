@@ -60,10 +60,10 @@ export default {
 }
 .listWrapper{
   scroll-behavior: smooth;
-  background-color: theme('colors.blue.800');
+  background-color: theme('colors.blue.600');
   height: calc(7*64px);
   &::-webkit-scrollbar {
-        width: 2px;
+        width: 3px;
         height: 5px;
     }
 
@@ -73,30 +73,17 @@ export default {
     }
 
     &::-webkit-scrollbar-thumb {
-        background: theme('colors.blue.500');
+        background: theme('colors.blue.400');
         border-radius: 10px;
     }
 
     &::-webkit-scrollbar-thumb:hover {
-        background: #447C9A;
+        background: theme('colors.blue.200');
     }
 }
 .rankingListItem{
   &:nth-child(even){
-    background-color: #0F2D4C;
+    background-color: theme('colors.gray.800');
   }
 }
-
-// .FLSM{
-//   background-color: theme('colors.blue.800');
-//   /* background: linear-gradient(180deg, theme('colors.gradient.one.from'), theme('colors.gradient.one.to')); */
-// }
-// .MEDREP{
-//   background-color: theme('colors.blue.800');
-//   /* background: linear-gradient(180deg, theme('colors.gradient.two.from'), theme('colors.gradient.two.to')); */
-// }
-// .TEAMLEADER{
-//   background-color: theme('colors.blue.800');
-//   /* background: linear-gradient(180deg, theme('colors.gradient.three.from'), theme('colors.gradient.three.to')); */
-// }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div
-        class="grid grid-r text-white justify-start"
+        class="flex flex-col w-8 text-gray-200 justify-start"
         :class="type"
     >
         <span
@@ -62,7 +62,7 @@ export default {
 
 .up{
   .icon{
-    color: #1EE094;
+    color: theme('colors.Green');
   }
   .number{
     margin-top: -.8rem;
@@ -70,7 +70,7 @@ export default {
 }
 .down{
   .icon{
-    color: #FA5A5A;
+    color: theme('colors.Red');
   }
   .number{
     margin-bottom: -.8rem;

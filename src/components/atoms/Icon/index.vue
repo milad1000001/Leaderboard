@@ -30,12 +30,12 @@ export default {
 
 <style lang="scss" scoped>
 .Bronze{
-  color: theme('colors.bronz');
+  color: theme('colors.Bronze');
 }
 .Gold{
-  color:theme('colors.gold');
+  color:theme('colors.Gold');
 }
 .Silver{
-  color:theme('colors.gray.300');
+  color:theme('colors.Silver');
 }
 </style>

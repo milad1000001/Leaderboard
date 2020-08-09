@@ -7,7 +7,7 @@
             class="mt-4"
             :text="'حمیدرضا علیاری'"
             :size="'base'"
-            :color="'white'"
+            :color="'gray-200'"
         />
         <TextFeild
             :text="'کارشناس فروش'"

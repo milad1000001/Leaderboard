@@ -1,24 +1,24 @@
 <template>
-    <div class="date text-white mb-4">
+    <div class="date text-gray-200 mb-4">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
                 <app-icon
                     name="fas fa-bars"
-                    color="text-gray-400"
+                    color="text-gray-200"
                     size="'w-12'"
                     class="cursor-pointer"
                     @click.native="openNavigation()"
                 />
                 <app-icon
                     :name="haveNotificationHandler"
-                    color="text-gray-400"
+                    color="text-gray-200"
                     size="'w-12'"
                 />
                 <Lorem
                     :text="'آخرین به روزرسانی: یکشنبه 25 خرداد 1399'"
                     :size="'xs'"
                     :color="'gray-300'"
-                    class="bg-blue-800 px-4 py-1 rounded-base"
+                    class="bg-blue-600 px-4 py-1 rounded-base"
                 />
             </div>
             <Logo />
@@ -27,13 +27,13 @@
             <Lorem
                 :text="'رتبه بندی'"
                 :size="'lg'"
-                class="text-sm text-white border-r-2 pr-2"
+                class="text-sm text-gray-200 border-r-2 pr-2"
             />
             <Lorem
                 :text="'یکشنبه 25 خرداد 1399'"
                 :size="'xs'"
                 :color="'gray-500'"
-                class="bg-blue-800 px-4 py-1 rounded-base"
+                class="bg-blue-600 px-4 py-1 rounded-base"
             />
         </div>
     </div>

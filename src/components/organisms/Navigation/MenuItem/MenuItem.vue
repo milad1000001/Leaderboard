@@ -1,15 +1,18 @@
 <template>
     <div class="px-12 mt-12 items-center justify-center">
-        <ul class="border-b-2 pb-8">
-            <li
+        <ul class="border-b-2 border-gray-200 pb-8">
+            <router-link
                 v-for="(item,index) in list"
-                :key="index">
+                :key="index"
+                exact
+                :to="{path:item.name}"
+                :href="item.name"
+                tag="li">
                 <Items
-                    @navigationClickEvent="routeToPage($event)"
                     :items="item.meta"
                     :postion="'top'"
                 />
-            </li>
+            </router-link>
         </ul>
         <Items
             :items="ranking"
@@ -51,5 +54,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.router-link-exact-active {
+    background-color:theme('colors.blue.200');
+    border-radius: theme('borderRadius.pill');
+}
 </style>

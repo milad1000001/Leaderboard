@@ -25,8 +25,8 @@ export default {
 
 <style scoped>
 .rankingTitle{
-  color:#ffffff70;
-  background: theme('colors.blue.800');
+  color:theme('colors.gray.400');;
+  background: theme('colors.blue.600');
 
 }
 /* .FLSM{

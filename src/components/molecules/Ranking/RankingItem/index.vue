@@ -17,7 +17,7 @@
             />
         </div>
         <div
-            :class="['text-white',{
+            :class="['text-gray-200',{
                 'w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
                 'w-1/8 text-lg order-2 self-center':mode === 'ranklist'
             }]"
@@ -35,7 +35,7 @@
             <app-lorem
                 :text="item.fullName"
                 :size="'base'"
-                :color="'white'"
+                :color="'gray-200'"
             />
             <div
                 :class="{'flex gap-2':mode ==='ranklist'}"
@@ -44,13 +44,13 @@
                     :class="{'':mode ==='ranklist'}"
                     :text="item.jobTitle"
                     :size="'xs'"
-                    :color="'gray-500'"
+                    :color="'gray-400'"
                 />
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
                     :text="item.position"
                     :size="'xs'"
-                    :color="'gray-500'"
+                    :color="'gray-400'"
                 />
             </div>
         </div>
@@ -132,20 +132,24 @@ export default {
 .listLorem{
   width:50%
 }
-
-.one{
-  .ranklist:nth-child(even){
-    background:#052C4170;
-  }
-}
-.two{
-  .ranklist:nth-child(even){
-    background: #052C4170;
-  }
-}
-.three{
-  .ranklist:nth-child(even){
-    background: #052C4170;
-  }
-}
+// .ranklist{
+//   &:nth-child(even){
+//     background: theme('colors.Red');
+//   }
+// }
+// .one{
+//   .ranklist:nth-child(even){
+//     background:#052C4170;
+//   }
+// }
+// .two{
+//   .ranklist:nth-child(even){
+//     background: #052C4170;
+//   }
+// }
+// .three{
+//   .ranklist:nth-child(even){
+//     background: #052C4170;
+//   }
+// }
 </style>
