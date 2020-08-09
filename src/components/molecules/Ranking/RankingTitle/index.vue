@@ -1,6 +1,6 @@
 <template>
     <div
-        class="rankingTitle py-1 rounded-base mb-1"
+        class="rankingTitle py-1 rounded-base"
         :class="look"
     >
         {{title}}
@@ -25,9 +25,11 @@ export default {
 
 <style scoped>
 .rankingTitle{
-    color:#ffffff70
+  color:#ffffff70;
+  background: theme('colors.blue.800');
+
 }
-.FLSM{
+/* .FLSM{
     background: theme('colors.blue.800');
 }
 .MEDREP{
@@ -35,5 +37,5 @@ export default {
 }
 .TEAMLEADER{
     background: theme('colors.blue.800');
-}
+} */
 </style>

@@ -8,59 +8,30 @@ module.exports = {
       xxl: '2560px',
     },
     colors: {
-      transparent: 'transparent',
-      black: '#000',
-      white: '#fff',
-      subtitle: '#ffffff70',
-      bronz: '#D66100',
-      gradient: {
-        one: {
-          primary: '#7774C4',
-          from: '#004C7380',
-          to: '#7774C480',
-        },
-        two: {
-          primary: '#21868E',
-          from: '#004C7380',
-          to: '#21868E80',
-        },
-        three: {
-          primary: '#0F87CF',
-          from: '#004c7380',
-          to: '#0F87CF80',
-        },
-      },
+      Transparent: 'transparent',
+      Black: '#000',
+      White: '#fff',
+
+      Bronze: '#D66100',
+      Gold: '#FFD700',
+      Silver: '#C0C0C0',
+      Red: '#F8515E',
+      Green: '#14c171',
+      Charcoal: '#333C51',
+
       gray: {
-        100: '#f5f5f5',
-        200: '#eeeeee',
-        300: '#e0e0e0',
-        400: '#bdbdbd',
-        500: '#9e9e9e',
-        600: '#757575',
-        700: '#616161',
-        800: '#424242',
-        900: '#212121',
+        200: '#E1E5EC',
+        400: '#9AA6B4',
+        600: '#313B53',
+        800: '#1F2A41',
       },
+
       blue: {
-        100: '#0f87C7',
-        500: '#1f4068',
-        600: '#004C73',
-        700: '#052C41',
-        800: '#142745',
-        900: '#09152C',
-      },
-      purple: {
-        100: '#7774C450',
-      },
-      green: {
-        100: '#21868E',
-        500: '#1EE094',
-      },
-      red: {
-        500: '#FA5A5A',
-      },
-      yellow: {
-        gold: '#FCD554',
+        100: '#318FC1',
+        200: '#004C73',
+        400: '#10395B',
+        600: '#1A253B',
+        800: '#0D1B2F',
       },
     },
     spacing: {

@@ -33,7 +33,7 @@ export default {
   color: theme('colors.bronz');
 }
 .Gold{
-  color:theme('colors.yellow.gold');
+  color:theme('colors.gold');
 }
 .Silver{
   color:theme('colors.gray.300');

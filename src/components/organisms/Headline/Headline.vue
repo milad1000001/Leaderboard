@@ -10,7 +10,7 @@
                     @click.native="openNavigation()"
                 />
                 <app-icon
-                    name="fas fa-bell"
+                    :name="haveNotificationHandler"
                     color="text-gray-400"
                     size="'w-12'"
                 />
@@ -49,6 +49,14 @@ export default {
     'app-icon': Icon,
     Lorem,
     Logo,
+  },
+  data() {
+    return { haveNotification: false };
+  },
+  computed: {
+    haveNotificationHandler() {
+      return this.haveNotification ? 'fas fa-bell' : 'far fa-bell';
+    },
   },
   methods: {
     openNavigation() {

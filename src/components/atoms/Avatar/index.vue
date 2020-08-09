@@ -1,8 +1,8 @@
 <template>
     <div
         :class="['m-auto',{
-            'w-28 h-28':variation==='top',
-            'w-14 h-14':variation==='list'
+            'top':variation==='top',
+            'list':variation==='list'
         }]"
     >
         <img
@@ -24,4 +24,12 @@ export default {
 </script>
 
 <style scoped>
+.top{
+  max-width: theme('spacing.24');
+  max-height: theme('spacing.24');
+}
+.list{
+  max-width: theme('spacing.12');
+  max-height: theme('spacing.12');
+}
 </style>

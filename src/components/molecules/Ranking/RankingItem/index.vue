@@ -82,7 +82,7 @@
                     class="mt-1"
                     :name="'fas fa-medal'"
                     :color="item.badgeType"
-                    :size="'w-12'"
+                    :size="'w-8'"
                 />
             </div>
         </div>

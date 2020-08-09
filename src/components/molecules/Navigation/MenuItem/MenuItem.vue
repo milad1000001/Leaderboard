@@ -14,7 +14,7 @@
         />
         <i
             v-if="items.icon"
-            :class="`mt-1 fas fa-${items.icon}`"
+            :class="`mt-1 ${items.icon}`"
         >
         </i>
     </div>

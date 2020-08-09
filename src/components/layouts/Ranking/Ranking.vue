@@ -1,5 +1,5 @@
 <template>
-    <div class="RankingList grid gap-2">
+    <div class="RankingList">
         <rank-title
             :title="title"
             :look="look"
@@ -53,6 +53,9 @@ export default {
 
 <style scoped>
 .RankingList{
+  display: flex;
+  flex-direction: column;
+  gap:8px;
   direction:rtl
 }
 </style>

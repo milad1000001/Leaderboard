@@ -16,7 +16,7 @@ const router = new VueRouter({
       component: UserDashboard,
       meta: {
         title: 'گزارش کلی',
-        icon: 'bars',
+        icon: 'fas fa-bars',
         name: 'userDashboard',
       },
     },
@@ -26,7 +26,7 @@ const router = new VueRouter({
       component: UserDashboard,
       meta: {
         title: 'عملکرد تیم',
-        icon: 'chart-line',
+        icon: 'fas fa-chart-line',
         name: 'ranking',
 
       },
@@ -37,7 +37,7 @@ const router = new VueRouter({
       component: UserDashboard,
       meta: {
         title: 'اعضا',
-        icon: 'users',
+        icon: 'fas fa-users',
         name: 'users',
 
       },
@@ -48,7 +48,7 @@ const router = new VueRouter({
       component: UserDashboard,
       meta: {
         title: 'اعلان',
-        icon: 'bell',
+        icon: 'fas fa-bell',
         name: 'notificatino',
 
       },
