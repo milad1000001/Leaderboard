@@ -4,6 +4,8 @@
 body{
     font-family: IRANSansWeb;
     height: 100%;
+    scroll-behavior: smooth;
+
 }
 @font-face {
     font-family: IRANSansWeb;

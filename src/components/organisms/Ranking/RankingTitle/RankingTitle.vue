@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="RankingTitle">
         <app-title
             :title="title"
             :look="look"
@@ -28,6 +28,8 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style scoped>
+.RankingTitle{
+  position: sticky;
+  top:0;
+}</style>

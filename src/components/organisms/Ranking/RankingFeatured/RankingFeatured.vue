@@ -36,10 +36,10 @@ export default {
 
 <style scoped>
 .RankingFeatured{
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
 }
 .featuredWrapper{
   background-color: theme('colors.blue.600');
+  width:100%;
 }
 </style>
