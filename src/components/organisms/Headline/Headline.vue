@@ -1,5 +1,5 @@
 <template>
-    <div class="date text-gray-200 mb-4">
+    <div class="date text-gray-200 mb-4 sticky top-0 bg-blue-800 z-mountain py-2">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
                 <app-icon
@@ -23,7 +23,7 @@
             </div>
             <Logo />
         </div>
-        <div class="flex justify-between items-center mt-4">
+        <div class="flex justify-between items-center mt-4 ">
             <Lorem
                 :text="'رتبه بندی'"
                 :size="'lg'"
