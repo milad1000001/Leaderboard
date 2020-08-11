@@ -43,6 +43,11 @@ export default {
 </script>
 
 <style scoped>
+@media only screen and (min-width: 1400px){
+  .rankingList{
+    grid-template-columns: repeat(3, minmax(430px, 1fr)) !important;
+  }
+}
 .rankingList{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));

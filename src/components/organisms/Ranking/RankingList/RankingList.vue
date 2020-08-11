@@ -2,6 +2,7 @@
     <div
         class="listWrapper overflow-y-scroll rounded-base"
         :class="look"
+        v-if="list.length"
     >
         <app-ranking-item
             v-for="(item,index) in list"
@@ -113,15 +114,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 958px){
 .listWrapper{
-  height:auto !important;
+  max-height:max-content !important;
 }
 }
 .listWrapper{
   scroll-behavior: smooth;
   background-color: theme('colors.blue.600');
-  height: calc(7*64px);
+  max-height: calc(7*64px);
   &::-webkit-scrollbar {
         width: 3px;
         height: 5px;

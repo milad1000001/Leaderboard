@@ -1,5 +1,5 @@
 <template>
-    <div class="RankingTitle z-plain sticky border-b-8 border-t-8 border-blue-800">
+    <div class="RankingTitle z-plain sticky border-b-8 border-blue-800">
         <app-title
             :title="title"
             :look="look"
@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .RankingTitle{
-  top:120px;
+  top:128px;
 }
 .RankingTitle:sticky{
   background-color: yellow;

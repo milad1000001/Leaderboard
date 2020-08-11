@@ -37,6 +37,7 @@ export default {
 <style scoped>
 .RankingFeatured{
   display: flex;
+  height: 300px;
 }
 .featuredWrapper{
   background-color: theme('colors.blue.600');

@@ -1,5 +1,5 @@
 <template>
-    <div class="date text-gray-200 mb-4 sticky top-0 bg-blue-800 z-mountain pt-2">
+    <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-2">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
                 <app-icon
