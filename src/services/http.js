@@ -21,13 +21,17 @@ export const removeAuthHeader = () => {
 appAxios.interceptors.request.use(
   (request) => {
     store.commit('ranking/changeLoadingState', true);
+    setTimeout(() => {
+    }, 1000);
     return request;
   },
 );
 
 appAxios.interceptors.response.use(
   (response) => {
-    store.commit('ranking/changeLoadingState', false);
+    setTimeout(() => {
+      store.commit('ranking/changeLoadingState', false);
+    }, 1000);
     return response;
   },
 );

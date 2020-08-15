@@ -3,6 +3,7 @@
         class="listWrapper overflow-y-scroll rounded-base"
         :class="look"
         v-if="list.length"
+        @click="getDepartment()"
     >
         <app-ranking-item
             v-for="(item,index) in list"
@@ -23,6 +24,15 @@ export default {
   components: {
     'app-ranking-item': RankingItem,
   },
+  data() {
+    return {
+      renderVarialbe: 1,
+      department: [
+        { id: 1, name: 'غدد' },
+        { id: 2, name: 'چشم' },
+      ],
+    };
+  },
   props: {
     list: {
       type: Array,
@@ -34,10 +44,18 @@ export default {
     },
   },
   created() {
-    // this.scrolling();
+    if (this.isMobileMode) { this.scrolling(); }
   },
   methods: {
+    getDepartment() {
+      if (this.renderVarialbe >= this.department.length) {
+        this.renderVarialbe = 0;
+      }
+      this.$store.dispatch('ranking/getDepartmentList', this.department[this.renderVarialbe].id);
+      this.renderVarialbe += 1;
+    },
     scrolling() {
+      const vm = this;
       const fps = 100;
       const speedFactor = 0.003;
       const minDelta = 0.5;
@@ -51,14 +69,12 @@ export default {
       let currentTime;
       let prevTime;
       let timeDiff;
-
       function setAutoScroll(newValue) {
         window.onscroll = (ev) => {
-          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            setTimeout(() => {
-              document.body.scrollTop = 0;
-              document.documentElement.scrollTop = 0;
-            }, 5000);
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight + 63) {
+            vm.getDepartment();
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
           }
         };
         if (newValue) {
@@ -100,14 +116,20 @@ export default {
         }
         restartTimer = setTimeout(() => {
           prevTime = null;
-          setAutoScroll();
+          if (this.loading) {
+            setAutoScroll();
+          }
         }, 50);
       }
 
       window.addEventListener('wheel', handleManualScroll);
       window.addEventListener('touchmove', handleManualScroll);
-
-      setAutoScroll(15);
+      setAutoScroll(10);
+    },
+  },
+  computed: {
+    isMobileMode() {
+      return window.innerWidth <= 900;
     },
   },
 };

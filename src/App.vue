@@ -19,10 +19,9 @@ import { mapGetters } from 'vuex';
 import Navigation from '~layouts/Navigation/Navigation.vue';
 
 export default {
-
   name: 'App',
   created() {
-    this.$store.dispatch('ranking/getRankingList');
+    this.$store.dispatch('ranking/getRankingList', 1);
   },
   computed: {
     ...mapGetters(

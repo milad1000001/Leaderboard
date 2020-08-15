@@ -6,6 +6,7 @@ export const namespaced = true;
 
 export const state = {
   navigationToggle: false,
+  department: [{ id: 1, name: 'غدد' }, { id: 2, name: 'چشم' }, { id: 3, name: 'آنکولوژی' }],
 };
 
 export const getters = {
@@ -18,4 +19,8 @@ export const mutations = {
   toggleNavigation(state, value) {
     Vue.set(state, 'navigationToggle', value);
   },
+};
+
+export const actions = {
+
 };

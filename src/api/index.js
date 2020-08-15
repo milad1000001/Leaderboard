@@ -2,7 +2,10 @@
 import appAxios from '~services/http';
 
 export default {
-  getRankingList() {
-    return appAxios.get('/rankings');
+  getRankingList(departmentId) {
+    return appAxios.get(`/rankings?id=${departmentId}`);
+  },
+  getNextDepartment() {
+    return appAxios.get('/departments');
   },
 };

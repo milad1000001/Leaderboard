@@ -30,8 +30,20 @@ export const mutations = {
 };
 
 export const actions = {
-  async getRankingList({ commit }) {
+  async getRankingList({ commit }, payload) {
     startConnection();
+    return api.getRankingList(payload)
+      .then((response) => {
+        commit('setRankingList', response.data.rankingGroupViewModels);
+      });
+  },
+  async getDepartmentList({ commit }, payload) {
+    return api.getRankingList(payload)
+      .then((response) => {
+        commit('setRankingList', response.data.rankingGroupViewModels);
+      });
+  },
+  async updateDeparmentState({ commit }) {
     return api.getRankingList()
       .then((response) => {
         commit('setRankingList', response.data.rankingGroupViewModels);

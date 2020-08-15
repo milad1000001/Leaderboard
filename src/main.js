@@ -8,11 +8,13 @@ import Notifications from 'vue-notification';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
+
 import '~styles/style.css';
 
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications);
+
 Vue.component('VueElementLoading', VueElementLoading);
 
 Vue.use(SvgIcon, {
