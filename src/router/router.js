@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import UserDashboard from '~pages/Ranking/Ranking.vue';
+import Login from '~pages/Login/Login.vue';
 
 Vue.use(VueRouter);
 
@@ -21,13 +22,13 @@ const router = new VueRouter({
       },
     },
     {
-      name: 'ranking',
-      path: '/ranking',
-      component: UserDashboard,
+      name: 'login',
+      path: '/login',
+      component: Login,
       meta: {
         title: 'عملکرد تیم',
         icon: 'fas fa-chart-line',
-        name: 'ranking',
+        name: 'login',
 
       },
     },

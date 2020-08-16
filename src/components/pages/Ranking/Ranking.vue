@@ -1,6 +1,6 @@
 <template>
     <div>
-        <app-dashboard />
+        <App-Dashboard />
     </div>
 </template>
 
@@ -10,7 +10,7 @@ import RankingDashboard from '~layouts/Ranking/RankingDashboard.vue';
 export default {
   name: 'Ranking',
   components: {
-    'app-dashboard': RankingDashboard,
+    'App-Dashboard': RankingDashboard,
   },
 };
 </script>

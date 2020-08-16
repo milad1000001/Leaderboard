@@ -32,6 +32,7 @@ module.exports = {
         400: '#10395B',
         600: '#1A253B',
         800: '#0D1B2F',
+        'OP-600': '#1A253B',
       },
     },
     spacing: {
@@ -56,6 +57,11 @@ module.exports = {
       48: '12rem',
       56: '14rem',
       64: '16rem',
+      72: '18rem',
+      80: '20rem',
+      88: '22rem',
+      96: '24rem',
+      104: '26rem',
     },
     cursor: {
       auto: 'auto',

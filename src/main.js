@@ -3,6 +3,7 @@ import SvgIcon from 'vue-svgicon';
 import VueAxios from 'vue-axios';
 import VueElementLoading from 'vue-element-loading';
 import vuePersianFilters from 'vue-persian-filters';
+import VueParticles from 'vue-particles';
 import axios from 'axios';
 import Notifications from 'vue-notification';
 import router from '~src/router/router';
@@ -14,6 +15,7 @@ import '~styles/style.css';
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications);
+Vue.use(VueParticles);
 
 Vue.component('VueElementLoading', VueElementLoading);
 
