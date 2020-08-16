@@ -2,7 +2,7 @@
     <div
         class="flex w-screen h-screen"
     >
-        <div class="login flex flex-col bg-blue-600 px-32 py-8 rounded-base m-auto z-plain">
+        <div class="login flex flex-col bg-blue-600 bg-opacity-75 px-32 py-8 rounded-base m-auto z-plain">
             <App-Logo
                 class="self-center"
                 :SVGName="'LoginLogo'"

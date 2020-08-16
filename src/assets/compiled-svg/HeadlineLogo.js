@@ -3,7 +3,7 @@
 // @ts-ignore
 import icon from 'vue-svgicon'
 icon.register({
-  'logo2': {
+  'HeadlineLogo': {
     width: 305.5,
     height: 88,
     viewBox: '0 0 305.5 88',

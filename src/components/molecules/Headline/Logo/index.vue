@@ -1,18 +1,20 @@
 <template>
     <div>
-        <svgicon
-            name="logo2"
-            height="60px"
-            color="#fff"
+        <App-Logo
+            :SVGName="'HeadlineLogo'"
+            :width="200"
         />
     </div>
 </template>
 
 <script>
-import '~icons';
+import Logo from '~atoms/BaseSVG/BaseSVG.vue';
 
 export default {
-
+  name: 'M-HeadlineLogo',
+  components: {
+    'App-Logo': Logo,
+  },
 };
 </script>
 
