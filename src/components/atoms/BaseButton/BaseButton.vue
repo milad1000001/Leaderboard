@@ -1,7 +1,7 @@
 <template>
     <button
         type="button"
-        class="text-gray-200 bg-blue-200 py-2 px-4 pt-2 shadow-md"
+        class="text-gray-200 bg-blue-200 py-2 px-4 pt-2 shadow-md hover:bg-blue-400"
         :class="
             [
                 'rounded-base',
@@ -32,7 +32,6 @@ export default {
       required: false,
       default: false,
     },
-
   },
 };
 </script>

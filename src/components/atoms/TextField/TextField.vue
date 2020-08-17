@@ -19,6 +19,7 @@
             :placeholder="label"
             :name="name"
             :type="Ispassword?'password':''"
+            @change="sendData($event)"
         />
     </div>
 </template>
@@ -59,6 +60,11 @@ export default {
     Ispassword: {
       type: Boolean,
       required: false,
+    },
+  },
+  methods: {
+    sendData(value) {
+      this.$emit('getDataFromTextField', value);
     },
   },
 };

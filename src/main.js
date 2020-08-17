@@ -9,13 +9,14 @@ import Notifications from 'vue-notification';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
-
+import useTokenGuard from './gurad/index';
 import '~styles/style.css';
 
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications);
 Vue.use(VueParticles);
+useTokenGuard(router);
 
 Vue.component('VueElementLoading', VueElementLoading);
 

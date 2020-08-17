@@ -19,6 +19,7 @@
             :postion="'top'"
         />
         <Items
+            @click.native="removeToken()"
             :items="exit"
             :postion="'bottom'"
         />
@@ -48,6 +49,11 @@ export default {
   methods: {
     routeToPage(routeNAME) {
       this.$router.push({ name: routeNAME });
+    },
+    removeToken() {
+      this.$store.dispatch('logout/removeAuthFromLocalStorage');
+      this.$store.commit('global/toggleNavigation', false);
+      this.$router.push('/login');
     },
   },
 };

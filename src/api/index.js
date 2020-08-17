@@ -8,4 +8,7 @@ export default {
   getNextDepartment() {
     return appAxios.get('/departments');
   },
+  retrieveToken(auth) {
+    return appAxios.post('/login', auth);
+  },
 };

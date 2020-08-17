@@ -5,14 +5,16 @@ import Vuex from 'vuex';
 // import logout from '@/store/modules/modules/logout';
 import * as ranking from '@/store/modules/ranking';
 import * as global from '@/store/modules/global';
+import * as login from '@/store/modules/login';
+import * as logout from '@/store/modules/logout';
 import states from './states';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    // login,
-    // logout,
+    login,
+    logout,
     ranking,
     global,
   },

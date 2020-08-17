@@ -45,6 +45,9 @@ export default {
     'App-Login': Login,
     'App-Logo': Logo,
   },
+  methods: {
+
+  },
 };
 </script>
 

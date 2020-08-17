@@ -1,18 +1,19 @@
-import { loginService, logoutService } from '~services/token';
+import api from '~api/index';
 
-export default {
-  async retrieveToken({ commit }, payload) {
-    await loginService(payload)
-      .then(() => {
-        commit('setToken', !!localStorage.token);
-      })
-      .catch((error) => {
-        commit('getError', error.response.data.error);
-        throw error;
-      });
+export const namespaced = true;
+
+export const mutations = {
+  setAuthInLocalStorage(state, data) {
+    localStorage.setItem('Token', data);
   },
-  async logoutService({ commit }) {
-    await logoutService();
-    commit('setToken', !!localStorage.token);
+};
+
+export const actions = {
+  async retrieveToken({ commit }, payload) {
+    return api.retrieveToken(payload)
+      .then((response) => {
+        commit('setAuthInLocalStorage', response.data.token);
+      })
+      .catch((error) => { console.log(error); });
   },
 };

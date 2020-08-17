@@ -4,7 +4,7 @@
             @toggle="toggleNavigation($event)"
         />
         <div
-            class="rankingList"
+            :class="{'rankingListTV':iSTVMode, 'rankingList':!iSTVMode }"
         >
             <Ranking
                 v-for="(item,index) in rankingList"
@@ -32,6 +32,7 @@ export default {
   computed: {
     ...mapGetters({
       rankingList: 'ranking/rankingList',
+      iSTVMode: 'global/iSTVMode',
     }),
   },
 };
@@ -46,6 +47,12 @@ export default {
 .rankingList{
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    text-align: center;
+    grid-gap:1rem
+}
+.rankingListTV{
+    display: grid;
+    grid-template-columns: repeat(1, minmax(430px, 1fr));
     text-align: center;
     grid-gap:1rem
 }
