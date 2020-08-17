@@ -1,24 +1,5 @@
 <template>
     <div class="m-8">
-        <!-- <vue-particles
-            class="z-sea w-full h-full"
-            color="#fff"
-            :particleOpacity="0.1"
-            :particlesNumber="80"
-            shapeType="edge"
-            :particleSize="6"
-            linesColor="#00acd6"
-            :linesWidth="1"
-            :lineLinked="true"
-            :lineOpacity="0.4"
-            :linesDistance="100"
-            :moveSpeed="6"
-            :hoverEffect="false"
-            hoverMode="grab"
-            :clickEffect="false"
-            clickMode="repulse"
-        >
-        </vue-particles> -->
         <Headline
             @toggle="toggleNavigation($event)"
         />
@@ -52,11 +33,6 @@ export default {
     ...mapGetters({
       rankingList: 'ranking/rankingList',
     }),
-  },
-  methods: {
-    toggleNavigation(val) {
-
-    },
   },
 };
 </script>

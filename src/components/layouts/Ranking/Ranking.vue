@@ -31,12 +31,12 @@ export default {
       type: Array,
       required: true,
       validator(value) {
-        return value.length === 3;
+        return value.length <= 3;
       },
     },
     list: {
       type: Array,
-      required: true,
+      required: false,
     },
     look: {
       type: String,

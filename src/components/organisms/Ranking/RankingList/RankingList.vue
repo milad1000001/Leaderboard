@@ -2,8 +2,7 @@
     <div
         class="listWrapper overflow-y-scroll rounded-base"
         :class="look"
-        v-if="list.length"
-        @click="getDepartment()"
+        v-if="list"
     >
         <app-ranking-item
             v-for="(item,index) in list"
@@ -36,7 +35,7 @@ export default {
   props: {
     list: {
       type: Array,
-      required: true,
+      required: false,
     },
     look: {
       type: String,

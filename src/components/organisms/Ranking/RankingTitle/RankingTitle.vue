@@ -30,7 +30,7 @@ export default {
 
 <style lang="scss" scoped>
 .RankingTitle{
-  top:128px;
+  top:125px;
 }
 .RankingTitle:sticky{
   background-color: yellow;
