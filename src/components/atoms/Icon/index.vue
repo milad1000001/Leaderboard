@@ -1,6 +1,7 @@
 <template>
     <div>
         <i
+            class="cursor-pointer"
             :class="` ${color} ${size} ${name}`"
         >
         </i>

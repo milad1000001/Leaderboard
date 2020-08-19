@@ -1,26 +1,7 @@
 <template>
     <div>
         <div
-            v-if="isLogin"
-            class="text-center"
-        >
-            <a
-                @click="routeAsAAppUser()"
-                class="hover:text-gray-400 cursor-pointer text-White"
-            >
-                User Dashboard
-            </a>
-            <br />
-            <a
-                @click="routeAsNotAAppUser()"
-                class="hover:text-gray-400 cursor-pointer text-White"
-            >
-                Main Board
-            </a>
-        </div>
-        <div
             class="grid gap-4"
-            v-if="!isLogin"
         >
             <Text-Field
                 :Size="'w-full'"
@@ -73,18 +54,25 @@ export default {
   },
   methods: {
     getToken() {
-      this.$store.dispatch('login/retrieveToken', this.auth)
-        .then(() => {
-          this.isLogin = true;
+      if (this.canLogin) {
+        this.$store.dispatch('login/retrieveToken', this.auth)
+          .then(() => {
+            this.$router.push('/userDashboard');
+            this.$store.dispatch('global/saveTokenData', this.$jwt.decode(localStorage.Token));
+          });
+      } else {
+        this.$notify({
+          group: 'Message',
+          type: 'error',
+          duration: '3000',
+          text: 'وارد کردن نام کاربری و کلمه عبور الزامی است',
         });
+      }
     },
-    routeAsAAppUser() {
-      this.$store.dispatch('global/changeToTVMode', false);
-      this.$router.push('/userDashboard');
-    },
-    routeAsNotAAppUser() {
-      this.$store.dispatch('global/changeToTVMode', true);
-      this.$router.push('/userDashboard');
+  },
+  computed: {
+    canLogin() {
+      return this.auth.username && this.auth.password;
     },
   },
 };

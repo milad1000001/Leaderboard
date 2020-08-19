@@ -1,7 +1,7 @@
 <template>
     <div
-        class="listWrapper overflow-y-scroll rounded-base"
-        :class="look"
+        class="defualtClass rounded-base"
+        :class="[{look,'listWrapperTv':true,'listWrapper overflow-y-scroll':false}]"
         v-if="list"
     >
         <app-ranking-item
@@ -42,16 +42,24 @@ export default {
       required: true,
     },
   },
-  created() {
-    if (this.isMobileMode) { this.scrolling(); }
-  },
   methods: {
     getDepartment() {
       if (this.renderVarialbe >= this.department.length) {
         this.renderVarialbe = 0;
+        return;
       }
       this.$store.dispatch('ranking/getDepartmentList', this.department[this.renderVarialbe].id);
       this.renderVarialbe += 1;
+    },
+    stopScrolling() {
+      let previousScrollTop = 0;
+      const scrollLock = false;
+      window.scroll((event) => {
+        if (scrollLock) {
+          window.scrollTop(previousScrollTop);
+        }
+        previousScrollTop = window.scrollTop();
+      });
     },
     scrolling() {
       const vm = this;
@@ -102,12 +110,10 @@ export default {
         }, 1000 / fps);
       }
       window.addEventListener('scroll', (e) => {
-        // window.pEageYOffset is the fallback value for IE
         currentPos = window.scrollY || window.pageYOffset;
       });
 
       function handleManualScroll() {
-        // window.pageYOffset is the fallback value for IE
         currentPos = window.scrollY || window.pageYOffset;
         clearInterval(autoScrollTimer);
         if (restartTimer) {
@@ -127,9 +133,17 @@ export default {
     },
   },
   computed: {
-    isMobileMode() {
-      return window.innerWidth <= 900;
+    isApplicationUser() {
+      return localStorage.getItem('isApplicationUser') === 'True';
     },
+  },
+  created() {
+    if (!this.isApplicationUser) {
+      this.scrolling();
+    }
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll');
   },
 };
 </script>
@@ -137,12 +151,14 @@ export default {
 <style lang="scss" scoped>
 @media only screen and (max-width: 958px){
 .listWrapper{
-  max-height:max-content !important;
+    max-height:max-content !important;
+  }
 }
-}
+.listWrapperTV{
+    max-height:max-content !important;
+  }
 .listWrapper{
   scroll-behavior: smooth;
-  background-color: theme('colors.blue.600');
   max-height: calc(7*64px);
   &::-webkit-scrollbar {
         width: 3px;
@@ -162,6 +178,9 @@ export default {
     &::-webkit-scrollbar-thumb:hover {
         background: theme('colors.blue.200');
     }
+}
+.defualtClass{
+    background-color: theme('colors.blue.600');
 }
 .rankingListItem{
   &:nth-child(even){

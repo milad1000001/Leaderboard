@@ -2,24 +2,46 @@
     <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-2">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
-                <app-icon
-                    name="fas fa-bars"
-                    color="text-gray-200"
-                    size="'w-12'"
-                    class="cursor-pointer"
-                    @click.native="openNavigation()"
-                />
-                <app-icon
-                    :name="haveNotificationHandler"
-                    color="text-gray-200"
-                    size="'w-12'"
-                />
+                <div
+                    class="flex gap-5"
+                    v-if="isApplicationUser"
+                >
+                    <app-icon
+                        name="fas fa-bars"
+                        color="text-gray-200"
+                        size="'w-12'"
+                        class="cursor-pointer"
+                        @click.native="openNavigation()"
+                    />
+                    <app-icon
+                        :name="haveNotificationHandler"
+                        color="text-gray-200"
+                        size="'w-12'"
+                    />
+                </div>
                 <Lorem
                     :text="'آخرین به روزرسانی: یکشنبه 25 خرداد 1399'"
                     :size="'xs'"
                     :color="'gray-300'"
                     class="bg-blue-600 px-4 py-1 rounded-base"
                 />
+                <div
+                    class="flex gap-5"
+                    v-if="isApplicationUser"
+                >
+                    <app-icon
+                        @click.native="changeView('screenMode')"
+                        :name="'far fa-building'"
+                        color="text-gray-200"
+                        size="'w-12'"
+                    />
+                    <app-icon
+                        @click.native="changeView('tvMode')"
+                        :name="'fas fa-users'"
+                        color="text-gray-200"
+                        size="'w-12'"
+                    />
+                </div>
             </div>
             <Logo />
         </div>
@@ -54,11 +76,21 @@ export default {
     return { haveNotification: false };
   },
   computed: {
+    isApplicationUser() {
+      return localStorage.getItem('isApplicationUser') === 'True';
+    },
     haveNotificationHandler() {
       return this.haveNotification ? 'fas fa-bell' : 'far fa-bell';
     },
   },
   methods: {
+    changeView(mode) {
+      if (mode === 'tvMode') {
+        this.$store.dispatch('global/changeToTVMode', true);
+      } else {
+        this.$store.dispatch('global/changeToTVMode', false);
+      }
+    },
     openNavigation() {
       this.$store.commit('global/toggleNavigation', true);
     },

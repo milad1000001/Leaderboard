@@ -4,7 +4,10 @@
             @toggle="toggleNavigation($event)"
         />
         <div
-            :class="{'rankingListTV':iSTVMode, 'rankingList':!iSTVMode }"
+            :class="{
+                'rankingList':isApplicationUser,
+                'rankingListTV':!isApplicationUser
+            }"
         >
             <Ranking
                 v-for="(item,index) in rankingList"
@@ -32,8 +35,10 @@ export default {
   computed: {
     ...mapGetters({
       rankingList: 'ranking/rankingList',
-      iSTVMode: 'global/iSTVMode',
     }),
+    isApplicationUser() {
+      return localStorage.getItem('isApplicationUser') === 'True';
+    },
   },
 };
 </script>
@@ -42,6 +47,9 @@ export default {
 @media only screen and (min-width: 1400px){
   .rankingList{
     grid-template-columns: repeat(3, minmax(430px, 1fr)) !important;
+  }
+  .rankingListTV{
+    grid-template-columns: repeat(1, minmax(430px, 1fr)) !important;;
   }
 }
 .rankingList{

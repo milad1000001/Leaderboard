@@ -2,7 +2,7 @@ export const namespaced = true;
 
 export const mutations = {
   removeAuthFromLocalStorage(state, data) {
-    localStorage.removeItem('Token');
+    localStorage.clear();
   },
 };
 

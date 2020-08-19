@@ -2,14 +2,14 @@
     <div class="px-12 mt-12 items-center justify-center">
         <ul class="border-b-2 border-gray-200 pb-8">
             <router-link
-                v-for="(item,index) in list"
+                v-for="(item,index) in list[0].children"
                 :key="index"
                 exact
                 :to="{path:item.name}"
                 :href="item.name"
                 tag="li">
                 <Items
-                    :items="item.meta"
+                    :items="item.mtea"
                     :postion="'top'"
                 />
             </router-link>

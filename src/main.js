@@ -6,6 +6,7 @@ import vuePersianFilters from 'vue-persian-filters';
 import VueParticles from 'vue-particles';
 import axios from 'axios';
 import Notifications from 'vue-notification';
+import VueJWT from 'vuejs-jwt';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
@@ -16,6 +17,7 @@ Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications);
 Vue.use(VueParticles);
+Vue.use(VueJWT);
 useTokenGuard(router);
 
 Vue.component('VueElementLoading', VueElementLoading);

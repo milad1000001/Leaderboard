@@ -13,8 +13,10 @@ export const state = {
 };
 
 export const getters = {
-  rankingList: (state) => state.rankingList,
-  getLoadingState: () => state.isActive,
+  rankingList: (state) => state.rankingList.rankingGroupViewModels,
+  rankingTitle: (state) => state.headerTitle,
+  getLoadingState: (state) => state.isActive,
+
 };
 
 export const mutations = {
@@ -34,7 +36,7 @@ export const actions = {
     startConnection();
     return api.getRankingList(payload)
       .then((response) => {
-        commit('setRankingList', response.data.rankingGroupViewModels);
+        commit('setRankingList', response.data);
       });
   },
   async getDepartmentList({ commit }, payload) {

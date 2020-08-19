@@ -23,7 +23,7 @@
         </div>
         <div class="flex justify-between items-end">
             <Lorem
-                :text="'رتبه بندی'"
+                :text="rankingTitle"
                 :size="'lg'"
                 class="text-sm mt-8 text-gray-200 border-r-2 pr-2"
             />
@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import Icon from '~atoms/Icon/index.vue';
 import Lorem from '~atoms/Lorem/index.vue';
 import Logo from '~molecules/Headline/Logo/index.vue';
@@ -53,5 +54,10 @@ export default {
     toggle() {
       this.$emit('toggle', true);
     },
+  },
+  computed: {
+    ...mapGetters(
+      { rankingTitle: 'ranking/rankingTitle' },
+    ),
   },
 };

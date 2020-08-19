@@ -14,7 +14,6 @@
         />
     </div>
 </template>
-
 <script>
 import RankingList from '~organisms/Ranking/RankingList/RankingList.vue';
 import RankingTitle from '~organisms/Ranking/RankingTitle/RankingTitle.vue';

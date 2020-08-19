@@ -8,6 +8,7 @@ export const state = {
   navigationToggle: false,
   department: [{ id: 1, name: 'غدد' }, { id: 2, name: 'چشم' }, { id: 3, name: 'آنکولوژی' }],
   isTVMode: false,
+  token: [],
 };
 
 export const getters = {
@@ -16,6 +17,9 @@ export const getters = {
   },
   iSTVMode(state) {
     return state.isTVMode;
+  },
+  isApplicationUser() {
+    return localStorage.getItem('isApplicationUser') === 'True';
   },
 };
 
@@ -26,10 +30,17 @@ export const mutations = {
   changeToTVMode(state, value) {
     Vue.set(state, 'isTVMode', value);
   },
+  saveTokenData(state, token) {
+    localStorage.setItem('isApplicationUser', token.isApplicationUser);
+    Vue.set(state, 'token', token);
+  },
 };
 
 export const actions = {
   changeToTVMode({ commit }, payload) {
     commit('changeToTVMode', payload);
+  },
+  saveTokenData({ commit }, payload) {
+    commit('saveTokenData', payload);
   },
 };
