@@ -11,4 +11,7 @@ export default {
   retrieveToken(auth) {
     return appAxios.post('/login', auth);
   },
+  getPersonPhoto(personUsername) {
+    return appAxios.get(`http://172.17.15.23:88/api/PersonnelsPhoto?username=${personUsername}`);
+  },
 };

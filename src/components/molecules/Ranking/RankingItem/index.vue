@@ -14,6 +14,7 @@
             }">
             <app-avatar
                 :variation="checkRankLevel"
+                :personUsername="'mirzaei.m'"
             />
         </div>
         <div

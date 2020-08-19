@@ -7,18 +7,39 @@
     >
         <img
             class="block rounded-circle"
-            src="../../../assets/images/1.png"
+            :src="setImagePersonURL"
         >
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Avatar',
   props: {
     variation: {
       type: String,
     },
+    personUsername: {
+      type: String,
+      required: true,
+    },
+  },
+  created: {
+    getPersonImageFrom(personUsername) {
+      return this.$store.dispatch('ranking/GetPersonPhoto', personUsername);
+    },
+  },
+  methods: {
+    setImagePersonURL() {
+      console.log(this.personPhoto);
+    },
+  },
+  computed: {
+    ...mapGetters({
+      personPhoto: 'ranking/getPersonPhoto',
+    }),
   },
 };
 </script>
