@@ -51,6 +51,9 @@ export const actions = {
   },
   async GetPersonPhoto({ commit }, payload) {
     return api.getPersonPhoto(payload)
-      .then((response) => commit('savePersonPhoto', response.data[0]));
+      .then((response) => {
+        commit('savePersonPhoto', response.data[0]);
+        return response.data[0];
+      });
   },
 };
