@@ -43,7 +43,7 @@ label:after {
 }
 
 input:checked + label {
-    background: theme('colors.blue.500');
+    background: theme('colors.blue.400');
 }
 
 input:checked + label:after {
