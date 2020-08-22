@@ -49,11 +49,11 @@ export const actions = {
     return api.getRankingList()
       .then((response) => commit('setRankingList', response.data.rankingGroupViewModels));
   },
-  async GetPersonPhoto({ commit }, payload) {
+  async getPersonPhoto({ commit }, payload) {
     return api.getPersonPhoto(payload)
       .then((response) => {
         commit('savePersonPhoto', response.data[0]);
-        return response.data[0];
+        return response.data[0].photo;
       });
   },
 };

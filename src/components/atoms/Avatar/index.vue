@@ -6,7 +6,15 @@
         }]"
     >
         <img
+            v-if="photo"
             class="block rounded-circle"
+            :src="`data:image/jpg;base64,${photo}`"
+            onerror="this.onerror=null;this.src=errorImage;"
+        />
+        <img
+            v-if="!photo"
+            class="block rounded-circle"
+            src="../../../assets/images/error.png"
         >
     </div>
 </template>
@@ -15,23 +23,30 @@
 
 export default {
   name: 'Avatar',
+  data() {
+    return {
+      photo: null,
+    };
+  },
   props: {
     variation: {
       type: String,
     },
     personUsername: {
       type: String,
-      required: true,
+      required: false,
+    },
+  },
+  methods: {
+    async getPersonImageFrom(baseImage) {
+      await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
+        .then((response) => {
+          this.photo = response;
+        });
     },
   },
   created() {
     this.getPersonImageFrom(this.personUsername);
-  },
-  methods: {
-    getPersonImageFrom(personUsername) {
-      this.$store.dispatch('ranking/GetPersonPhoto', personUsername)
-        .then((response) => response);
-    },
   },
 };
 </script>

@@ -2,6 +2,7 @@
     <div class="items-middle text-center">
         <Avatar
             :variation="'list'"
+            :personUsername="'mirzaei.m'"
         />
         <TextFeild
             class="mt-4"
