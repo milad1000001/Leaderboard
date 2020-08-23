@@ -2,9 +2,15 @@
     <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-2">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
+                <app-icon
+                    :name="'fas fa-sign-out-alt'"
+                    color="text-gray-200"
+                    size="'w-12'"
+                    @click.native="logOUt()"
+                />
                 <div
                     class="flex gap-5"
-                    v-if="isApplicationUser"
+                    v-if="!isApplicationUser"
                 >
                     <app-icon
                         name="fas fa-bars"
@@ -84,6 +90,10 @@ export default {
     },
   },
   methods: {
+    async logOUt() {
+      await this.$store.dispatch('logout/removeAuthFromLocalStorage');
+      this.$router.push({ name: 'login' });
+    },
     changeView(mode) {
       if (mode === 'tvMode') {
         this.$store.dispatch('global/changeToTVMode', true);

@@ -43,7 +43,7 @@ export const actions = {
   },
   async getDepartmentList({ commit }, payload) {
     return api.getRankingList(payload)
-      .then((response) => commit('setRankingList', response.data.rankingGroupViewModels));
+      .then((response) => console.log(response));
   },
   async updateDeparmentState({ commit }) {
     return api.getRankingList()

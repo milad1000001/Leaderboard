@@ -5,8 +5,8 @@
         />
         <div
             :class="{
-                'rankingList':isApplicationUser,
-                'rankingListTV':!isApplicationUser
+                'rankingList':!isApplicationUser,
+                'rankingListTV':isApplicationUser
             }"
         >
             <Ranking

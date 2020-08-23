@@ -6,13 +6,13 @@
         }]"
     >
         <img
-            v-if="photo"
+            v-if="photoIsLoaded"
             class="block rounded-circle"
             :src="`data:image/jpg;base64,${photo}`"
             onerror="this.onerror=null;this.src=errorImage;"
         />
         <img
-            v-if="!photo"
+            v-if="!photoIsLoaded"
             class="block rounded-circle"
             src="../../../assets/images/error.png"
         >
@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       photo: null,
+      photoIsLoaded: null,
     };
   },
   props: {
@@ -34,19 +35,22 @@ export default {
     },
     personUsername: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   methods: {
     async getPersonImageFrom(baseImage) {
+      this.photoIsLoaded = false;
       await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
         .then((response) => {
           this.photo = response;
+          this.photoIsLoaded = false;
         });
     },
   },
   created() {
-    this.getPersonImageFrom(this.personUsername);
+    console.log(this.personUsername);
+    // this.getPersonImageFrom(this.personUsername);
   },
 };
 </script>

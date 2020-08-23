@@ -16,6 +16,8 @@
 </template>
 
 <script>
+/* eslint-disable no-undef */
+
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -121,9 +123,7 @@ export default {
         }
         restartTimer = setTimeout(() => {
           prevTime = null;
-          if (this.loading) {
-            setAutoScroll();
-          }
+          setAutoScroll();
         }, 50);
       }
 
@@ -138,12 +138,9 @@ export default {
     },
   },
   created() {
-    if (!this.isApplicationUser) {
+    if (this.isApplicationUser) {
       this.scrolling();
     }
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll');
   },
 };
 </script>
