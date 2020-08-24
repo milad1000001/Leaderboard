@@ -19,6 +19,7 @@ export const getters = {
     return state.isTVMode;
   },
   isApplicationUser() {
+    console.log(localStorage.getItem('isApplicationUser'));
     return localStorage.getItem('isApplicationUser') === 'True';
   },
 };

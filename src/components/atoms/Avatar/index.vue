@@ -6,13 +6,13 @@
         }]"
     >
         <img
-            v-if="photoIsLoaded"
+            v-if="photo"
             class="block rounded-circle"
             :src="`data:image/jpg;base64,${photo}`"
             onerror="this.onerror=null;this.src=errorImage;"
         />
         <img
-            v-if="!photoIsLoaded"
+            v-if="!photo"
             class="block rounded-circle"
             src="../../../assets/images/error.png"
         >
@@ -49,8 +49,8 @@ export default {
     },
   },
   created() {
-    console.log(this.personUsername);
-    // this.getPersonImageFrom(this.personUsername);
+    // console.log(this.personUsername);
+    this.getPersonImageFrom(this.personUsername);
   },
 };
 </script>

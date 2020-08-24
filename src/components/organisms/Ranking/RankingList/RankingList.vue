@@ -1,7 +1,7 @@
 <template>
     <div
         class="defualtClass rounded-base"
-        :class="[{look,'listWrapperTv':true,'listWrapper overflow-y-scroll':false}]"
+        :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
         v-if="list"
     >
         <app-ranking-item
@@ -16,8 +16,6 @@
 </template>
 
 <script>
-/* eslint-disable no-undef */
-
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -27,6 +25,18 @@ export default {
   },
   data() {
     return {
+      isScrolling: false,
+      prevPos: 0,
+      currentPos: 0,
+      currentTime: null,
+      prevTime: null,
+      timeDiff: null,
+      fps: 100,
+      speedFactor: 0.003,
+      minDelta: 0.5,
+      autoScrollSpeed: 10,
+      autoScrollTimer: null,
+      restartTimer: null,
       renderVarialbe: 1,
       department: [
         { id: 1, name: 'غدد' },
@@ -54,93 +64,60 @@ export default {
       this.renderVarialbe += 1;
     },
     stopScrolling() {
-      let previousScrollTop = 0;
-      const scrollLock = false;
-      window.scroll((event) => {
-        if (scrollLock) {
-          window.scrollTop(previousScrollTop);
+      window.scrollTo(0, 0);
+    },
+    setAutoScroll(newValue) {
+      const vm = this;
+      window.onscroll = (ev) => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight + 63) {
+          vm.getDepartment();
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
         }
-        previousScrollTop = window.scrollTop();
-      });
+      };
+      if (newValue) {
+        vm.autoScrollSpeed = vm.speedFactor * newValue;
+      }
+      if (vm.autoScrollTimer) {
+        clearInterval(vm.autoScrollTimer);
+      }
+      vm.autoScrollTimer = setInterval(() => {
+        vm.currentTime = Date.now();
+        if (vm.prevTime) {
+          if (!vm.isScrolling) {
+            vm.timeDiff = vm.currentTime - vm.prevTime;
+            vm.currentPos += vm.autoScrollSpeed * vm.timeDiff;
+            if (Math.abs(vm.currentPos - vm.prevPos) >= vm.minDelta) {
+              vm.isScrolling = true;
+              window.scrollTo(0, vm.currentPos);
+              vm.isScrolling = false;
+              vm.prevPos = vm.currentPos;
+              vm.prevTime = vm.currentTime;
+            }
+          }
+        } else {
+          vm.prevTime = vm.currentTime;
+        }
+      }, 1000 / vm.fps);
     },
     scrolling() {
-      const vm = this;
-      const fps = 100;
-      const speedFactor = 0.003;
-      const minDelta = 0.5;
-
-      let autoScrollSpeed = 10;
-      let autoScrollTimer;
-      let restartTimer;
-      let isScrolling = false;
-      let prevPos = 0;
-      let currentPos = 0;
-      let currentTime;
-      let prevTime;
-      let timeDiff;
-      function setAutoScroll(newValue) {
-        window.onscroll = (ev) => {
-          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight + 63) {
-            vm.getDepartment();
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-          }
-        };
-        if (newValue) {
-          autoScrollSpeed = speedFactor * newValue;
-        }
-        if (autoScrollTimer) {
-          clearInterval(autoScrollTimer);
-        }
-        autoScrollTimer = setInterval(() => {
-          currentTime = Date.now();
-          if (prevTime) {
-            if (!isScrolling) {
-              timeDiff = currentTime - prevTime;
-              currentPos += autoScrollSpeed * timeDiff;
-              if (Math.abs(currentPos - prevPos) >= minDelta) {
-                isScrolling = true;
-                window.scrollTo(0, currentPos);
-                isScrolling = false;
-                prevPos = currentPos;
-                prevTime = currentTime;
-              }
-            }
-          } else {
-            prevTime = currentTime;
-          }
-        }, 1000 / fps);
-      }
-      window.addEventListener('scroll', (e) => {
-        currentPos = window.scrollY || window.pageYOffset;
-      });
-
-      function handleManualScroll() {
-        currentPos = window.scrollY || window.pageYOffset;
-        clearInterval(autoScrollTimer);
-        if (restartTimer) {
-          clearTimeout(restartTimer);
-        }
-        restartTimer = setTimeout(() => {
-          prevTime = null;
-          setAutoScroll();
-        }, 50);
-      }
-
-      window.addEventListener('wheel', handleManualScroll);
-      window.addEventListener('touchmove', handleManualScroll);
-      setAutoScroll(10);
+      window.addEventListener('scroll', (e) => { this.currentPos = window.scrollY || window.pageYOffset; });
+      // window.addEventListener('wheel', this.setAutoScroll());
+      // window.addEventListener('touchmove', this.setAutoScroll());
+      this.setAutoScroll(10);
     },
   },
   computed: {
     isApplicationUser() {
-      return localStorage.getItem('isApplicationUser') === 'True';
+      if (localStorage.getItem('isApplicationUser') === 'True') {
+        return true;
+      }
+      return false;
     },
   },
   created() {
-    if (this.isApplicationUser) {
-      this.scrolling();
-    }
+    this.stopScrolling();
+    if (this.isApplicationUser) { this.scrolling(); }
   },
 };
 </script>
@@ -152,8 +129,8 @@ export default {
   }
 }
 .listWrapperTV{
-    max-height:max-content !important;
-  }
+  max-height:max-content !important;
+}
 .listWrapper{
   scroll-behavior: smooth;
   max-height: calc(7*64px);

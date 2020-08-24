@@ -19,13 +19,13 @@ export default {
       type: String,
       required: true,
     },
-    height: {
-      type: Number,
-      required: false,
-    },
     width: {
-      type: Number,
+      type: String,
       required: true,
+    },
+    height: {
+      type: String,
+      required: false,
     },
     color: {
       type: String,

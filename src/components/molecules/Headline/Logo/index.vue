@@ -2,7 +2,7 @@
     <div>
         <App-Logo
             :SVGName="'HeadlineLogo'"
-            :width=200
+            :width="'200'"
         />
     </div>
 </template>

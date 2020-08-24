@@ -6,8 +6,8 @@
             <App-Logo
                 class="self-center"
                 :SVGName="'LoginLogo'"
-                :width=150
-                :height=150
+                :width="'150'"
+                :height="'150'"
             />
             <App-Login
                 class="mt-8"
