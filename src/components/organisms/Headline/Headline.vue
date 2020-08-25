@@ -36,13 +36,13 @@
                     v-if="isApplicationUser"
                 >
                     <app-icon
-                        @click.native="changeView('screenMode')"
+                        @click.native="changeView('overall')"
                         :name="'far fa-building'"
                         color="text-gray-200"
                         size="'w-12'"
                     />
                     <app-icon
-                        @click.native="changeView('tvMode')"
+                        @click.native="changeView('departments')"
                         :name="'fas fa-users'"
                         color="text-gray-200"
                         size="'w-12'"
@@ -53,7 +53,7 @@
         </div>
         <div class="flex justify-between items-center mt-4 ">
             <Lorem
-                :text="'رتبه بندی'"
+                :text="rankingList.header.headerTitle ? rankingList.header.headerTitle : ''"
                 :size="'lg'"
                 class="text-sm text-gray-200 border-r-2 pr-2"
             />
@@ -67,6 +67,7 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex';
 import Icon from '~atoms/Icon/index.vue';
 import Lorem from '~atoms/Lorem/index.vue';
 import Logo from '~molecules/Headline/Logo/index.vue';
@@ -78,10 +79,12 @@ export default {
     Lorem,
     Logo,
   },
+
   data() {
     return { haveNotification: false };
   },
   computed: {
+    ...mapState('ranking', ['rankingList', 'rankingTitlesList']),
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True';
     },
@@ -92,13 +95,12 @@ export default {
   methods: {
     async logOUt() {
       await this.$store.dispatch('logout/removeAuthFromLocalStorage');
-      this.$router.push({ name: 'login' });
     },
     changeView(mode) {
-      if (mode === 'tvMode') {
-        this.$store.dispatch('global/changeToTVMode', true);
+      if (mode === 'overall') {
+        this.$store.dispatch('ranking/getOverallList');
       } else {
-        this.$store.dispatch('global/changeToTVMode', false);
+        this.$store.dispatch('ranking/getDepartmentsList');
       }
     },
     openNavigation() {

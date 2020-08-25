@@ -1,10 +1,12 @@
 import api from '~api/index';
+import { startConnection } from '~services/hubConfiguration';
 
 export const namespaced = true;
 
 export const mutations = {
   setAuthInLocalStorage(state, data) {
     localStorage.setItem('Token', data);
+    startConnection();
   },
 };
 

@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -38,10 +39,6 @@ export default {
       autoScrollTimer: null,
       restartTimer: null,
       renderVarialbe: 1,
-      department: [
-        { id: 1, name: 'غدد' },
-        { id: 2, name: 'چشم' },
-      ],
     };
   },
   props: {
@@ -54,13 +51,23 @@ export default {
       required: true,
     },
   },
+  computed: {
+    ...mapState('ranking', ['rankingTitlesList']),
+    isApplicationUser() {
+      if (localStorage.getItem('isApplicationUser') === 'True') {
+        return true;
+      }
+      return false;
+    },
+  },
   methods: {
     getDepartment() {
-      if (this.renderVarialbe >= this.department.length) {
+      this.stopScrolling();
+      if (this.renderVarialbe >= this.rankingTitlesList.length) {
         this.renderVarialbe = 0;
         return;
       }
-      this.$store.dispatch('ranking/getDepartmentList', this.department[this.renderVarialbe].id);
+      this.$store.dispatch('ranking/getRankingList', this.rankingTitlesList[this.renderVarialbe].id);
       this.renderVarialbe += 1;
     },
     stopScrolling() {
@@ -105,14 +112,6 @@ export default {
       // window.addEventListener('wheel', this.setAutoScroll());
       // window.addEventListener('touchmove', this.setAutoScroll());
       this.setAutoScroll(10);
-    },
-  },
-  computed: {
-    isApplicationUser() {
-      if (localStorage.getItem('isApplicationUser') === 'True') {
-        return true;
-      }
-      return false;
     },
   },
   created() {

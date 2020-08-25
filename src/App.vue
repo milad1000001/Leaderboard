@@ -22,6 +22,9 @@ export default {
   name: 'App',
   created() {
     this.$store.dispatch('ranking/getRankingList', 1);
+    this.$store.dispatch('ranking/getOverallList');
+    this.$store.dispatch('ranking/getDepartmentsList');
+    this.$store.dispatch('global/startUubConnection');
   },
   computed: {
     ...mapGetters(

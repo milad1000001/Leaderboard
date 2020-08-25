@@ -1,6 +1,7 @@
 /* eslint no-shadow: ["error", { "allow": ["state"] }] */
 
 import Vue from 'vue';
+import { startConnection } from '~services/hubConfiguration';
 
 export const namespaced = true;
 
@@ -43,5 +44,8 @@ export const actions = {
   },
   saveTokenData({ commit }, payload) {
     commit('saveTokenData', payload);
+  },
+  startUubConnection() {
+    startConnection();
   },
 };

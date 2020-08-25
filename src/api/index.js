@@ -1,12 +1,14 @@
-/* eslint-disable no-unused-vars */
 import appAxios from '~services/http';
 
 export default {
   getRankingList(departmentId) {
     return appAxios.get(`/rankings?id=${departmentId}`);
   },
-  getNextDepartment() {
-    return appAxios.get('/departments');
+  getOverallList() {
+    return appAxios.get('/ranking-themes/overall/ranking-groups');
+  },
+  getDepartmentsList() {
+    return appAxios.get('/ranking-themes/departments/ranking-groups');
   },
   retrieveToken(auth) {
     return appAxios.post('/login', auth);

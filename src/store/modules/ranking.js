@@ -2,7 +2,6 @@
 
 import Vue from 'vue';
 import api from '~api/index';
-import { startConnection } from '~services/hubConfiguration';
 
 export const namespaced = true;
 
@@ -11,6 +10,7 @@ export const state = {
   message: '',
   isActive: false,
   personPhoto: [],
+  rankingTitlesList: [],
 };
 
 export const getters = {
@@ -21,39 +21,36 @@ export const getters = {
 };
 
 export const mutations = {
-  setRankingList(state, data) {
-    Vue.set(state, 'rankingList', data);
-  },
-  setHubErrorMessage(state, error) {
-    Vue.set(state, 'message', error);
-  },
-  changeLoadingState(state, boolean) {
-    Vue.set(state, 'isActive', boolean);
-  },
-  savePersonPhoto(state, perspnPhoto) {
-    Vue.set(state, 'personPhoto', perspnPhoto);
-  },
+  SET_HUB_ERROR_MESSAGE: (state, error) => Vue.set(state, 'message', error),
+  CHANGE_LOADING_STATE: (state, boolean) => Vue.set(state, 'isActive', boolean),
+  SET_DEPARTMENTS_LIST: (state, list) => Vue.set(state, 'departmentsList', list),
+  SAVE_PERSONS_PHOTOS: (state, personPhoto) => Vue.set(state, 'personPhoto', personPhoto),
+  SET_OVERALL_LIST: (state, list) => Vue.set(state, 'rankingTitlesList', list),
+  SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingTitlesList', data),
 };
 
 export const actions = {
   async getRankingList({ commit }, payload) {
-    startConnection();
     return api.getRankingList(payload)
-      .then((response) => commit('setRankingList', response.data));
+      .then((response) => commit('SET_RANKING_LIST', response.data));
   },
-  async getDepartmentList({ commit }, payload) {
-    return api.getRankingList(payload)
-      .then((response) => console.log(response));
+  async getOverallList({ commit }, payload) {
+    return api.getOverallList(payload)
+      .then((response) => commit('SET_OVERALL_LIST', response.data));
   },
-  async updateDeparmentState({ commit }) {
-    return api.getRankingList()
-      .then((response) => commit('setRankingList', response.data.rankingGroupViewModels));
+  async getDepartmentsList({ commit }, payload) {
+    return api.getDepartmentsList(payload)
+      .then((response) => commit('SET_DEPARTMENTS_LIST', response.data));
   },
+  // async updateDeparmentState({ commit }) {
+  //   return api.getRankingList()
+  //     .then((response) => commit('SET_RANKING_LIST', response.data.rankingGroupViewModels));
+  // },
   async getPersonPhoto({ commit }, payload) {
     return api.getPersonPhoto(payload)
       .then((response) => {
         if (response.data.length) {
-          commit('savePersonPhoto', response.data[0]);
+          commit('SAVE_PERSONS_PHOTOS', response.data[0]);
           return response.data[0].photo;
         }
         return '';

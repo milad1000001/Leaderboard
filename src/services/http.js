@@ -20,7 +20,7 @@ export const removeAuthHeader = () => {
 
 appAxios.interceptors.request.use(
   (request) => {
-    store.commit('ranking/changeLoadingState', true);
+    store.commit('ranking/CHANGE_LOADING_STATE', true);
     setTimeout(() => {
     }, 1000);
     return request;
@@ -30,7 +30,7 @@ appAxios.interceptors.request.use(
 appAxios.interceptors.response.use(
   (response) => {
     setTimeout(() => {
-      store.commit('ranking/changeLoadingState', false);
+      store.commit('ranking/CHANGE_LOADING_STATE', false);
     }, 1000);
     return response;
   },

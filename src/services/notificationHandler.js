@@ -14,7 +14,7 @@ export const notifyHubIsConnected = () => {
     group: 'Message',
     type: 'success',
     text: 'ارتباط با سرور برقرار شد',
-    duration: 3000,
+    duration: 2000,
   };
   notificationHandler(notifyOptions);
 };
@@ -33,6 +33,15 @@ export const notifyHubHasWarning = () => {
     type: 'warn',
     text: 'سیستم در حال برقرای ارتباط با سرور است. لطفاً منتظر بمانید.',
     duration: 20000,
+  };
+  notificationHandler(notifyOptions);
+};
+export const notifyHubStop = () => {
+  const notifyOptions = {
+    group: 'Message',
+    type: 'warn',
+    text: 'ارتباط با سرور قطع شد',
+    duration: 2000,
   };
   notificationHandler(notifyOptions);
 };

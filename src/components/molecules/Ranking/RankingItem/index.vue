@@ -133,24 +133,4 @@ export default {
 .listLorem{
   width:50%
 }
-// .ranklist{
-//   &:nth-child(even){
-//     background: theme('colors.Red');
-//   }
-// }
-// .one{
-//   .ranklist:nth-child(even){
-//     background:#052C4170;
-//   }
-// }
-// .two{
-//   .ranklist:nth-child(even){
-//     background: #052C4170;
-//   }
-// }
-// .three{
-//   .ranklist:nth-child(even){
-//     background: #052C4170;
-//   }
-// }
 </style>
