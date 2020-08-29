@@ -35,18 +35,28 @@
                     class="flex gap-5"
                     v-if="isApplicationUser"
                 >
-                    <app-icon
-                        @click.native="changeView('overall')"
-                        :name="'far fa-building'"
-                        color="text-gray-200"
-                        size="'w-12'"
-                    />
-                    <app-icon
-                        @click.native="changeView('departments')"
-                        :name="'fas fa-users'"
-                        color="text-gray-200"
-                        size="'w-12'"
-                    />
+                    <router-link
+                        :to="{name:'userDashboard',params:{theme:'overall'}}"
+                        target= '_blank'
+                    >
+                        <app-icon
+                            @click.native="changeView('overall')"
+                            :name="'far fa-building'"
+                            color="text-gray-200"
+                            size="'w-12'"
+                        />
+                    </router-link>
+                    <router-link
+                        :to="{name:'userDashboard',params:{theme:'departments'}}"
+                        target= '_blank'
+                    >
+                        <app-icon
+                            @click.native="changeView('departments')"
+                            :name="'fas fa-users'"
+                            color="text-gray-200"
+                            size="'w-12'"
+                        />
+                    </router-link>
                 </div>
             </div>
             <Logo />
@@ -97,11 +107,16 @@ export default {
       await this.$store.dispatch('logout/removeAuthFromLocalStorage');
     },
     changeView(mode) {
+      // this.$store.commit('global/changeMode', mode);
       if (mode === 'overall') {
-        this.$store.dispatch('ranking/getOverallList');
+        this.$router.push('/userDashboard/overall');
       } else {
-        this.$store.dispatch('ranking/getDepartmentsList');
+        this.$router.push('/userDashboard/departments');
       }
+
+      // this.$store.dispatch('ranking/getRankingGroups', mode);
+      // this.$store.dispatch('ranking/getRankingList', [1, mode]);
+      // this.$emit('changeViewModel', mode);
     },
     openNavigation() {
       this.$store.commit('global/toggleNavigation', true);

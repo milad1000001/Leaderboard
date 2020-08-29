@@ -3,6 +3,7 @@
         class="defualtClass rounded-base"
         :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
         v-if="list"
+        @click="callNextApi()"
     >
         <app-ranking-item
             v-for="(item,index) in list"
@@ -26,19 +27,27 @@ export default {
   },
   data() {
     return {
-      isScrolling: false,
-      prevPos: 0,
-      currentPos: 0,
-      currentTime: null,
-      prevTime: null,
-      timeDiff: null,
-      fps: 100,
-      speedFactor: 0.003,
-      minDelta: 0.5,
-      autoScrollSpeed: 10,
-      autoScrollTimer: null,
-      restartTimer: null,
-      renderVarialbe: 1,
+      rankingArrayLength: 0,
+      rankingArrayIterator: -1,
+      scrollInterval: '',
+      scrollTimeout: '',
+      scrollConfiguration: {
+        cursorPosition: {
+          currentPosition: '',
+          topInterval: 0,
+        },
+        pageScale: {
+
+        },
+        timing: {
+
+        },
+        isValid: {
+          isEligibleUserForAutomateScroll: this.isEligibleUserForAutomateScroll,
+          isPageScrollable: this.isPageScrollable,
+          isTimingValidate: this.isTimingValidate,
+        },
+      },
     };
   },
   props: {
@@ -52,72 +61,91 @@ export default {
     },
   },
   computed: {
-    ...mapState('ranking', ['rankingTitlesList']),
+    ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
+    ...mapState('global', ['viewMode']),
+
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True') {
         return true;
       }
       return false;
     },
+    isEligibleUserForAutomateScroll() {
+      return this.isApplicationUser;
+    },
+    isPageScrollable() {
+      return 0;
+    },
+    isTimingValidate() {
+      return 0;
+    },
+    isScrollReachBottomOfPage() {
+      return !!(window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100);
+    },
   },
   methods: {
-    getDepartment() {
-      this.stopScrolling();
-      if (this.renderVarialbe >= this.rankingTitlesList.length) {
-        this.renderVarialbe = 0;
+    scroll() {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+        this.stopScroll();
+        this.callNextApi();
+      } else {
+        window.scroll({
+          left: 0,
+          top: this.scrollConfiguration.cursorPosition.topInterval,
+        });
+        this.scrollConfiguration.cursorPosition.topInterval += 0.1;
+      }
+    },
+    scrollingInterval(scroll, interval) {
+      this.scrollInterval = setInterval(() => {
+        scroll();
+      }, interval);
+    },
+    stopScroll() {
+      clearInterval(this.scrollInterval);
+      clearTimeout(this.scrollTimeout);
+    },
+    startScroll() {
+      this.scrollingInterval(this.scroll, 1);
+    },
+    startScrollTimer() {
+      this.scrollTimeout = setTimeout(this.scrollHandler, 5000);
+    },
+    scrollHandler() {
+      this.startScroll();
+    },
+    async callNextApi() {
+      window.scrollTo(0, 0);
+      if (this.rankingArrayIterator < this.rankingGroup.length) {
+        this.rankingArrayIterator += 1;
+        console.log(
+          'Theme:', this.$route.params.theme,
+          'RankingArrayIterator:', this.rankingArrayIterator,
+          'Length:', this.rankingGroup.length, 'ID:', this.rankingGroup[this.rankingArrayIterator].id,
+        );
+        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.rankingArrayIterator].id, this.$route.params.theme]);
         return;
       }
-      this.$store.dispatch('ranking/getRankingList', this.rankingTitlesList[this.renderVarialbe].id);
-      this.renderVarialbe += 1;
-    },
-    stopScrolling() {
-      window.scrollTo(0, 0);
-    },
-    setAutoScroll(newValue) {
-      const vm = this;
-      window.onscroll = (ev) => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight + 63) {
-          vm.getDepartment();
-          document.body.scrollTop = 0;
-          document.documentElement.scrollTop = 0;
-        }
-      };
-      if (newValue) {
-        vm.autoScrollSpeed = vm.speedFactor * newValue;
-      }
-      if (vm.autoScrollTimer) {
-        clearInterval(vm.autoScrollTimer);
-      }
-      vm.autoScrollTimer = setInterval(() => {
-        vm.currentTime = Date.now();
-        if (vm.prevTime) {
-          if (!vm.isScrolling) {
-            vm.timeDiff = vm.currentTime - vm.prevTime;
-            vm.currentPos += vm.autoScrollSpeed * vm.timeDiff;
-            if (Math.abs(vm.currentPos - vm.prevPos) >= vm.minDelta) {
-              vm.isScrolling = true;
-              window.scrollTo(0, vm.currentPos);
-              vm.isScrolling = false;
-              vm.prevPos = vm.currentPos;
-              vm.prevTime = vm.currentTime;
-            }
-          }
-        } else {
-          vm.prevTime = vm.currentTime;
-        }
-      }, 1000 / vm.fps);
-    },
-    scrolling() {
-      window.addEventListener('scroll', (e) => { this.currentPos = window.scrollY || window.pageYOffset; });
-      // window.addEventListener('wheel', this.setAutoScroll());
-      // window.addEventListener('touchmove', this.setAutoScroll());
-      this.setAutoScroll(10);
+      this.rankingArrayIterator = -1;
     },
   },
-  created() {
-    this.stopScrolling();
-    if (this.isApplicationUser) { this.scrolling(); }
+  async created() {
+    await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme)
+      .then(() => {
+      });
+
+    window.scrollTo(0, 0);
+    this.scrollHandler();
   },
+  // mounted() {
+  //   // ['wheel', 'click'].forEach((eventType) => {
+  //   //   document.addEventListener(eventType, () => {
+  //   //     this.stopScroll();
+  //   //     this.startScrollTimer();
+  //   //     this.scrollConfiguration.cursorPosition.topInterval = window.scrollY;
+  //   //   });
+  //   // });
+  // },
 };
 </script>
 
@@ -156,6 +184,7 @@ export default {
     background-color: theme('colors.blue.600');
 }
 .rankingListItem{
+  scroll-behavior: smooth;
   &:nth-child(even){
     background-color: theme('colors.gray.800');
   }

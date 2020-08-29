@@ -1,14 +1,11 @@
 import appAxios from '~services/http';
 
 export default {
-  getRankingList(departmentId) {
-    return appAxios.get(`/rankings?id=${departmentId}`);
+  getRankingList(config) {
+    return appAxios.get(`/rankings?rankingGroupId=${config[0]}&themeName=${config[1]}`);
   },
-  getOverallList() {
-    return appAxios.get('/ranking-themes/overall/ranking-groups');
-  },
-  getDepartmentsList() {
-    return appAxios.get('/ranking-themes/departments/ranking-groups');
+  getRankingGroups(themeName) {
+    return appAxios.get(`/ranking-themes/${themeName}/ranking-groups`);
   },
   retrieveToken(auth) {
     return appAxios.post('/login', auth);

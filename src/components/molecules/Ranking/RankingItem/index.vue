@@ -10,7 +10,7 @@
         <div
             :class="{
                 'py-2 w-full justify-center':mode === 'toprank',
-                'self-center w-1/8 order-3':mode === 'ranklist'
+                'width:200px self-center w-1/8 order-3':mode === 'ranklist'
             }">
             <app-avatar
                 :variation="checkRankLevel"
@@ -20,7 +20,7 @@
         <div
             :class="['text-gray-200',{
                 'w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
-                'w-1/8 text-lg order-2 self-center':mode === 'ranklist'
+                'w-2/8 text-lg order-2 self-center':mode === 'ranklist'
             }]"
         >
             <app-rank

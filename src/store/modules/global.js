@@ -7,9 +7,9 @@ export const namespaced = true;
 
 export const state = {
   navigationToggle: false,
-  department: [{ id: 1, name: 'غدد' }, { id: 2, name: 'چشم' }, { id: 3, name: 'آنکولوژی' }],
   isTVMode: false,
   token: [],
+  viewMode: 'overall',
 };
 
 export const getters = {
@@ -20,9 +20,9 @@ export const getters = {
     return state.isTVMode;
   },
   isApplicationUser() {
-    console.log(localStorage.getItem('isApplicationUser'));
     return localStorage.getItem('isApplicationUser') === 'True';
   },
+
 };
 
 export const mutations = {
@@ -35,6 +35,9 @@ export const mutations = {
   saveTokenData(state, token) {
     localStorage.setItem('isApplicationUser', token.isApplicationUser);
     Vue.set(state, 'token', token);
+  },
+  changeMode(state, view) {
+    Vue.set(state, 'viewMode', view);
   },
 };
 

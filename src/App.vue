@@ -16,15 +16,20 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { setAuthHeader } from '~services/http';
 import Navigation from '~layouts/Navigation/Navigation.vue';
 
 export default {
   name: 'App',
   created() {
-    this.$store.dispatch('ranking/getRankingList', 1);
-    this.$store.dispatch('ranking/getOverallList');
-    this.$store.dispatch('ranking/getDepartmentsList');
-    this.$store.dispatch('global/startUubConnection');
+    if (localStorage.getItem('token')) {
+      setAuthHeader(localStorage.token);
+      if (this.$route.params.theme === 'overall') {
+        this.$store.dispatch('ranking/getRankingList', [1, this.$route.params.theme]);
+      } else {
+        this.$store.dispatch('ranking/getRankingList', [2, this.$route.params.theme]);
+      }
+    }
   },
   computed: {
     ...mapGetters(

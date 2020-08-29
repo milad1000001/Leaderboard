@@ -11,6 +11,8 @@ export const state = {
   isActive: false,
   personPhoto: [],
   rankingTitlesList: [],
+  rankingGroup: [],
+  isOverall: true,
 };
 
 export const getters = {
@@ -25,22 +27,22 @@ export const mutations = {
   CHANGE_LOADING_STATE: (state, boolean) => Vue.set(state, 'isActive', boolean),
   SET_DEPARTMENTS_LIST: (state, list) => Vue.set(state, 'departmentsList', list),
   SAVE_PERSONS_PHOTOS: (state, personPhoto) => Vue.set(state, 'personPhoto', personPhoto),
-  SET_OVERALL_LIST: (state, list) => Vue.set(state, 'rankingTitlesList', list),
-  SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingTitlesList', data),
+  SET_RANKING_GROUP: (state, list) => Vue.set(state, 'rankingGroup', list),
+  SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingList', data),
+  SET_IS_OVERALL: (state, data) => Vue.set(state, 'isOverall', data),
 };
 
 export const actions = {
   async getRankingList({ commit }, payload) {
     return api.getRankingList(payload)
-      .then((response) => commit('SET_RANKING_LIST', response.data));
+      .then((response) => { commit('SET_RANKING_LIST', response.data); });
   },
-  async getOverallList({ commit }, payload) {
-    return api.getOverallList(payload)
-      .then((response) => commit('SET_OVERALL_LIST', response.data));
-  },
-  async getDepartmentsList({ commit }, payload) {
-    return api.getDepartmentsList(payload)
-      .then((response) => commit('SET_DEPARTMENTS_LIST', response.data));
+  async getRankingGroups({ commit }, payload) {
+    return api.getRankingGroups(payload)
+      .then((response) => {
+        commit('SET_RANKING_GROUP', response.data);
+        commit('SET_IS_OVERALL', payload === 'overall');
+      });
   },
   // async updateDeparmentState({ commit }) {
   //   return api.getRankingList()

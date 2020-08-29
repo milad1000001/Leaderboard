@@ -16,6 +16,7 @@ export const setAuthHeader = (token) => {
 
 export const removeAuthHeader = () => {
   appAxios.defaults.headers.common.Authorization = null;
+  localStorage.clear();
 };
 
 appAxios.interceptors.request.use(

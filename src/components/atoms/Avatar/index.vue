@@ -49,19 +49,20 @@ export default {
     },
   },
   created() {
-    // console.log(this.personUsername);
     this.getPersonImageFrom(this.personUsername);
   },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .top{
   max-width: theme('spacing.24');
   max-height: theme('spacing.24');
 }
 .list{
-  max-width: theme('spacing.12');
-  max-height: theme('spacing.12');
+  img{
+    max-width: theme('spacing.12');
+    max-height: theme('spacing.12')
+  }
 }
 </style>

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import UserDashboard from '~pages/Ranking/Ranking.vue';
+import UserDashboard from '~pages/Ranking/overall.vue';
 import Login from '~pages/Login/Login.vue';
 
 Vue.use(VueRouter);
@@ -9,7 +9,7 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      redirect: '/userDashboard',
+      redirect: '/userDashboard/',
     },
     {
       name: 'login',
@@ -24,42 +24,30 @@ const router = new VueRouter({
     },
     {
       name: 'userDashboard',
-      path: '/userdashboard',
+      path: '/userdashboard/:theme',
       component: UserDashboard,
-      children: [
-        {
-          name: 'report',
-          path: '/report',
-          component: UserDashboard,
-          meta: {
-            title: 'گزارش کلی',
-            icon: 'fas fa-bars',
-            name: 'report',
-          },
-        },
-        {
-          name: 'users',
-          path: '/users',
-          component: UserDashboard,
-          meta: {
-            title: 'اعضا',
-            icon: 'fas fa-users',
-            name: 'users',
-
-          },
-        },
-        {
-          name: 'notificatin',
-          path: '/notificatin',
-          component: UserDashboard,
-          meta: {
-            title: 'اعلان',
-            icon: 'fas fa-bell',
-            name: 'notificatin',
-
-          },
-        },
-      ],
+      // children: [
+      //   {
+      //     name: 'overall',
+      //     path: '/overall',
+      //     component: UserDashboard,
+      //     meta: {
+      //       title: 'واحد فروش',
+      //       icon: 'fas fa-bars',
+      //       name: 'overall',
+      //     },
+      //   },
+      //   {
+      //     name: 'departments',
+      //     path: '/departments',
+      //     component: UserDashboard,
+      //     meta: {
+      //       title: 'لاین ها',
+      //       icon: 'fas fa-bars',
+      //       name: 'departments',
+      //     },
+      //   },
+      // ],
     },
   ],
   mode: 'history',

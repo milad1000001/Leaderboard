@@ -1,6 +1,6 @@
 export default function useTokenGaurd(router) {
   router.beforeEach((to, from, next) => {
-    if (!localStorage.getItem('Token')) {
+    if (!localStorage.getItem('token')) {
       if (to.name !== 'login') {
         next('/login');
       }

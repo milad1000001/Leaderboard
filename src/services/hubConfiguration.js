@@ -14,7 +14,7 @@ const connection = new signalR.HubConnectionBuilder()
   .build();
 
 export const startConnection = () => {
-  const token = localStorage.getItem('Token');
+  const token = localStorage.getItem('token');
   if (token) {
     connection.start().then(() => {
       notifyHubIsConnected();
@@ -46,7 +46,7 @@ connection.onreconnecting(() => {
 });
 connection.onreconnected(() => {
   notifyHubIsConnected();
-  const token = localStorage.getItem('Token');
+  const token = localStorage.getItem('token');
   console.assert(connection.state === signalR.HubConnectionState.Connected);
   if (connection.state === signalR.HubConnectionState.Connected) {
     connection.invoke('subscribe', token);
