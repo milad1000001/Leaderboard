@@ -2,14 +2,6 @@
     <div id="app">
         <notifications
             group="Message"/>
-        <vue-element-loading
-            :active="loadingState"
-            spinner="bar-fade-scale"
-            color="#fff"
-            background-color="#1f4068"
-            is-full-screen
-            text="چند لحظه صبر بفرمایید"
-        />
         <Navigation />
         <router-view />
     </div>

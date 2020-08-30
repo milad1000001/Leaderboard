@@ -2,8 +2,6 @@
     <div
         class="defualtClass rounded-base"
         :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
-        v-if="list"
-        @click="callNextApi()"
     >
         <app-ranking-item
             v-for="(item,index) in list"
@@ -17,7 +15,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -61,6 +59,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(
+      { loadingState: 'ranking/getLoadingState' },
+    ),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
     ...mapState('global', ['viewMode']),
 
@@ -85,15 +86,17 @@ export default {
   },
   methods: {
     scroll() {
+      if (this.loadingState) return;
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
         this.stopScroll();
+        console.log('Caliing nextAPI at the end of scroll');
         this.callNextApi();
       } else {
-        window.scroll({
-          left: 0,
-          top: this.scrollConfiguration.cursorPosition.topInterval,
-        });
-        this.scrollConfiguration.cursorPosition.topInterval += 0.1;
+        // window.scroll({
+        //   left: 0,
+        //   top: this.scrollConfiguration.cursorPosition.topInterval,
+        // });
+        // this.scrollConfiguration.cursorPosition.topInterval += 1;
       }
     },
     scrollingInterval(scroll, interval) {
@@ -114,28 +117,37 @@ export default {
     scrollHandler() {
       this.startScroll();
     },
-    async callNextApi() {
+    async callNextApi(forceRankingIterator) {
       window.scrollTo(0, 0);
+      this.scrollConfiguration.cursorPosition.topInterval = 0;
       if (this.rankingArrayIterator < this.rankingGroup.length) {
-        this.rankingArrayIterator += 1;
+        this.rankingArrayIterator = forceRankingIterator || this.rankingArrayIterator + 1;
         console.log(
           'Theme:', this.$route.params.theme,
           'RankingArrayIterator:', this.rankingArrayIterator,
           'Length:', this.rankingGroup.length, 'ID:', this.rankingGroup[this.rankingArrayIterator].id,
         );
         await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.rankingArrayIterator].id, this.$route.params.theme]);
-        return;
+        if (!this.rankingList.header.hasData) {
+          console.log('Got no data. Caliing next API with ', this.rankingArrayIterator + 1);
+          window.scrollTo(0, 0);
+          this.scrollConfiguration.cursorPosition.topInterval = 0;
+          await this.callNextApi(this.rankingIterator + 1);
+          return;
+        }
+        this.scrollHandler();
+      } else {
+        debugger;
+        this.rankingArrayIterator = -1;
       }
-      this.rankingArrayIterator = -1;
     },
   },
-  async created() {
-    await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme)
-      .then(() => {
-      });
-
-    window.scrollTo(0, 0);
-    this.scrollHandler();
+  mounted() {
+    debugger;
+    this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme).then(() => {
+      this.scrollHandler();
+      window.scrollTo(0, 0);
+    });
   },
   // mounted() {
   //   // ['wheel', 'click'].forEach((eventType) => {
