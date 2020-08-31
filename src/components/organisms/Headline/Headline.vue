@@ -63,7 +63,7 @@
         </div>
         <div class="flex justify-between items-center mt-4 ">
             <Lorem
-                :text="rankingList.header.headerTitle ? rankingList.header.headerTitle : ''"
+                :text="headerTitle"
                 :size="'lg'"
                 class="text-sm text-gray-200 border-r-2 pr-2"
             />
@@ -100,6 +100,9 @@ export default {
     },
     haveNotificationHandler() {
       return this.haveNotification ? 'fas fa-bell' : 'far fa-bell';
+    },
+    headerTitle() {
+      return this.rankingTitlesList ? this.rankingTitlesList : '';
     },
   },
   methods: {

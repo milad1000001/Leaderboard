@@ -10,7 +10,7 @@ export const state = {
   message: '',
   isActive: false,
   personPhoto: [],
-  rankingTitlesList: [],
+  rankingTitlesList: '',
   rankingGroup: [],
   isOverall: true,
 };
@@ -29,13 +29,17 @@ export const mutations = {
   SAVE_PERSONS_PHOTOS: (state, personPhoto) => Vue.set(state, 'personPhoto', personPhoto),
   SET_RANKING_GROUP: (state, list) => Vue.set(state, 'rankingGroup', list),
   SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingList', data),
+  SET_RANKING_TITLE: (state, data) => Vue.set(state, 'rankingTitlesList', data),
   SET_IS_OVERALL: (state, data) => Vue.set(state, 'isOverall', data),
 };
 
 export const actions = {
   async getRankingList({ commit }, payload) {
     return api.getRankingList(payload)
-      .then((response) => { commit('SET_RANKING_LIST', response.data); });
+      .then((response) => {
+        commit('SET_RANKING_LIST', response.data);
+        commit('SET_RANKING_TITLE', response.data.header.headerTitle);
+      });
   },
   async getRankingGroups({ commit }, payload) {
     return api.getRankingGroups(payload)
