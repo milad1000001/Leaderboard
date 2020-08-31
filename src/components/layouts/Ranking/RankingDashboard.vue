@@ -9,14 +9,17 @@
                 'rankingListTV':isApplicationUser
             }"
         >
-            <Ranking
-                v-for="(item,index) in rankingList"
-                :key="index"
-                :title="item.title"
-                :featured="item.topRankPersonsViewModel"
-                :list="item.lowerRankPersonsViewModel"
-                :look="'MEDREP'"
-            />
+            <keep-alive>
+                <Ranking
+                    v-for="(item,index) in rankingList"
+                    :key="index"
+                    :title="item.title"
+                    :featured="item.topRankPersonsViewModel"
+                    :list="item.lowerRankPersonsViewModel"
+                    :look="'MEDREP'"
+                />
+            </keep-alive>
+
         </div>
     </div>
 </template>
@@ -40,6 +43,7 @@ export default {
       return localStorage.getItem('isApplicationUser') === 'True';
     },
   },
+
 };
 </script>
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import UserDashboard from '~pages/Ranking/overall.vue';
+import UserDashboard from '~pages/Ranking/ranking.vue';
 import Login from '~pages/Login/Login.vue';
 
 Vue.use(VueRouter);

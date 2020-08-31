@@ -10,6 +10,7 @@
             :item="item"
             :mode="'ranklist'"
             :look="look"
+            @click.native="callNextApi()"
         />
     </div>
 </template>
@@ -88,8 +89,7 @@ export default {
     scroll() {
       if (this.loadingState) return;
       if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        this.stopScroll();
-        console.log('Caliing nextAPI at the end of scroll');
+        this.stopScroll(100000);
         this.callNextApi();
       } else {
         // window.scroll({
@@ -104,15 +104,16 @@ export default {
         scroll();
       }, interval);
     },
-    stopScroll() {
+    stopScroll(timeOutTime) {
       clearInterval(this.scrollInterval);
       clearTimeout(this.scrollTimeout);
+      this.startScrollTimer(timeOutTime);
     },
     startScroll() {
       this.scrollingInterval(this.scroll, 1);
     },
-    startScrollTimer() {
-      this.scrollTimeout = setTimeout(this.scrollHandler, 5000);
+    startScrollTimer(timeOutTime) {
+      this.scrollTimeout = setTimeout(this.scrollHandler, timeOutTime);
     },
     scrollHandler() {
       this.startScroll();
@@ -137,27 +138,22 @@ export default {
         }
         this.scrollHandler();
       } else {
-        debugger;
         this.rankingArrayIterator = -1;
       }
     },
   },
   mounted() {
-    debugger;
     this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme).then(() => {
       this.scrollHandler();
       window.scrollTo(0, 0);
+      ['wheel', 'click'].forEach((eventType) => {
+        document.addEventListener(eventType, () => {
+          this.stopScroll(10000);
+          this.scrollConfiguration.cursorPosition.topInterval = window.scrollY;
+        });
+      });
     });
   },
-  // mounted() {
-  //   // ['wheel', 'click'].forEach((eventType) => {
-  //   //   document.addEventListener(eventType, () => {
-  //   //     this.stopScroll();
-  //   //     this.startScrollTimer();
-  //   //     this.scrollConfiguration.cursorPosition.topInterval = window.scrollY;
-  //   //   });
-  //   // });
-  // },
 };
 </script>
 

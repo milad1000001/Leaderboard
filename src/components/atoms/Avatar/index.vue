@@ -5,6 +5,7 @@
             'list':variation==='list'
         }]"
     >
+        <span v-show="false">{{getPersonImageFrom(personUsername)}}</span>
         <img
             v-if="photo"
             class="block rounded-circle"
@@ -41,16 +42,24 @@ export default {
   methods: {
     async getPersonImageFrom(baseImage) {
       this.photoIsLoaded = false;
-      await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
+      const imageBase64 = await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
         .then((response) => {
+          this.photoIsLoaded = true;
           this.photo = response;
-          this.photoIsLoaded = false;
         });
+      return imageBase64;
     },
   },
-  created() {
-    this.getPersonImageFrom(this.personUsername);
-  },
+  // watch: {
+  //   personUsername: {
+  //     handler: (value) => {
+  //       console.log(value);
+  //       this.getPersonImageFrom(value);
+  //     },
+  //     immediate: true,
+  //     deep: true,
+  //   },
+  // },
 };
 </script>
 
