@@ -2,7 +2,7 @@
     <div class="m-8">
         <Headline
             @toggle="toggleNavigation($event)"
-            @click.native="callNextApi()"
+            @click.native="fetchPage()"
         />
         <div
             :class="{
@@ -31,18 +31,16 @@ import Ranking from '~layouts/Ranking/Ranking.vue';
 
 export default {
   name: 'RankingDashboard',
+
   data() {
     return {
       isNotScrolabble: false,
       rankingArrayLength: 0,
       rankingArrayIterator: -1,
-      scrollInterval: '',
-      scrollTimeout: '',
+      currentPage: 0,
+      scrollingInterval: null,
+      scrollingTimeout: null,
       scrollConfiguration: {
-        cursorPosition: {
-          currentPosition: '',
-          topInterval: 0,
-        },
         pageScale: {
 
         },
@@ -71,83 +69,106 @@ export default {
       return localStorage.getItem('isApplicationUser') === 'True';
     },
   },
-  created() {
-    //
-  },
-  methods: {
-    scroll() {
-      // if (!(window.innerWidth > document.body.clientWidth)) {
-      //   this.isNotScrolabble = !this.isNotScrolabble;
-      // }
-      // if (this.loadingState) return;
-      // if (window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100) {
-      //   this.stopScroll();
-      //   this.callNextApi();
-      // } else {
-      //   window.scroll({
-      //     left: 0,
-      //     top: this.scrollConfiguration.cursorPosition.topInterval,
-      //   });
-      //   this.scrollConfiguration.cursorPosition.topInterval += 0.1;
-      // }
+  watch: {
+    scrollingInterval(value, oldValue) {
+      if (oldValue) {
+        clearInterval(oldValue);
+      }
     },
-    scrollingInterval(scroll, interval) {
-      this.scrollInterval = setInterval(() => {
-        scroll();
-      }, interval);
-    },
-    stopScroll(timeOutTime) {
-      clearInterval(this.scrollInterval);
-      clearTimeout(this.scrollTimeout);
-      this.startScrollTimer(timeOutTime);
-    },
-    pageStopTiming() {
-
-    },
-    startScroll() {
-      this.scrollingInterval(this.scroll, 1);
-    },
-    startScrollTimer(timeOutTime) {
-      this.scrollTimeout = setTimeout(this.scrollHandler, timeOutTime);
-    },
-    scrollHandler() {
-      setTimeout(this.startScroll, 5000);
-    },
-    async callNextApi() {
-      window.scrollTo(0, 0);
-      this.scrollConfiguration.cursorPosition.topInterval = 0;
-      if (this.rankingArrayIterator + 1 < this.rankingGroup.length) {
-        this.rankingArrayIterator += 1;
-        console.log(
-          'Theme:', this.$route.params.theme,
-          'RankingArrayIterator:', this.rankingArrayIterator + 1,
-          'Length:', this.rankingGroup.length, 'ID:', this.rankingGroup[this.rankingArrayIterator].id,
-        );
-        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.rankingArrayIterator].id, this.$route.params.theme]);
-        this.scrollConfiguration.cursorPosition.topInterval = 0;
-        if (!this.rankingList.header.hasData) {
-          debugger;
-          console.log('Got no data. Caliing next API with ', this.rankingArrayIterator + 1);
-          window.scrollTo(0, 0);
-          this.scrollConfiguration.cursorPosition.topInterval = 0;
-          await this.callNextApi(this.rankingIterator + 1);
-        }
-        this.scrollHandler();
-      } else {
-        this.rankingArrayIterator = -1;
+    scrollingTimeout(value, oldValue) {
+      if (oldValue) {
+        clearTimeout(oldValue);
       }
     },
   },
-  mounted() {
-    this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme).then(() => {
-      // this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[0].id, this.$route.params.theme]);
-      this.callNextApi();
-      this.scrollHandler();
-      window.scrollTo(0, 0);
-      ['wheel', 'click'].forEach((eventType) => {
-        document.addEventListener(eventType, () => {
-          this.stopScroll(10000);
-          this.scrollConfiguration.cursorPosition.topInterval = window.scrollY;
+  methods: {
+    pageReachedTheEnd() {
+      return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;
+    },
+    pageHasNoScroll() {
+      return window.innerHeight >= document.body.offsetHeight;
+    },
+    scrollTo(top) {
+      window.scrollTo(0, top);
+    },
+
+    startScrolling({
+      after = 5000,
+      speed = 1,
+      atTheEnd = () => {},
+      atTheEndWithoudScroll = () => {},
+    }) {
+      this.scrollingTimeout = setTimeout(() => {
+        this.scrollingInterval = setInterval(() => {
+          this.scrollTo(window.scrollY + 1);
+          if (this.pageReachedTheEnd()) {
+            this.stopScrolling();
+            atTheEnd.bind(this)();
+          } else if (this.pageHasNoScroll()) {
+            this.stopScrolling();
+            atTheEndWithoudScroll.bind(this)();
+          }
+        }, speed);
+      }, after);
+    },
+    stopScrolling() {
+      clearInterval(this.scrollingInterval);
+      clearTimeout(this.scrollingTimeout);
+    },
+
+    gotAllRankingPages() {
+      return this.currentPage === this.rankingGroup.length;
+    },
+    async fetchPage({ gotNoData, onLastPage }) {
+      if (!this.gotAllRankingPages()) {
+        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+        if (!this.rankingList.header.hasData) {
+          gotNoData.bind(this)();
+        }
+      } else {
+        onLastPage.bind(this)();
+      }
+    },
+
+    async startPagePresentation() {
+      this.scrollTo(0);
+      await this.fetchPage({
+        onLastPage() {
+          this.currentPage = 0;
+          this.startPagePresentation();
+        },
+        gotNoData() {
+          this.currentPage += 1;
+          this.startPagePresentation();
+        },
+      });
+      this.startScrolling({
+        atTheEnd() {
+          setTimeout(() => {
+            this.currentPage += 1;
+            this.startPagePresentation();
+          }, 5000);
+        },
+        atTheEndWithoudScroll() {
+          this.currentPage += 1;
+          this.startPagePresentation();
+        },
+      });
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);
+    await this.startPagePresentation();
+    ['wheel', 'click'].forEach((eventType) => {
+      document.addEventListener(eventType, () => {
+        this.stopScrolling();
+        this.startScrolling({
+          atTheEnd() {
+            setTimeout(() => {
+              this.currentPage += 1;
+              this.startPagePresentation();
+            }, 5000);
+          },
         });
       });
     });
