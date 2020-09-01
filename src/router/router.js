@@ -8,8 +8,8 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes: [
     {
-      path: '/',
-      redirect: '/userDashboard/',
+      path: '*',
+      redirect: '/userdashboard/overall',
     },
     {
       name: 'login',
@@ -23,14 +23,14 @@ const router = new VueRouter({
       },
     },
     {
-      name: 'userDashboard',
+      name: 'userdashboard',
       path: '/userdashboard/:theme',
       component: UserDashboard,
       // children: [
       //   {
       //     name: 'overall',
       //     path: '/overall',
-      //     component: UserDashboard,
+      //     component: userdashboard,
       //     meta: {
       //       title: 'واحد فروش',
       //       icon: 'fas fa-bars',
@@ -40,7 +40,7 @@ const router = new VueRouter({
       //   {
       //     name: 'departments',
       //     path: '/departments',
-      //     component: UserDashboard,
+      //     component: userdashboard,
       //     meta: {
       //       title: 'لاین ها',
       //       icon: 'fas fa-bars',

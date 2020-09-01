@@ -24,11 +24,6 @@ export default {
   created() {
     if (localStorage.getItem('token')) {
       setAuthHeader(localStorage.token);
-      if (this.$route.params.theme === 'overall') {
-        this.$store.dispatch('ranking/getRankingList', [1, this.$route.params.theme]);
-      } else {
-        this.$store.dispatch('ranking/getRankingList', [2, this.$route.params.theme]);
-      }
     }
   },
   computed: {

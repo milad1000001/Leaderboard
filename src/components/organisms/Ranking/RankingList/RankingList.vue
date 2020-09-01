@@ -10,7 +10,6 @@
             :item="item"
             :mode="'ranklist'"
             :look="look"
-            @click.native="callNextApi()"
         />
     </div>
 </template>
@@ -84,75 +83,6 @@ export default {
     isScrollReachBottomOfPage() {
       return !!(window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100);
     },
-  },
-  methods: {
-    scroll() {
-      if (this.loadingState) return;
-      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        this.stopScroll(100000);
-        this.callNextApi();
-      } else {
-        // window.scroll({
-        //   left: 0,
-        //   top: this.scrollConfiguration.cursorPosition.topInterval,
-        // });
-        // this.scrollConfiguration.cursorPosition.topInterval += 1;
-      }
-    },
-    scrollingInterval(scroll, interval) {
-      this.scrollInterval = setInterval(() => {
-        scroll();
-      }, interval);
-    },
-    stopScroll(timeOutTime) {
-      clearInterval(this.scrollInterval);
-      clearTimeout(this.scrollTimeout);
-      this.startScrollTimer(timeOutTime);
-    },
-    startScroll() {
-      this.scrollingInterval(this.scroll, 1);
-    },
-    startScrollTimer(timeOutTime) {
-      this.scrollTimeout = setTimeout(this.scrollHandler, timeOutTime);
-    },
-    scrollHandler() {
-      this.startScroll();
-    },
-    async callNextApi(forceRankingIterator) {
-      window.scrollTo(0, 0);
-      this.scrollConfiguration.cursorPosition.topInterval = 0;
-      if (this.rankingArrayIterator < this.rankingGroup.length) {
-        this.rankingArrayIterator = forceRankingIterator || this.rankingArrayIterator + 1;
-        console.log(
-          'Theme:', this.$route.params.theme,
-          'RankingArrayIterator:', this.rankingArrayIterator,
-          'Length:', this.rankingGroup.length, 'ID:', this.rankingGroup[this.rankingArrayIterator].id,
-        );
-        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.rankingArrayIterator].id, this.$route.params.theme]);
-        if (!this.rankingList.header.hasData) {
-          console.log('Got no data. Caliing next API with ', this.rankingArrayIterator + 1);
-          window.scrollTo(0, 0);
-          this.scrollConfiguration.cursorPosition.topInterval = 0;
-          await this.callNextApi(this.rankingIterator + 1);
-          return;
-        }
-        this.scrollHandler();
-      } else {
-        this.rankingArrayIterator = -1;
-      }
-    },
-  },
-  mounted() {
-    this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme).then(() => {
-      this.scrollHandler();
-      window.scrollTo(0, 0);
-      ['wheel', 'click'].forEach((eventType) => {
-        document.addEventListener(eventType, () => {
-          this.stopScroll(10000);
-          this.scrollConfiguration.cursorPosition.topInterval = window.scrollY;
-        });
-      });
-    });
   },
 };
 </script>

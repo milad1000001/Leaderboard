@@ -36,7 +36,7 @@
                     v-if="isApplicationUser"
                 >
                     <router-link
-                        :to="{name:'userDashboard',params:{theme:'overall'}}"
+                        :to="{name:'userdashboard',params:{theme:'overall'}}"
                         target= '_blank'
                     >
                         <app-icon
@@ -47,7 +47,7 @@
                         />
                     </router-link>
                     <router-link
-                        :to="{name:'userDashboard',params:{theme:'departments'}}"
+                        :to="{name:'userdashboard',params:{theme:'departments'}}"
                         target= '_blank'
                     >
                         <app-icon

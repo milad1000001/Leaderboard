@@ -73,7 +73,7 @@
         >
             <div
                 :class="['flex',{
-                    'w-2/8 justify-end':mode ==='ranklist'
+                    'w-5 justify-end':mode ==='ranklist'
                 }]">
                 <app-score
                     class="justify-start"

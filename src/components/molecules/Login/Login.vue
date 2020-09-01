@@ -53,13 +53,11 @@ export default {
     BaseButton,
   },
   methods: {
-    getToken() {
+    async getToken() {
       if (this.canLogin) {
-        this.$store.dispatch('login/retrieveToken', this.auth)
-          .then(() => {
-            this.$router.push('/userDashboard/overall');
-            this.$store.dispatch('global/saveTokenData', this.$jwt.decode(localStorage.token));
-          });
+        await this.$store.dispatch('login/retrieveToken', this.auth);
+        this.$router.push('/userdashboard/overall');
+        this.$store.dispatch('global/saveTokenData', this.$jwt.decode(localStorage.token));
       } else {
         this.$notify({
           group: 'Message',

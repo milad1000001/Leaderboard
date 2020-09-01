@@ -1,14 +1,14 @@
 <template>
     <div
-        :class="['m-auto',{
+        :class="{
             'top':variation==='top',
             'list':variation==='list'
-        }]"
+        }"
     >
         <span v-show="false">{{getPersonImageFrom(personUsername)}}</span>
         <img
             v-if="photo"
-            class="block rounded-circle"
+            class="block rounded-circle m-auto"
             :src="`data:image/jpg;base64,${photo}`"
             onerror="this.onerror=null;this.src=errorImage;"
         />
@@ -50,28 +50,24 @@ export default {
       return imageBase64;
     },
   },
-  // watch: {
-  //   personUsername: {
-  //     handler: (value) => {
-  //       console.log(value);
-  //       this.getPersonImageFrom(value);
-  //     },
-  //     immediate: true,
-  //     deep: true,
-  //   },
-  // },
 };
 </script>
 
 <style lang="scss" scoped>
 .top{
-  max-width: theme('spacing.24');
-  max-height: theme('spacing.24');
+  img{
+    width: theme('spacing.24');
+    height: theme('spacing.24');
+    object-fit:cover;
+    margin: 0 auto;
+  }
 }
 .list{
   img{
-    max-width: theme('spacing.12');
-    max-height: theme('spacing.12')
+    width: theme('spacing.12');
+    height: theme('spacing.12');
+    object-fit:cover;
+    margin: 0 auto;
   }
 }
 </style>
