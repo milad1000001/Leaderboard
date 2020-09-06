@@ -39,4 +39,7 @@ export default {
 .Silver{
   color:theme('colors.Silver');
 }
+.None{
+  color:theme('colors.Charcoal');
+}
 </style>

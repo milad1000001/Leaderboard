@@ -16,7 +16,7 @@
                     :text="'آخرین به روزرسانی: یکشنبه 25 خرداد 1399'"
                     :size="'xs'"
                     :color="'gray-200'"
-                    class="bg-Green px-4 py-1 rounded-base"
+                    class="px-4 py-1 rounded-base"
                 />
             </div>
             <Logo />
@@ -28,10 +28,10 @@
                 class="text-sm mt-8 text-gray-200 border-r-2 pr-2"
             />
             <Lorem
-                :text="'یکشنبه 25 خرداد 1399'"
+                :text="('یکشنبه 25 خرداد 1399').toLocalString()"
                 :size="'xs'"
                 :color="'gray-200'"
-                class="bg-blue-600 px-4 py-1 rounded-base"
+                class="px-4 py-1 rounded-base"
             />
         </div>
     </div>

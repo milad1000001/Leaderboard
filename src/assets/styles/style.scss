@@ -1,0 +1,49 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+body{
+    font-family: IRANSansWeb;
+    height: 100%;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+        width: 3px;
+        height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+        border-radius: 5px;
+        margin: 20px 0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: theme('colors.blue.400');
+        border-radius: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: theme('colors.blue.200');
+    }
+}
+@font-face {
+    font-family: IRANSansWeb;
+    src: url(../fonts/IRANSansWeb.ttf);
+  }
+.vue-notification-group{
+    width: 100% !important;
+    bottom: 0px !important;
+    top:auto  !important;;
+    right:0px !important;
+    direction: rtl !important;
+    text-align: right !important;
+    padding: 0px 10px !important;
+}
+.vue-notification{
+    direction: rtl;
+    text-align: right;
+    font-size: 18px;
+    padding: 12px;
+}
+
+.velmld-spinner svg{
+    display: inline !important;;
+}

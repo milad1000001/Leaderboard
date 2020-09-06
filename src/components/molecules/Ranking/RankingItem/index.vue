@@ -10,7 +10,7 @@
         <div
             :class="{
                 'py-2 w-full justify-center':mode === 'toprank',
-                'width:200px self-center w-1/8 order-3':mode === 'ranklist'
+                'width:200px self-center order-3':mode === 'ranklist'
             }">
             <app-avatar
                 :variation="checkRankLevel"
@@ -20,7 +20,7 @@
         <div
             :class="['text-gray-200',{
                 'w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
-                'w-2/8 text-lg order-2 self-center':mode === 'ranklist'
+                ' text-lg order-2 self-center':mode === 'ranklist'
             }]"
         >
             <app-rank
@@ -30,7 +30,7 @@
         <div
             :class="{
                 'w-full text-center xxl:w-2/3 xxl:text-right xl:w-2/3 xl:text-right':mode === 'toprank',
-                'flex flex-col listLorem text-right w-2/8 order-4 items-start':mode === 'ranklist'
+                'flex flex-col listLorem w-5 text-right  order-4 items-start':mode === 'ranklist'
             }"
         >
             <app-lorem
@@ -58,7 +58,7 @@
         <div
             :class="{
                 'pt-2 w-1/3':mode === 'toprank',
-                'w-1/8 order-1 self-center ':mode === 'ranklist'
+                ' order-1 self-center ':mode === 'ranklist'
             }"
         >
             <app-progress
@@ -68,7 +68,7 @@
         <div
             :class="{
                 ' w-2/3 pt-2 flex justify-end ':mode === 'toprank',
-                'w-1/8 self-center order-6':mode === 'ranklist'
+                ' self-center order-6':mode === 'ranklist'
             }"
         >
             <div
@@ -76,7 +76,7 @@
                     'w-5 justify-end':mode ==='ranklist'
                 }]">
                 <app-score
-                    class="justify-start"
+                    class="justify-start ml-2"
                     :scoreNumber="item.totalScore"
                 />
                 <app-icon

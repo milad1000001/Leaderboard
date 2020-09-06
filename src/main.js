@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import Vue from 'vue';
 import SvgIcon from 'vue-svgicon';
 import VueAxios from 'vue-axios';
@@ -7,17 +8,20 @@ import VueParticles from 'vue-particles';
 import axios from 'axios';
 import Notifications from 'vue-notification';
 import VueJWT from 'vuejs-jwt';
+import VuePersianDigit from 'vue-persian-digit';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
+
 import useTokenGuard from './gurad/index';
-import '~styles/style.css';
+import '~styles/style.scss';
 
 Vue.use(vuePersianFilters);
 Vue.use(VueAxios, axios);
 Vue.use(Notifications);
 Vue.use(VueParticles);
 Vue.use(VueJWT);
+Vue.use(VuePersianDigit);
 useTokenGuard(router);
 
 Vue.component('VueElementLoading', VueElementLoading);

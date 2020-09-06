@@ -1,4 +1,4 @@
-import appAxios from '~services/http';
+import appAxios, { appAxiosForImages } from '~services/http';
 
 export default {
   getRankingList(config) {
@@ -11,6 +11,6 @@ export default {
     return appAxios.post('/login', auth);
   },
   getPersonPhoto(personUsername) {
-    return appAxios.get(`http://172.17.15.23:88/api/PersonnelPhoto?Usernames=${personUsername}`);
+    return appAxiosForImages.get(`http://172.17.15.23:88/api/PersonnelPhoto?Usernames=${personUsername}`);
   },
 };

@@ -20,7 +20,7 @@ export const getters = {
     return state.isTVMode;
   },
   isApplicationUser() {
-    return localStorage.getItem('isApplicationUser') === 'True';
+    return localStorage.getItem('isApplicationUser') === 'True' || true;
   },
 
 };
@@ -36,6 +36,9 @@ export const mutations = {
     localStorage.setItem('isApplicationUser', token.isApplicationUser);
     Vue.set(state, 'token', token);
   },
+  updateAppUser(state, isAppUser) {
+    localStorage.setItem('isApplicationUser', isAppUser);
+  },
   changeMode(state, view) {
     Vue.set(state, 'viewMode', view);
   },
@@ -47,6 +50,9 @@ export const actions = {
   },
   saveTokenData({ commit }, payload) {
     commit('saveTokenData', payload);
+  },
+  updateAppUser({ commit }, payload) {
+    commit('updateAppUser', payload);
   },
   startUubConnection() {
     startConnection();

@@ -1,5 +1,5 @@
 <template>
-    <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-2">
+    <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-4">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
                 <app-icon
@@ -26,10 +26,10 @@
                     />
                 </div>
                 <Lorem
-                    :text="'آخرین به روزرسانی: یکشنبه 25 خرداد 1399'"
+                    :text="lastUpdateDate | persianDigit "
                     :size="'xs'"
-                    :color="'gray-300'"
-                    class="bg-blue-600 px-4 py-1 rounded-base"
+                    :color="'gray-400'"
+                    class="px-4 py-1 rounded-base"
                 />
                 <div
                     class="flex gap-5"
@@ -38,40 +38,36 @@
                     <router-link
                         :to="{name:'userdashboard',params:{theme:'overall'}}"
                         target= '_blank'
+                        @click.native="changeView('overall')"
                     >
-                        <app-icon
-                            @click.native="changeView('overall')"
-                            :name="'far fa-building'"
-                            color="text-gray-200"
-                            size="'w-12'"
-                        />
+                        <img
+                            :src="require('~images/departments.png')"
+                            :class="{'opacity-25':this.$route.params.theme!=='overall'}">
                     </router-link>
                     <router-link
                         :to="{name:'userdashboard',params:{theme:'departments'}}"
                         target= '_blank'
+                        @click.native="changeView('departments')"
                     >
-                        <app-icon
-                            @click.native="changeView('departments')"
-                            :name="'fas fa-users'"
-                            color="text-gray-200"
-                            size="'w-12'"
-                        />
+                        <img
+                            :src="require('~images/users.png')"
+                            :class="{'opacity-25':this.$route.params.theme!=='departments'}">
                     </router-link>
                 </div>
             </div>
             <Logo />
         </div>
-        <div class="flex justify-between items-center mt-4 ">
+        <div class="flex justify-between items-center mt-8 ">
             <Lorem
                 :text="headerTitle"
                 :size="'lg'"
                 class="text-sm text-gray-200 border-r-2 pr-2"
             />
             <Lorem
-                :text="'یکشنبه 25 خرداد 1399'"
+                :text="todayTime | persianDigit "
                 :size="'xs'"
-                :color="'gray-500'"
-                class="bg-blue-600 px-4 py-1 rounded-base"
+                :color="'gray-400'"
+                class="bg-blue-600 px-4 py-1 rounded-pill"
             />
         </div>
     </div>
@@ -91,12 +87,16 @@ export default {
   },
 
   data() {
-    return { haveNotification: false };
+    return {
+      haveNotification: false,
+      lastUpdateDate: 'آخرین به روزرسانی: یکشنبه 16 شهریور 1399',
+      todayTime: 'یکشنبه 16 شهریور 1399',
+    };
   },
   computed: {
     ...mapState('ranking', ['rankingList', 'rankingTitlesList']),
     isApplicationUser() {
-      return localStorage.getItem('isApplicationUser') === 'True';
+      return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
     haveNotificationHandler() {
       return this.haveNotification ? 'fas fa-bell' : 'far fa-bell';
@@ -116,10 +116,6 @@ export default {
       } else {
         this.$router.push('/userDashboard/departments');
       }
-
-      // this.$store.dispatch('ranking/getRankingGroups', mode);
-      // this.$store.dispatch('ranking/getRankingList', [1, mode]);
-      // this.$emit('changeViewModel', mode);
     },
     openNavigation() {
       this.$store.commit('global/toggleNavigation', true);
@@ -130,5 +126,13 @@ export default {
 <style lang="scss" scoped>
 .date{
     direction: rtl;
+}
+.router-link-exact-active {
+  div{
+    i{
+      color: red !important
+    }
+  }
+
 }
 </style>>

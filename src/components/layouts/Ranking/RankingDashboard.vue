@@ -1,8 +1,7 @@
 <template>
-    <div class="m-8">
+    <div class="mx-12 my-8">
         <Headline
             @toggle="toggleNavigation($event)"
-            @click.native="fetchPage()"
         />
         <div
             :class="{
@@ -10,16 +9,14 @@
                 'rankingListTV':isApplicationUser
             }"
         >
-            <keep-alive>
-                <Ranking
-                    v-for="(item,index) in rankingListGetter"
-                    :key="index"
-                    :title="item.title"
-                    :featured="item.topRankPersonsViewModel"
-                    :list="item.lowerRankPersonsViewModel"
-                    :look="'MEDREP'"
-                />
-            </keep-alive>
+            <Ranking
+                v-for="(item,index) in rankingListGetter"
+                :key="index"
+                :title="item.title"
+                :featured="item.topRankPersonsViewModel"
+                :list="item.lowerRankPersonsViewModel"
+                :look="'MEDREP'"
+            />
         </div>
     </div>
 </template>
@@ -64,9 +61,9 @@ export default {
       rankingListGetter: 'ranking/rankingList',
       loadingState: 'ranking/getLoadingState',
     }),
-    ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
+    ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
     isApplicationUser() {
-      return localStorage.getItem('isApplicationUser') === 'True';
+      return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
   },
   watch: {
@@ -91,9 +88,8 @@ export default {
     scrollTo(top) {
       window.scrollTo(0, top);
     },
-
     startScrolling({
-      after = 5000,
+      after = 10000,
       speed = 1,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
@@ -108,7 +104,7 @@ export default {
             this.stopScrolling();
             atTheEndWithoudScroll.bind(this)();
           }
-        }, speed);
+        }, 20);
       }, after);
     },
     stopScrolling() {

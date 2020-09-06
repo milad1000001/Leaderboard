@@ -8,14 +8,23 @@ const appAxios = axios.create({
   baseURL: `${process.env.VUE_APP_BASE_URL}`,
 });
 
+export const appAxiosForImages = axios.create({
+  header: {
+    Authorization: localStorage.getItem('token') || null,
+  },
+  baseURL: `${process.env.VUE_APP_BASE_URL}`,
+});
+
 export default appAxios;
 export const setAuthHeader = (token) => {
   appAxios.defaults.headers.common.Authorization = `Bearer ${token}`;
+  appAxiosForImages.defaults.headers.common.Authorization = `Bearer ${token}`;
   localStorage.setItem('token', token);
 };
 
 export const removeAuthHeader = () => {
   appAxios.defaults.headers.common.Authorization = null;
+  appAxiosForImages.defaults.headers.common.Authorization = null;
   localStorage.clear();
 };
 
@@ -28,7 +37,9 @@ appAxios.interceptors.request.use(
 
 appAxios.interceptors.response.use(
   (response) => {
-    store.commit('ranking/CHANGE_LOADING_STATE', false);
+    setTimeout(() => {
+      store.commit('ranking/CHANGE_LOADING_STATE', false);
+    }, 2000);
     return response;
   },
 );
