@@ -4,7 +4,7 @@
         :class="[
             mode === 'toprank'
                 ? 'rounded-base ' + look
-                : 'ranklist justify-between '
+                : 'ranklist h-20 justify-between '
         ]"
     >
         <div
@@ -19,7 +19,7 @@
         </div>
         <div
             :class="['text-gray-200',{
-                'w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-full':mode === 'toprank',
+                'flex justify-center items-center w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-1/3':mode === 'toprank',
                 ' text-lg order-2 self-center':mode === 'ranklist'
             }]"
         >
@@ -29,8 +29,8 @@
         </div>
         <div
             :class="{
-                'w-full text-center xxl:w-2/3 xxl:text-right xl:w-2/3 xl:text-right':mode === 'toprank',
-                'flex flex-col listLorem w-5 text-right  order-4 items-start':mode === 'ranklist'
+                'flex justify-center flex-col w-full text-center xxl:w-2/3 xxl:text-right xl:w-2/3 xl:text-right md:w-2/3 md:items-start':mode === 'toprank',
+                'flex flex-col listLorem w-5 text-right  order-4 items-start justify-center':mode === 'ranklist'
             }"
         >
             <app-lorem
@@ -39,7 +39,9 @@
                 :color="'gray-200'"
             />
             <div
-                :class="{'flex gap-2':mode ==='ranklist'}"
+                :class="{
+                    'flex gap-2':mode ==='ranklist'
+                }"
             >
                 <app-lorem
                     :class="{'':mode ==='ranklist'}"
@@ -132,5 +134,8 @@ export default {
 <style lang="scss" scoped>
 .listLorem{
   width:50%
+}
+.sticky{
+
 }
 </style>

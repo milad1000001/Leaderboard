@@ -2,10 +2,11 @@
     <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-4">
         <div class="flex justify-between">
             <div class="flex gap-4 items-center">
-                <app-icon
-                    :name="'fas fa-sign-out-alt'"
-                    color="text-gray-200"
-                    size="'w-12'"
+                <SVGIcon
+                    :color="'#9aa6b4'"
+                    :SVGName="'Power'"
+                    :width="'24'"
+                    :height="'24'"
                     @click.native="logOUt()"
                 />
                 <div
@@ -40,18 +41,26 @@
                         target= '_blank'
                         @click.native="changeView('overall')"
                     >
-                        <img
-                            :src="require('~images/departments.png')"
-                            :class="{'opacity-25':this.$route.params.theme!=='overall'}">
+                        <SVGIcon
+                            :color="'#9aa6b4'"
+                            :class="{'opacity-25':this.$route.params.theme!=='overall'}"
+                            :SVGName="'Company'"
+                            :width="'24'"
+                            :height="'24'"
+                        />
                     </router-link>
                     <router-link
                         :to="{name:'userdashboard',params:{theme:'departments'}}"
                         target= '_blank'
                         @click.native="changeView('departments')"
                     >
-                        <img
-                            :src="require('~images/users.png')"
-                            :class="{'opacity-25':this.$route.params.theme!=='departments'}">
+                        <SVGIcon
+                            :color="'#9aa6b4'"
+                            :class="{'opacity-25':this.$route.params.theme!=='departments'}"
+                            :SVGName="'Users'"
+                            :width="'24'"
+                            :height="'24'"
+                        />
                     </router-link>
                 </div>
             </div>
@@ -77,6 +86,7 @@ import { mapState } from 'vuex';
 import Icon from '~atoms/Icon/index.vue';
 import Lorem from '~atoms/Lorem/index.vue';
 import Logo from '~molecules/Headline/Logo/index.vue';
+import SVGIcon from '~atoms/BaseSVG/BaseSVG.vue';
 
 export default {
   name: 'Headline',
@@ -84,6 +94,7 @@ export default {
     'app-icon': Icon,
     Lorem,
     Logo,
+    SVGIcon,
   },
 
   data() {
@@ -127,12 +138,4 @@ export default {
 .date{
     direction: rtl;
 }
-.router-link-exact-active {
-  div{
-    i{
-      color: red !important
-    }
-  }
-
-}
-</style>>
+</style>

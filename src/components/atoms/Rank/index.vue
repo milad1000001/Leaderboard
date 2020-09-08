@@ -1,9 +1,7 @@
 <template>
-    <div>
-        <span>
-            {{ rankNumber | toPersianNumber }}
-        </span>
-    </div>
+    <span>
+        {{ rankNumber | toPersianNumber }}
+    </span>
 </template>
 
 <script>

@@ -5,6 +5,7 @@
             :width="width"
             :height="height"
             :color="color"
+            :class="classPlus"
         />
     </div>
 </template>
@@ -31,6 +32,10 @@ export default {
       type: String,
       required: false,
       default: 'white',
+    },
+    classPlus: {
+      type: String,
+      required: false,
     },
   },
 };

@@ -3,7 +3,7 @@
         <span
             :class="`text-${color} text-${size}`"
         >
-            {{ text | VuePersianDigit }}
+            {{ text }}
 
         </span>
     </div>

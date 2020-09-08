@@ -1,6 +1,6 @@
 <template>
     <div
-        class="RankingFeatured align-center gap-2"
+        class="RankingFeatured align-center gap-2 sticky bg-blue-800"
     >
         <app-ranking-item
             v-for="(item,index) in featured"

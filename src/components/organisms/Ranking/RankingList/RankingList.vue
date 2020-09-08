@@ -3,18 +3,36 @@
         class="defualtClass rounded-base"
         :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
     >
-        <app-ranking-item
-            v-for="(item,index) in list"
-            class="rankingListItem"
-            :key="index"
-            :item="item"
-            :mode="'ranklist'"
-            :look="look"
-        />
+        <hooper
+            class="hooper"
+            :progress="true"
+            :autoPlay="true"
+            :playSpeed="5000"
+            :centerMode="true"
+            :mouseDrag="false"
+            :transition="1000">
+            <Slide>
+                <app-ranking-item
+                    v-for="(item,index) in list"
+                    class="rankingListItem"
+                    :key="index"
+                    :item="item"
+                    :mode="'ranklist'"
+                    :look="look"
+                />
+            </Slide>
+            <Slide>
+                slide 2
+            </Slide>
+            <hooper-pagination slot="hooper-addons"></hooper-pagination>
+        </hooper>
     </div>
 </template>
 
 <script>
+/* eslint-disable no-constant-condition */
+import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
+import 'hooper/dist/hooper.css';
 import { mapState, mapGetters } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
@@ -22,6 +40,9 @@ export default {
   name: 'RankingList',
   components: {
     'app-ranking-item': RankingItem,
+    Hooper,
+    Slide,
+    HooperPagination,
   },
   data() {
     return {
@@ -83,6 +104,10 @@ export default {
     isScrollReachBottomOfPage() {
       return !!(window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100);
     },
+    dividedList() {
+      console.log();
+      return 0;
+    },
   },
 };
 </script>
@@ -126,5 +151,8 @@ export default {
   &:nth-child(even){
     background-color: theme('colors.gray.800');
   }
+}
+.hooper{
+  height: max-content;
 }
 </style>

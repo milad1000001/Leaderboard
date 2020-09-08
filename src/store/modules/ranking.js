@@ -28,13 +28,8 @@ export const mutations = {
   SET_DEPARTMENTS_LIST: (state, list) => Vue.set(state, 'departmentsList', list),
   SAVE_PERSONS_PHOTOS: (state, personPhoto) => Vue.set(state, 'personPhoto', personPhoto),
   SET_RANKING_GROUP: (state, list) => Vue.set(state, 'rankingGroup', list),
-  SET_RANKING_LIST: (state, data) => {
-    console.log(data);
-    Vue.set(state, 'rankingList', data);
-  },
-  SET_RANKING_TITLE: (state, data) => {
-    Vue.set(state, 'rankingTitlesList', data);
-  },
+  SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingList', data),
+  SET_RANKING_TITLE: (state, data) => Vue.set(state, 'rankingTitlesList', data),
   SET_IS_OVERALL: (state, data) => Vue.set(state, 'isOverall', data),
 };
 

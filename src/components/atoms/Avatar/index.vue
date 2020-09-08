@@ -56,16 +56,16 @@ export default {
 <style lang="scss" scoped>
 .top{
   img{
-    width: theme('spacing.24');
-    height: theme('spacing.24');
+    width: theme('spacing.27');
+    height: theme('spacing.27');
     object-fit:cover;
     margin: 0 auto;
   }
 }
 .list{
   img{
-    width: theme('spacing.12');
-    height: theme('spacing.12');
+    width: theme('spacing.15');
+    height: theme('spacing.15');
     object-fit:cover;
     margin: 0 auto;
   }

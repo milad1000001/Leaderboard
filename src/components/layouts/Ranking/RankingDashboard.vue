@@ -89,7 +89,7 @@ export default {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 10000,
+      after = 20000000,
       speed = 1,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
