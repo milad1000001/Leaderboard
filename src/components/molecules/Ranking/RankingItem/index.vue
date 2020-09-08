@@ -135,7 +135,4 @@ export default {
 .listLorem{
   width:50%
 }
-.sticky{
-
-}
 </style>
