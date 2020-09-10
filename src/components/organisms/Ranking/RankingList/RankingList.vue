@@ -3,36 +3,38 @@
         class="defualtClass rounded-base"
         :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
     >
-        <hooper
-            class="hooper"
-            :progress="true"
-            :autoPlay="true"
-            :playSpeed="5000"
-            :centerMode="true"
-            :mouseDrag="false"
-            :transition="1000">
-            <Slide>
+        <carousel
+            :per-page="1"
+            @page-change="dividedList"
+            :adjustableHeight="true"
+            :autoplay="isAutoplay"
+            :autoplayTimeout="10000"
+            :loop="true"
+            :paginationActiveColor="'#bbbbbb98'"
+            :paginationColor="'#1F2A41'"
+            :paginationSize="10">
+            <slide
+                v-for="(slide,index) in numberOfSlider"
+                :key="index">
                 <app-ranking-item
-                    v-for="(item,index) in list"
+                    v-for="(item,index) in devidedListGenerated"
                     class="rankingListItem"
                     :key="index"
                     :item="item"
                     :mode="'ranklist'"
                     :look="look"
                 />
-            </Slide>
-            <Slide>
-                slide 2
-            </Slide>
-            <hooper-pagination slot="hooper-addons"></hooper-pagination>
-        </hooper>
+            </slide>
+        </carousel>
     </div>
+
 </template>
 
 <script>
 /* eslint-disable no-constant-condition */
-import { Hooper, Slide, Pagination as HooperPagination } from 'hooper';
-import 'hooper/dist/hooper.css';
+/* eslint-disable no-unused-vars */
+/* eslint-disable vue/no-side-effects-in-computed-properties */
+
 import { mapState, mapGetters } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
@@ -40,33 +42,14 @@ export default {
   name: 'RankingList',
   components: {
     'app-ranking-item': RankingItem,
-    Hooper,
-    Slide,
-    HooperPagination,
   },
   data() {
     return {
-      rankingArrayLength: 0,
-      rankingArrayIterator: -1,
-      scrollInterval: '',
-      scrollTimeout: '',
-      scrollConfiguration: {
-        cursorPosition: {
-          currentPosition: '',
-          topInterval: 0,
-        },
-        pageScale: {
-
-        },
-        timing: {
-
-        },
-        isValid: {
-          isEligibleUserForAutomateScroll: this.isEligibleUserForAutomateScroll,
-          isPageScrollable: this.isPageScrollable,
-          isTimingValidate: this.isTimingValidate,
-        },
-      },
+      currentSlicer: 0,
+      slideTo: 0,
+      devidedListGenerated: [],
+      recordPerSlide: 5,
+      isAutoplay: true,
     };
   },
   props: {
@@ -76,7 +59,7 @@ export default {
     },
     look: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   computed: {
@@ -92,22 +75,29 @@ export default {
       }
       return false;
     },
-    isEligibleUserForAutomateScroll() {
-      return this.isApplicationUser;
+    numberOfSlider() {
+      const listLength = this.list.length;
+      const slideNumber = Math.ceil(listLength / this.recordPerSlide);
+      return slideNumber;
     },
-    isPageScrollable() {
-      return 0;
-    },
-    isTimingValidate() {
-      return 0;
-    },
-    isScrollReachBottomOfPage() {
-      return !!(window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100);
-    },
+  },
+  methods: {
     dividedList() {
-      console.log();
-      return 0;
+      if (this.currentSlicer > this.list.length) {
+        this.slideTo = 0;
+        this.currentSlicer = 0;
+        this.devidedListGenerated = [];
+        this.$emit('sliderReachEnd', true);
+        this.isAutoplay = false;
+      }
+      this.slideTo = this.currentSlicer;
+      this.slideTo += this.recordPerSlide;
+      this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
+      this.currentSlicer = this.slideTo;
     },
+  },
+  created() {
+    this.dividedList();
   },
 };
 </script>
@@ -144,7 +134,8 @@ export default {
     }
 }
 .defualtClass{
-    background-color: theme('colors.blue.600');
+  direction: ltr;
+  background-color: theme('colors.blue.600');
 }
 .rankingListItem{
   scroll-behavior: smooth;
@@ -152,7 +143,5 @@ export default {
     background-color: theme('colors.gray.800');
   }
 }
-.hooper{
-  height: max-content;
-}
+
 </style>

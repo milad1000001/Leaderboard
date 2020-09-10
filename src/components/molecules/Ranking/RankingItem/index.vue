@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-wrap py-2 px-4 align-middle"
+        class="rankingItem flex flex-wrap py-2 px-4 align-middle"
         :class="[
             mode === 'toprank'
                 ? 'rounded-base ' + look
@@ -132,6 +132,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.rankingItem{
+    direction: rtl;
+}
 .listLorem{
   width:50%
 }

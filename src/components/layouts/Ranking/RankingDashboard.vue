@@ -1,23 +1,36 @@
 <template>
     <div class="mx-12 my-8">
-        <Headline
-            @toggle="toggleNavigation($event)"
-        />
-        <div
-            :class="{
-                'rankingList':!isApplicationUser,
-                'rankingListTV':isApplicationUser
-            }"
-        >
-            <Ranking
-                v-for="(item,index) in rankingListGetter"
-                :key="index"
-                :title="item.title"
-                :featured="item.topRankPersonsViewModel"
-                :list="item.lowerRankPersonsViewModel"
-                :look="'MEDREP'"
-            />
-        </div>
+        <Headline/>
+        <carousel
+            :per-page="1"
+            :adjustableHeight="true"
+            :autoplay="isAutoplay"
+            :autoplayTimeout="10000"
+            :loop="true"
+            :paginationActiveColor="'#bbbbbb98'"
+            :paginationColor="'#1F2A41'"
+            :paginationSize="10">
+            <slide
+                v-for="(slide,index) in getrankingListGetterlength()"
+                :key="index">
+                <div
+                    :class="{
+                        'rankingList':!isApplicationUser,
+                        'rankingListTV':isApplicationUser
+                    }"
+                >
+                    <Ranking
+                        @sliderReachEnd="sliderEnd($event)"
+                        v-for="(item,index) in getrankingListGetter"
+                        :key="index"
+                        :title="item.title"
+                        :featured="item.topRankPersonsViewModel"
+                        :list="item.lowerRankPersonsViewModel"
+                        :look="'MEDREP'"
+                    />
+                </div>
+            </slide>
+        </carousel>
     </div>
 </template>
 
@@ -31,6 +44,7 @@ export default {
 
   data() {
     return {
+      isAutoplay: false,
       isNotScrolabble: false,
       rankingArrayLength: 0,
       rankingArrayIterator: -1,
@@ -65,6 +79,9 @@ export default {
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
+    getrankingListGetter({ start, end }) {
+      return this.rankingListGetter.slice(0, 1);
+    },
   },
   watch: {
     scrollingInterval(value, oldValue) {
@@ -79,6 +96,12 @@ export default {
     },
   },
   methods: {
+    getrankingListGetterlength() {
+      return this.rankingListGetter.length;
+    },
+    sliderEnd(e) {
+      this.isAutoplay = true;
+    },
     pageReachedTheEnd() {
       return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;
     },
@@ -117,7 +140,8 @@ export default {
     },
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
-        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+        // this.rankingGroup[this.currentPage].id
+        await this.$store.dispatch('ranking/getRankingList', [8, this.$route.params.theme]);
         if (!this.rankingList.header.hasData) {
           gotNoData.bind(this)();
         }
@@ -168,6 +192,7 @@ export default {
         });
       });
     });
+    this.getrankingListGetterlength();
   },
 };
 </script>

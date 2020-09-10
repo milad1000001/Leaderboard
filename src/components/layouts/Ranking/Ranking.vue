@@ -9,6 +9,7 @@
             :look="look"
         />
         <rank-list
+            @sliderReachEnd="sliderEnd($event)"
             :list="list"
             :look="look"
         />
@@ -46,6 +47,11 @@ export default {
     'rank-list': RankingList,
     'rank-title': RankingTitle,
     'rank-featured': RankingFeatured,
+  },
+  methods: {
+    sliderEnd(e) {
+      this.$emit('sliderReachEnd', e);
+    },
   },
 };
 </script>
