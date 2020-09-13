@@ -10,6 +10,8 @@ export const state = {
   isTVMode: false,
   token: [],
   viewMode: 'overall',
+  toggleChildAutoPlay: false,
+  toggleParentAutoPlay: false,
 };
 
 export const getters = {
@@ -22,12 +24,17 @@ export const getters = {
   isApplicationUser() {
     return localStorage.getItem('isApplicationUser') === 'True' || true;
   },
-
 };
 
 export const mutations = {
   toggleNavigation(state, value) {
     Vue.set(state, 'navigationToggle', value);
+  },
+  toggleChildAutoPlay(state, toggleValue) {
+    Vue.set(state, 'toggleChildAutoPlay', toggleValue);
+  },
+  toggleParentAutoPlay(state, toggleValue) {
+    Vue.set(state, 'toggleParentAutoPlay', toggleValue);
   },
   changeToTVMode(state, value) {
     Vue.set(state, 'isTVMode', value);

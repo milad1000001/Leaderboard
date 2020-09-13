@@ -4,15 +4,16 @@
         :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
     >
         <carousel
+            v-if="this.$route.params.theme === 'overall'"
             :per-page="1"
             @page-change="dividedList"
             :adjustableHeight="true"
-            :autoplay="isAutoplay"
-            :autoplayTimeout="10000"
+            :autoplay="toggleChildAutoPlay"
+            :autoplayTimeout="5000"
             :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
-            :paginationSize="10">
+            :paginationSize="5">
             <slide
                 v-for="(slide,index) in numberOfSlider"
                 :key="index">
@@ -26,8 +27,18 @@
                 />
             </slide>
         </carousel>
+        <div
+            v-if="this.$route.params.theme === 'departments'">
+            <app-ranking-item
+                v-for="(item,index) in list"
+                class="rankingListItem"
+                :key="index"
+                :item="item"
+                :mode="'ranklist'"
+                :look="look"
+            />
+        </div>
     </div>
-
 </template>
 
 <script>
@@ -48,8 +59,7 @@ export default {
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: [],
-      recordPerSlide: 5,
-      isAutoplay: true,
+      recordPerSlide: 15,
     };
   },
   props: {
@@ -63,11 +73,9 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(
-      { loadingState: 'ranking/getLoadingState' },
-    ),
+    ...mapGetters({ loadingState: 'ranking/getLoadingState' }),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
-    ...mapState('global', ['viewMode']),
+    ...mapState('global', ['viewMode', 'toggleChildAutoPlay', 'toggleParentAutoPlay']),
 
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True' || true) {
@@ -87,7 +95,7 @@ export default {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
-        this.$emit('sliderReachEnd', true);
+        this.$store.commit('global/toggleChildAutoPlay', false);
         this.isAutoplay = false;
       }
       this.slideTo = this.currentSlicer;
@@ -98,6 +106,7 @@ export default {
   },
   created() {
     this.dividedList();
+    this.$store.commit('global/toggleChildAutoPlay', true);
   },
 };
 </script>

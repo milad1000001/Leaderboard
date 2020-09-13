@@ -38,7 +38,7 @@ export const actions = {
     return api.getRankingList(payload)
       .then((response) => {
         commit('SET_RANKING_LIST', response.data);
-        commit('SET_RANKING_TITLE', response.data.header.headerTitle);
+        commit('SET_RANKING_TITLE', response.data.header);
       });
   },
   async getRankingGroups({ commit }, payload) {

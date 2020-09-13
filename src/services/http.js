@@ -37,9 +37,13 @@ appAxios.interceptors.request.use(
 
 appAxios.interceptors.response.use(
   (response) => {
-    setTimeout(() => {
-      store.commit('ranking/CHANGE_LOADING_STATE', false);
-    }, 2000);
+    if (response.status === 204) {
+      store.commit('ranking/CHANGE_LOADING_STATE', true);
+    } else {
+      setTimeout(() => {
+        store.commit('ranking/CHANGE_LOADING_STATE', false);
+      }, 2000);
+    }
     return response;
   },
 );

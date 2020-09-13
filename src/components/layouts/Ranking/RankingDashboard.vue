@@ -1,36 +1,64 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
-        <carousel
-            :per-page="1"
-            :adjustableHeight="true"
-            :autoplay="isAutoplay"
-            :autoplayTimeout="10000"
-            :loop="true"
-            :paginationActiveColor="'#bbbbbb98'"
-            :paginationColor="'#1F2A41'"
-            :paginationSize="10">
-            <slide
-                v-for="(slide,index) in getrankingListGetterlength()"
-                :key="index">
-                <div
-                    :class="{
-                        'rankingList':!isApplicationUser,
-                        'rankingListTV':isApplicationUser
-                    }"
-                >
-                    <Ranking
-                        @sliderReachEnd="sliderEnd($event)"
+        <div
+            :class="{
+                'rankingList':!isApplicationUser,
+                'rankingListTV':isApplicationUser
+            }"
+        >
+            <carousel
+                v-if="this.$route.params.theme === 'overall'"
+                :per-page="1"
+                :adjustableHeight="true"
+                :autoplay="false"
+                :autoplayTimeout="2000"
+                :loop="false"
+                :paginationActiveColor="'#bbbbbb98'"
+                :paginationColor="'#1F2A41'"
+                :paginationSize="5"
+                :paginationPadding="20"
+                :navigateTo="sliderNavigation"
+                @page-change="updatePageination">
+                <slide
+                    v-for="(slide,index) in numberOfSlider"
+                    :key="index">
+                    <div
                         v-for="(item,index) in getrankingListGetter"
                         :key="index"
-                        :title="item.title"
-                        :featured="item.topRankPersonsViewModel"
-                        :list="item.lowerRankPersonsViewModel"
-                        :look="'MEDREP'"
-                    />
-                </div>
-            </slide>
-        </carousel>
+                    >
+                        <Ranking
+                            @sliderReachEnd="sliderEnd($event)"
+                            :title="item.title"
+                            :featured="item.topRankPersonsViewModel"
+                            :list="item.lowerRankPersonsViewModel"
+                            :look="'MEDREP'"
+                        />
+                    </div>
+                </slide>
+            </carousel>
+            <div
+                v-if="this.$route.params.theme === 'departments'"
+            >
+                <Ranking
+                    v-for="(item,index) in rankingListGetter"
+                    :key="index"
+                    @sliderReachEnd="sliderEnd($event)"
+                    :title="item.title"
+                    :featured="item.topRankPersonsViewModel"
+                    :list="item.lowerRankPersonsViewModel"
+                    :look="'MEDREP'"
+                />
+            </div>
+            <!-- <Ranking
+                v-for="(item,index) in rankingListGetter"
+                :key="index"
+                :title="item.title"
+                :featured="item.topRankPersonsViewModel"
+                :list="item.lowerRankPersonsViewModel"
+                :look="'MEDREP'"
+            /> -->
+        </div>
     </div>
 </template>
 
@@ -41,10 +69,10 @@ import Ranking from '~layouts/Ranking/Ranking.vue';
 
 export default {
   name: 'RankingDashboard',
-
   data() {
     return {
       isAutoplay: false,
+      sliderNavigation: 0,
       isNotScrolabble: false,
       rankingArrayLength: 0,
       rankingArrayIterator: -1,
@@ -75,12 +103,24 @@ export default {
       rankingListGetter: 'ranking/rankingList',
       loadingState: 'ranking/getLoadingState',
     }),
+    ...mapState('global', ['toggleChildAutoPlay', 'toggleParentAutoPlay']),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
-    getrankingListGetter({ start, end }) {
-      return this.rankingListGetter.slice(0, 1);
+    getrankingListGetter() {
+      if (this.rankingListGetter) {
+        if (this.$route.params.theme === 'overall') {
+          if (this.sliderNavigation === 0) return this.rankingListGetter.slice(0, 1);
+          if (this.sliderNavigation === 1) return this.rankingListGetter.slice(1, 2);
+          if (this.sliderNavigation === 2) return this.rankingListGetter.slice(2, 3);
+        }
+        return this.rankingListGetter;
+      }
+      return '';
+    },
+    numberOfSlider() {
+      return 3;
     },
   },
   watch: {
@@ -94,13 +134,24 @@ export default {
         clearTimeout(oldValue);
       }
     },
+    toggleChildAutoPlay() {
+      this.sliderEnd();
+    },
   },
   methods: {
+    updatePageination(pn) {
+      this.sliderNavigation = pn;
+      this.$store.commit('global/toggleChildAutoPlay', true);
+    },
     getrankingListGetterlength() {
       return this.rankingListGetter.length;
     },
     sliderEnd(e) {
-      this.isAutoplay = true;
+      if (this.sliderNavigation <= 2) {
+        this.sliderNavigation += 1;
+      } else {
+        this.sliderNavigation = 0;
+      }
     },
     pageReachedTheEnd() {
       return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;
@@ -112,7 +163,7 @@ export default {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 20000000,
+      after = 5000,
       speed = 1,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
@@ -140,16 +191,14 @@ export default {
     },
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
-        // this.rankingGroup[this.currentPage].id
-        await this.$store.dispatch('ranking/getRankingList', [8, this.$route.params.theme]);
-        if (!this.rankingList.header.hasData) {
+        await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+        if (!this.rankingList) {
           gotNoData.bind(this)();
         }
       } else {
         onLastPage.bind(this)();
       }
     },
-
     async startPagePresentation() {
       this.scrollTo(0);
       await this.fetchPage({
@@ -178,21 +227,25 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);
-    await this.startPagePresentation();
-    ['wheel', 'click'].forEach((eventType) => {
-      document.addEventListener(eventType, () => {
-        this.stopScrolling();
-        this.startScrolling({
-          atTheEnd() {
-            setTimeout(() => {
-              this.currentPage += 1;
-              this.startPagePresentation();
-            }, 5000);
-          },
+    if (this.$route.params.theme === 'departments') {
+      await this.startPagePresentation();
+      ['wheel', 'click'].forEach((eventType) => {
+        document.addEventListener(eventType, () => {
+          this.stopScrolling();
+          this.startScrolling({
+            atTheEnd() {
+              setTimeout(() => {
+                this.currentPage += 1;
+                this.startPagePresentation();
+              }, 5000);
+            },
+          });
         });
       });
-    });
-    this.getrankingListGetterlength();
+    } else {
+      await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+      this.getrankingListGetterlength();
+    }
   },
 };
 </script>

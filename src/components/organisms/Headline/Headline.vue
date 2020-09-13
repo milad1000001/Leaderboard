@@ -113,7 +113,7 @@ export default {
       return this.haveNotification ? 'fas fa-bell' : 'far fa-bell';
     },
     headerTitle() {
-      return this.rankingTitlesList ? this.rankingTitlesList : '';
+      return this.rankingTitlesList ? this.rankingTitlesList.headerTitle : '';
     },
   },
   methods: {
