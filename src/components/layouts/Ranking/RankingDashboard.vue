@@ -1,6 +1,7 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
+        <button @click="navi()">asd</button>
         <div
             :class="{
                 'rankingList':!isApplicationUser,
@@ -12,13 +13,12 @@
                 :per-page="1"
                 :adjustableHeight="true"
                 :autoplay="false"
-                :autoplayTimeout="2000"
-                :loop="false"
+                :loop="true"
                 :paginationActiveColor="'#bbbbbb98'"
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
                 :paginationPadding="20"
-                :navigateTo="sliderNavigation"
+                :navigate-to="sliderNavigation"
                 @page-change="updatePageination">
                 <slide
                     v-for="(slide,index) in numberOfSlider"
@@ -28,7 +28,7 @@
                         :key="index"
                     >
                         <Ranking
-                            @sliderReachEnd="sliderEnd($event)"
+                            @goToNextSlide="this.navi()"
                             :title="item.title"
                             :featured="item.topRankPersonsViewModel"
                             :list="item.lowerRankPersonsViewModel"
@@ -43,7 +43,6 @@
                 <Ranking
                     v-for="(item,index) in rankingListGetter"
                     :key="index"
-                    @sliderReachEnd="sliderEnd($event)"
                     :title="item.title"
                     :featured="item.topRankPersonsViewModel"
                     :list="item.lowerRankPersonsViewModel"
@@ -71,8 +70,9 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
+      sliderNavigationConstructor: 0,
       isAutoplay: false,
-      sliderNavigation: 0,
+      sliderNavigation: [0, false],
       isNotScrolabble: false,
       rankingArrayLength: 0,
       rankingArrayIterator: -1,
@@ -103,20 +103,27 @@ export default {
       rankingListGetter: 'ranking/rankingList',
       loadingState: 'ranking/getLoadingState',
     }),
-    ...mapState('global', ['toggleChildAutoPlay', 'toggleParentAutoPlay']),
+    ...mapState('global', ['toggleChildAutoPlay', 'ParentSliderChanged']),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
     getrankingListGetter() {
-      if (this.rankingListGetter) {
+      if (this.rankingList.rankingGroupViewModels) {
         if (this.$route.params.theme === 'overall') {
-          if (this.sliderNavigation === 0) return this.rankingListGetter.slice(0, 1);
-          if (this.sliderNavigation === 1) return this.rankingListGetter.slice(1, 2);
-          if (this.sliderNavigation === 2) return this.rankingListGetter.slice(2, 3);
+          if (this.sliderNavigation[0] === 2) return this.rankingList.rankingGroupViewModels.slice(2, 3);
+          if (this.sliderNavigation[0] === 0) return this.rankingList.rankingGroupViewModels.slice(0, 1);
+          if (this.sliderNavigation[0] === 1) return this.rankingList.rankingGroupViewModels.slice(1, 2);
         }
-        return this.rankingListGetter;
       }
+      // if (this.rankingListGetter) {
+      //   if (this.$route.params.theme === 'overall') {
+      //     if (this.sliderNavigation === 0) return this.rankingListGetter.slice(0, 1);
+      //     if (this.sliderNavigation === 1) return this.rankingListGetter.slice(1, 2);
+      //     if (this.sliderNavigation === 2) return this.rankingListGetter.slice(2, 3);
+      //   }
+      //   return this.rankingListGetter;
+      // }
       return '';
     },
     numberOfSlider() {
@@ -134,23 +141,37 @@ export default {
         clearTimeout(oldValue);
       }
     },
-    toggleChildAutoPlay() {
-      this.sliderEnd();
-    },
   },
   methods: {
+    navi() {
+      if (this.sliderNavigation[0] < 2) {
+        this.sliderNavigationConstructor += 1;
+        this.sliderNavigation = [this.sliderNavigationConstructor, true];
+        console.log(this.sliderNavigation);
+        this.$store.commit('global/toggleChildAutoPlay', true);
+      } else {
+        console.log(this.sliderNavigation[0] < 2, this.sliderNavigation);
+        this.sliderNavigationConstructor = 0;
+        this.sliderNavigation = [0, true];
+      }
+    },
     updatePageination(pn) {
-      this.sliderNavigation = pn;
-      this.$store.commit('global/toggleChildAutoPlay', true);
+      this.sliderNavigation[0] = pn;
+      this.$store.commit('global/ParentSliderChanged', pn);
+      // this.$store.commit('global/toggleChildAutoPlay', true);
     },
     getrankingListGetterlength() {
       return this.rankingListGetter.length;
     },
     sliderEnd(e) {
-      if (this.sliderNavigation <= 2) {
-        this.sliderNavigation += 1;
+      if (this.sliderNavigation[0] < 2) {
+        this.sliderNavigationConstructor += 1;
+        this.sliderNavigation = [this.sliderNavigationConstructor, true];
+        console.log(this.sliderNavigation);
+        this.$store.commit('global/toggleChildAutoPlay', true);
       } else {
-        this.sliderNavigation = 0;
+        console.log(this.sliderNavigation[0] < 2, this.sliderNavigation);
+        this.sliderNavigation = [0, true];
       }
     },
     pageReachedTheEnd() {

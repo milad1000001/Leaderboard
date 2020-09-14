@@ -9,11 +9,12 @@
             @page-change="dividedList"
             :adjustableHeight="true"
             :autoplay="toggleChildAutoPlay"
-            :autoplayTimeout="5000"
-            :loop="true"
+            :autoplayTimeout="10000"
+            :loop="false"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
-            :paginationSize="5">
+            :paginationSize="5"
+            :navigate-to="navigationVaribale">
             <slide
                 v-for="(slide,index) in numberOfSlider"
                 :key="index">
@@ -56,6 +57,7 @@ export default {
   },
   data() {
     return {
+      navigationVaribale: [],
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: [],
@@ -75,7 +77,7 @@ export default {
   computed: {
     ...mapGetters({ loadingState: 'ranking/getLoadingState' }),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
-    ...mapState('global', ['viewMode', 'toggleChildAutoPlay', 'toggleParentAutoPlay']),
+    ...mapState('global', ['viewMode', 'toggleChildAutoPlay', 'ParentSliderChanged']),
 
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True' || true) {
@@ -90,13 +92,16 @@ export default {
     },
   },
   methods: {
+    resetNav() {
+      this.navigationVaribale = [0, false];
+    },
     dividedList() {
       if (this.currentSlicer > this.list.length) {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
+        this.$emit('goToNextSlide', true);
         this.$store.commit('global/toggleChildAutoPlay', false);
-        this.isAutoplay = false;
       }
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
@@ -107,6 +112,11 @@ export default {
   created() {
     this.dividedList();
     this.$store.commit('global/toggleChildAutoPlay', true);
+  },
+  watch: {
+    ParentSliderChanged() {
+      this.resetNav();
+    },
   },
 };
 </script>

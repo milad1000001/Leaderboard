@@ -9,7 +9,7 @@
             :look="look"
         />
         <rank-list
-            @sliderReachEnd="sliderEnd($event)"
+            @goToNextSlide="goToNextSlide($event)"
             :list="list"
             :look="look"
         />
@@ -50,7 +50,8 @@ export default {
   },
   methods: {
     sliderEnd(e) {
-      this.$emit('sliderReachEnd', e);
+      console.log('asd');
+      this.$emit('goToNextSlide', true);
     },
   },
 };

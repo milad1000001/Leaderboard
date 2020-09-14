@@ -11,7 +11,7 @@ export const state = {
   token: [],
   viewMode: 'overall',
   toggleChildAutoPlay: false,
-  toggleParentAutoPlay: false,
+  ParentSliderChanged: false,
 };
 
 export const getters = {
@@ -33,8 +33,8 @@ export const mutations = {
   toggleChildAutoPlay(state, toggleValue) {
     Vue.set(state, 'toggleChildAutoPlay', toggleValue);
   },
-  toggleParentAutoPlay(state, toggleValue) {
-    Vue.set(state, 'toggleParentAutoPlay', toggleValue);
+  ParentSliderChanged(state, toggleValue) {
+    Vue.set(state, 'ParentSliderChanged', toggleValue);
   },
   changeToTVMode(state, value) {
     Vue.set(state, 'isTVMode', value);
