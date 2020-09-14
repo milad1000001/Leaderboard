@@ -49,14 +49,6 @@
                     :look="'MEDREP'"
                 />
             </div>
-            <!-- <Ranking
-                v-for="(item,index) in rankingListGetter"
-                :key="index"
-                :title="item.title"
-                :featured="item.topRankPersonsViewModel"
-                :list="item.lowerRankPersonsViewModel"
-                :look="'MEDREP'"
-            /> -->
         </div>
     </div>
 </template>
@@ -116,14 +108,6 @@ export default {
           if (this.sliderNavigation[0] === 1) return this.rankingList.rankingGroupViewModels.slice(1, 2);
         }
       }
-      // if (this.rankingListGetter) {
-      //   if (this.$route.params.theme === 'overall') {
-      //     if (this.sliderNavigation === 0) return this.rankingListGetter.slice(0, 1);
-      //     if (this.sliderNavigation === 1) return this.rankingListGetter.slice(1, 2);
-      //     if (this.sliderNavigation === 2) return this.rankingListGetter.slice(2, 3);
-      //   }
-      //   return this.rankingListGetter;
-      // }
       return '';
     },
     numberOfSlider() {
@@ -180,6 +164,7 @@ export default {
     pageHasNoScroll() {
       return window.innerHeight >= document.body.offsetHeight;
     },
+
     scrollTo(top) {
       window.scrollTo(0, top);
     },

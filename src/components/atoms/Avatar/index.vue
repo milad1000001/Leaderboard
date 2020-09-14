@@ -5,7 +5,7 @@
             'list':variation==='list'
         }"
     >
-        <span v-show="false">{{getPersonImageFrom(personUsername)}}</span>
+        <!-- <span v-show="false">{{getPersonImageFrom(personUsername)}}</span> -->
         <img
             v-if="photo"
             class="block rounded-circle m-auto"
@@ -40,15 +40,15 @@ export default {
     },
   },
   methods: {
-    async getPersonImageFrom(baseImage) {
-      this.photoIsLoaded = false;
-      const imageBase64 = await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
-        .then((response) => {
-          this.photoIsLoaded = true;
-          this.photo = response;
-        });
-      return imageBase64;
-    },
+    // async getPersonImageFrom(baseImage) {
+    //   this.photoIsLoaded = false;
+    //   const imageBase64 = await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
+    //     .then((response) => {
+    //       this.photoIsLoaded = true;
+    //       this.photo = response;
+    //     });
+    //   return imageBase64;
+    // },
   },
 };
 </script>
@@ -64,8 +64,8 @@ export default {
 }
 .list{
   img{
-    width: theme('spacing.15');
-    height: theme('spacing.15');
+    width: theme('spacing.16');
+    height: theme('spacing.16');
     object-fit:cover;
     margin: 0 auto;
   }

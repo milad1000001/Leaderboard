@@ -1,14 +1,18 @@
 <template>
     <div
         class="defualtClass rounded-base"
-        :class="[{look,'listWrapperTv':isApplicationUser,'listWrapper overflow-y-scroll':!isApplicationUser}]"
+        :class="[{
+            look,'listWrapperTv':isApplicationUser,
+            'listWrapper overflow-y-scroll':!isApplicationUser,
+            'bg-blue-600':this.$route.params.theme === 'departments'
+        }]"
     >
         <carousel
             v-if="this.$route.params.theme === 'overall'"
             :per-page="1"
             @page-change="dividedList"
-            :adjustableHeight="true"
-            :autoplay="toggleChildAutoPlay"
+            :adjustableHeight="false"
+            :autoplay="false"
             :autoplayTimeout="10000"
             :loop="false"
             :paginationActiveColor="'#bbbbbb98'"
@@ -18,21 +22,23 @@
             <slide
                 v-for="(slide,index) in numberOfSlider"
                 :key="index">
-                <app-ranking-item
-                    v-for="(item,index) in devidedListGenerated"
-                    class="rankingListItem"
-                    :key="index"
-                    :item="item"
-                    :mode="'ranklist'"
-                    :look="look"
-                />
+                <div class="grid grid-cols-2 gap-2">
+                    <app-ranking-item
+                        v-for="(item,index) in devidedListGenerated"
+                        class="overallRankingListItem"
+                        :key="index"
+                        :item="item"
+                        :mode="'ranklist'"
+                        :look="look"
+                    />
+                </div>
             </slide>
         </carousel>
         <div
             v-if="this.$route.params.theme === 'departments'">
             <app-ranking-item
                 v-for="(item,index) in list"
-                class="rankingListItem"
+                class="depRankingListItem"
                 :key="index"
                 :item="item"
                 :mode="'ranklist'"
@@ -61,7 +67,7 @@ export default {
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: [],
-      recordPerSlide: 15,
+      recordPerSlide: 20,
     };
   },
   props: {
@@ -154,13 +160,21 @@ export default {
 }
 .defualtClass{
   direction: ltr;
-  background-color: theme('colors.blue.600');
+  // background-color: theme('colors.blue.600');
 }
-.rankingListItem{
+.overallRankingListItem{
+  scroll-behavior: smooth;
+  // &:nth-child(even){
+  //   background-color: theme('colors.gray.800');
+  // }
+  background-color: theme('colors.gray.800');
+  border-radius: .5rem;
+}
+
+.depRankingListItem{
   scroll-behavior: smooth;
   &:nth-child(even){
     background-color: theme('colors.gray.800');
   }
 }
-
 </style>

@@ -74,11 +74,14 @@
             }"
         >
             <div
-                :class="['flex',{
+                :class="['flex items-center',{
                     'w-5 justify-end':mode ==='ranklist'
                 }]">
                 <app-score
-                    class="justify-start ml-2"
+                    :class="['justify-start ml-2',{
+                        'text-md':mode === 'toprank',
+                        'text-base':mode === 'ranklist'
+                    }]"
                     :scoreNumber="item.totalScore"
                 />
                 <app-icon
