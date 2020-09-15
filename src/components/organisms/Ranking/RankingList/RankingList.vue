@@ -14,7 +14,7 @@
             @page-change="dividedList"
             :adjustableHeight="false"
             :autoplay="true"
-            :autoplayTimeout="20000"
+            :autoplayTimeout="5000"
             :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
@@ -102,12 +102,12 @@ export default {
     resetNav() {
       this.navigationVaribale = [0, false];
     },
-    dividedList() {
+    dividedList(pn) {
       if (this.currentSlicer > this.list.length) {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
-        this.$emit('goToNextSlide', true);
+        this.$emit('goToNextSlideRanking', true);
         this.$store.commit('global/toggleChildAutoPlay', false);
       }
       this.slideTo = this.currentSlicer;

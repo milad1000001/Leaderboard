@@ -9,7 +9,7 @@
             :look="look"
         />
         <rank-list
-            @goToNextSlide="goToNextSlide($event)"
+            @goToNextSlideRanking="goToNextSlideRankingDashboard($event)"
             :list="list"
             :look="look"
         />
@@ -49,8 +49,8 @@ export default {
     'rank-featured': RankingFeatured,
   },
   methods: {
-    sliderEnd(e) {
-      this.$emit('goToNextSlide', true);
+    goToNextSlideRankingDashboard(e) {
+      this.$emit('goToNextSlideRankingDashboard', true);
     },
   },
 };

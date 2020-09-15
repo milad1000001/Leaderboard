@@ -7,7 +7,6 @@
                 'rankingListTV':isApplicationUser
             }"
         >
-
             <carousel
                 v-if="this.$route.params.theme === 'overall'"
                 :per-page="1"
@@ -28,7 +27,7 @@
                         :key="index"
                     >
                         <Ranking
-                            @goToNextSlide="this.navi()"
+                            @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)"
                             :title="item.title"
                             :featured="item.topRankPersonsViewModel"
                             :list="item.lowerRankPersonsViewModel"
@@ -62,6 +61,7 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
+      CurrentSlider: 0,
       sliderNavigationConstructor: 0,
       isAutoplay: false,
       userProfile: [],
@@ -147,19 +147,27 @@ export default {
         this.$store.commit('global/saveProfilePicture', this.userProfile);
       }
     },
-    navi() {
-      if (this.sliderNavigation[0] < 2) {
-        this.sliderNavigationConstructor += 1;
-        this.sliderNavigation = [this.sliderNavigationConstructor, true];
-        this.$store.commit('global/toggleChildAutoPlay', true);
-      } else {
-        this.sliderNavigationConstructor = 0;
-        this.sliderNavigation = [0, true];
-      }
+    parentSliderChangeDetection(e) {
+      // console.log(e);
+      // if (this.CurrentSlider === 2) {
+      //   this.CurrentSlider = 0;
+      // }
+      // this.CurrentSlider += 1;
+      // this.sliderNavigation = [this.CurrentSlider, true];
+
+      // if (this.sliderNavigation[0] < 2) {
+      //   this.sliderNavigationConstructor += 1;
+      //   this.sliderNavigation = [this.sliderNavigationConstructor, true];
+      //   this.$store.commit('global/toggleChildAutoPlay', true);
+      // } else {
+      //   this.sliderNavigationConstructor = 0;
+      //   this.sliderNavigation = [0, true];
+      // }
     },
     updatePageination(pn) {
       this.sliderNavigation[0] = pn;
       this.$store.commit('global/ParentSliderChanged', pn);
+
       // this.$store.commit('global/toggleChildAutoPlay', true);
     },
     getrankingListGetterlength() {
