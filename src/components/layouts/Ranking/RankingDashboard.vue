@@ -1,13 +1,13 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
-        <button @click="navi()">asd</button>
         <div
             :class="{
                 'rankingList':!isApplicationUser,
                 'rankingListTV':isApplicationUser
             }"
         >
+
             <carousel
                 v-if="this.$route.params.theme === 'overall'"
                 :per-page="1"
@@ -64,6 +64,7 @@ export default {
     return {
       sliderNavigationConstructor: 0,
       isAutoplay: false,
+      userProfile: [],
       sliderNavigation: [0, false],
       isNotScrolabble: false,
       rankingArrayLength: 0,
@@ -127,14 +128,31 @@ export default {
     },
   },
   methods: {
+    saveProfilePicture() {
+      if (this.rankingList.rankingGroupViewModels) {
+        this.rankingList.rankingGroupViewModels.forEach((el) => {
+          el.lowerRankPersonsViewModel.forEach((person) => {
+            this.$store.dispatch('ranking/getPersonPhoto', person.username)
+              .then((response) => {
+                this.userProfile.push({ username: person.username, profileImage: response });
+              });
+          });
+          el.topRankPersonsViewModel.forEach((person) => {
+            this.$store.dispatch('ranking/getPersonPhoto', person.username)
+              .then((response) => {
+                this.userProfile.push({ username: person.username, profileImage: response });
+              });
+          });
+        });
+        this.$store.commit('global/saveProfilePicture', this.userProfile);
+      }
+    },
     navi() {
       if (this.sliderNavigation[0] < 2) {
         this.sliderNavigationConstructor += 1;
         this.sliderNavigation = [this.sliderNavigationConstructor, true];
-        console.log(this.sliderNavigation);
         this.$store.commit('global/toggleChildAutoPlay', true);
       } else {
-        console.log(this.sliderNavigation[0] < 2, this.sliderNavigation);
         this.sliderNavigationConstructor = 0;
         this.sliderNavigation = [0, true];
       }
@@ -145,16 +163,15 @@ export default {
       // this.$store.commit('global/toggleChildAutoPlay', true);
     },
     getrankingListGetterlength() {
+      this.saveProfilePicture();
       return this.rankingListGetter.length;
     },
     sliderEnd(e) {
       if (this.sliderNavigation[0] < 2) {
         this.sliderNavigationConstructor += 1;
         this.sliderNavigation = [this.sliderNavigationConstructor, true];
-        console.log(this.sliderNavigation);
         this.$store.commit('global/toggleChildAutoPlay', true);
       } else {
-        console.log(this.sliderNavigation[0] < 2, this.sliderNavigation);
         this.sliderNavigation = [0, true];
       }
     },
@@ -169,7 +186,7 @@ export default {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 5000,
+      after = 10000,
       speed = 1,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
@@ -198,6 +215,8 @@ export default {
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
         await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+        this.saveProfilePicture();
+
         if (!this.rankingList) {
           gotNoData.bind(this)();
         }

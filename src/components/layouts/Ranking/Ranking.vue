@@ -50,7 +50,6 @@ export default {
   },
   methods: {
     sliderEnd(e) {
-      console.log('asd');
       this.$emit('goToNextSlide', true);
     },
   },

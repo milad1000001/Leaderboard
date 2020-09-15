@@ -1,6 +1,6 @@
 <template>
     <div
-        class="rankingItem flex flex-wrap py-2 px-4 align-middle"
+        class="rankingItem flex flex-wrap py-2 pr-5 pl-3 align-middle"
         :class="[
             mode === 'toprank'
                 ? 'rounded-base ' + look
@@ -18,12 +18,14 @@
             />
         </div>
         <div
+            v-if="this.$route.params.theme==='departments' || mode === 'toprank'"
             :class="['text-gray-200',{
                 'flex justify-center items-center w-full text-xl xxl:w-1/3 xl:w-1/3 md:w-1/3':mode === 'toprank',
                 ' text-lg order-2 self-center':mode === 'ranklist'
             }]"
         >
             <app-rank
+                v-if="this.$route.params.theme==='departments' || mode === 'toprank'"
                 :rankNumber="item.rank"
             />
         </div>
@@ -59,10 +61,15 @@
         </div>
         <div
             :class="{
-                'pt-2 w-1/3':mode === 'toprank',
+                'pt-6 w-1/3':mode === 'toprank',
                 ' order-1 self-center ':mode === 'ranklist'
             }"
         >
+            <app-rank
+                :class="{' text-lg text-White order-2 self-center':mode === 'ranklist'}"
+                v-if="this.$route.params.theme==='overall' && mode === 'ranklist'"
+                :rankNumber="item.rank"
+            />
             <app-progress
                 :progressNumber="item.progressLevel"
             />
@@ -78,7 +85,7 @@
                     'w-5 justify-end':mode ==='ranklist'
                 }]">
                 <app-score
-                    :class="['justify-start ml-2',{
+                    :class="['justify-start ml-1',{
                         'text-md':mode === 'toprank',
                         'text-base':mode === 'ranklist'
                     }]"

@@ -1,83 +1,87 @@
 <template>
-    <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-4">
-        <div class="flex justify-between">
-            <div class="flex gap-4 items-center">
-                <SVGIcon
-                    :color="'#9aa6b4'"
-                    :SVGName="'Power'"
-                    :width="'24'"
-                    :height="'24'"
-                    @click.native="logOUt()"
-                />
-                <div
-                    class="flex gap-5"
-                    v-if="!isApplicationUser"
-                >
-                    <app-icon
-                        name="fas fa-bars"
-                        color="text-gray-200"
-                        size="'w-12'"
-                        class="cursor-pointer"
-                        @click.native="openNavigation()"
+    <div class="date text-gray-200 border-b-8 mb-2 border-blue-800 sticky top-0 bg-blue-800 z-mountain pt-4 flex justify-between">
+        <div>
+            <div class="flex justify-between">
+                <div class="flex gap-4 items-center">
+                    <SVGIcon
+                        :color="'#9aa6b4'"
+                        :SVGName="'Power'"
+                        :width="'24'"
+                        :height="'24'"
+                        @click.native="logOUt()"
                     />
-                    <app-icon
-                        :name="haveNotificationHandler"
-                        color="text-gray-200"
-                        size="'w-12'"
+                    <div
+                        class="flex gap-5"
+                        v-if="!isApplicationUser"
+                    >
+                        <app-icon
+                            name="fas fa-bars"
+                            color="text-gray-200"
+                            size="'w-12'"
+                            class="cursor-pointer"
+                            @click.native="openNavigation()"
+                        />
+                        <app-icon
+                            :name="haveNotificationHandler"
+                            color="text-gray-200"
+                            size="'w-12'"
+                        />
+                    </div>
+                    <Lorem
+                        :text="lastUpdateDate | persianDigit "
+                        :size="'xs'"
+                        :color="'gray-400'"
+                        class="px-4 py-1 rounded-base"
                     />
-                </div>
-                <Lorem
-                    :text="lastUpdateDate | persianDigit "
-                    :size="'xs'"
-                    :color="'gray-400'"
-                    class="px-4 py-1 rounded-base"
-                />
-                <div
-                    class="flex gap-5"
-                    v-if="isApplicationUser"
-                >
-                    <router-link
-                        :to="{name:'userdashboard',params:{theme:'overall'}}"
-                        target= '_blank'
-                        @click.native="changeView('overall')"
+                    <div
+                        class="flex gap-5"
+                        v-if="isApplicationUser"
                     >
-                        <SVGIcon
-                            :color="'#9aa6b4'"
-                            :class="{'opacity-25':this.$route.params.theme!=='overall'}"
-                            :SVGName="'Company'"
-                            :width="'24'"
-                            :height="'24'"
-                        />
-                    </router-link>
-                    <router-link
-                        :to="{name:'userdashboard',params:{theme:'departments'}}"
-                        target= '_blank'
-                        @click.native="changeView('departments')"
-                    >
-                        <SVGIcon
-                            :color="'#9aa6b4'"
-                            :class="{'opacity-25':this.$route.params.theme!=='departments'}"
-                            :SVGName="'Users'"
-                            :width="'24'"
-                            :height="'24'"
-                        />
-                    </router-link>
+                        <router-link
+                            :to="{name:'userdashboard',params:{theme:'overall'}}"
+                            target= '_blank'
+                            @click.native="changeView('overall')"
+                        >
+                            <SVGIcon
+                                :color="'#9aa6b4'"
+                                :class="{'opacity-25':this.$route.params.theme!=='overall'}"
+                                :SVGName="'Company'"
+                                :width="'24'"
+                                :height="'24'"
+                            />
+                        </router-link>
+                        <router-link
+                            :to="{name:'userdashboard',params:{theme:'departments'}}"
+                            target= '_blank'
+                            @click.native="changeView('departments')"
+                        >
+                            <SVGIcon
+                                :color="'#9aa6b4'"
+                                :class="{'opacity-25':this.$route.params.theme!=='departments'}"
+                                :SVGName="'Users'"
+                                :width="'24'"
+                                :height="'24'"
+                            />
+                        </router-link>
+                    </div>
                 </div>
             </div>
-            <Logo />
-        </div>
-        <div class="flex justify-between items-center mt-8 ">
-            <Lorem
-                :text="headerTitle"
-                :size="'lg'"
-                class="text-sm text-gray-200 border-r-2 pr-2"
-            />
-            <Lorem
+            <div class="flex justify-between items-center mt-8 ">
+                <Lorem
+                    :text="headerTitle"
+                    :size="'lg'"
+                    class="text-sm text-gray-200 border-r-2 pr-2"
+                />
+            <!-- <Lorem
                 :text="todayTime | persianDigit "
                 :size="'xs'"
                 :color="'gray-400'"
                 class="bg-blue-600 px-4 py-1 rounded-pill"
-            />
+            /> -->
+            </div>
+        </div>
+        <div>
+            <Logo />
         </div>
     </div>
 </template>

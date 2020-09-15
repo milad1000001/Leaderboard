@@ -5,7 +5,7 @@
         <div class="login flex flex-col bg-blue-600 bg-opacity-75 px-32 py-8 rounded-base m-auto z-plain">
             <App-Logo
                 class="self-center"
-                :SVGName="'LoginLogo'"
+                :SVGName="'NewLogo'"
                 :width="'150'"
                 :height="'150'"
             />

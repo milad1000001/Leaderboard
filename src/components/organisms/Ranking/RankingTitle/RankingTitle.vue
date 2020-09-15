@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-blue-800 RankingTitle z-plain sticky">
+    <div class="bg-blue-800 RankingTitle z-plain sticky mt-2">
         <app-title
             :title="title"
             :look="look"

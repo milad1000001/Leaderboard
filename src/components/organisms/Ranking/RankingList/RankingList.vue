@@ -7,14 +7,15 @@
             'bg-blue-600':this.$route.params.theme === 'departments'
         }]"
     >
+
         <carousel
             v-if="this.$route.params.theme === 'overall'"
             :per-page="1"
             @page-change="dividedList"
             :adjustableHeight="false"
-            :autoplay="false"
-            :autoplayTimeout="10000"
-            :loop="false"
+            :autoplay="true"
+            :autoplayTimeout="20000"
+            :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
@@ -67,7 +68,7 @@ export default {
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: [],
-      recordPerSlide: 20,
+      recordPerSlide: 10,
     };
   },
   props: {

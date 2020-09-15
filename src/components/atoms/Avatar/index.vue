@@ -5,7 +5,7 @@
             'list':variation==='list'
         }"
     >
-        <!-- <span v-show="false">{{getPersonImageFrom(personUsername)}}</span> -->
+        <span v-show="false">{{getImageFromVuex(personUsername)}}</span>
         <img
             v-if="photo"
             class="block rounded-circle m-auto"
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
   name: 'Avatar',
@@ -36,10 +37,19 @@ export default {
     },
     personUsername: {
       type: String,
-      required: true,
+      required: false,
     },
   },
+  computed: {
+    ...mapState('global', ['profilePicture']),
+  },
   methods: {
+    getImageFromVuex(personName) {
+      const getPersonArray = this.profilePicture.filter((el) => el.username === personName);
+      if (getPersonArray[0]) {
+        this.photo = getPersonArray[0].profileImage;
+      }
+    },
     // async getPersonImageFrom(baseImage) {
     //   this.photoIsLoaded = false;
     //   const imageBase64 = await this.$store.dispatch('ranking/getPersonPhoto', baseImage)

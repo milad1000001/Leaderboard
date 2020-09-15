@@ -1,8 +1,8 @@
 <template>
     <div>
         <App-Logo
-            :SVGName="'HeadlineLogo'"
-            :width="'200'"
+            :SVGName="'NewLogo'"
+            :width="'120'"
         />
     </div>
 </template>

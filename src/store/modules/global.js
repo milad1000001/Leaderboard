@@ -12,6 +12,7 @@ export const state = {
   viewMode: 'overall',
   toggleChildAutoPlay: false,
   ParentSliderChanged: false,
+  profilePicture: {},
 };
 
 export const getters = {
@@ -27,6 +28,9 @@ export const getters = {
 };
 
 export const mutations = {
+  saveProfilePicture(state, baseImg) {
+    Vue.set(state, 'profilePicture', baseImg);
+  },
   toggleNavigation(state, value) {
     Vue.set(state, 'navigationToggle', value);
   },

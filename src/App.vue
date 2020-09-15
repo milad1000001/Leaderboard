@@ -5,14 +5,25 @@
         <vue-element-loading
             :active="loadingState"
             spinner="bar-fade-scale"
-            color="#fff"
+            color="#9aa6b4"
             background-color="#0D1C30"
             is-full-screen
         >
-            <img :src="require('~images/loading-2.gif')">
-            <span class="text-White text-xl">
-
-            </span>
+            <img
+                :src="require('~images/loading-2.gif')"
+                width="500px"
+                height="500px">
+            <div v-if="this.$route.params.theme==='overall'">
+                <div class="text-gray-200 text-lg">
+                    دپارتمان فروش
+                </div>
+                <div class="text-gray-400 text-lg ">
+                    Sales
+                </div>
+            </div>
+            <div class="text-gray-400 text-sm mt-104">
+                Powered by Axon
+            </div>
         </vue-element-loading>
         <Navigation />
         <router-view />
