@@ -61,7 +61,8 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
-      CurrentSlider: 0,
+      toggleSlider: false,
+      CurrentSlider: -1,
       sliderNavigationConstructor: 0,
       isAutoplay: false,
       userProfile: [],
@@ -116,6 +117,9 @@ export default {
     },
   },
   watch: {
+    toggleSlider() {
+      this.callForSliderChange();
+    },
     scrollingInterval(value, oldValue) {
       if (oldValue) {
         clearInterval(oldValue);
@@ -148,7 +152,7 @@ export default {
       }
     },
     parentSliderChangeDetection(e) {
-      // console.log(e);
+      this.toggleSlider = !this.toggleSlider;
       // if (this.CurrentSlider === 2) {
       //   this.CurrentSlider = 0;
       // }
@@ -163,6 +167,13 @@ export default {
       //   this.sliderNavigationConstructor = 0;
       //   this.sliderNavigation = [0, true];
       // }
+    },
+    callForSliderChange() {
+      // if (this.CurrentSlider === 2) {
+      //   this.CurrentSlider = -1;
+      // }
+      // this.CurrentSlider += 1;
+      // this.sliderNavigation = [this.CurrentSlider, true];
     },
     updatePageination(pn) {
       this.sliderNavigation[0] = pn;

@@ -15,7 +15,7 @@
             :adjustableHeight="false"
             :autoplay="true"
             :autoplayTimeout="5000"
-            :loop="true"
+            :loop="false"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
@@ -103,7 +103,7 @@ export default {
       this.navigationVaribale = [0, false];
     },
     dividedList(pn) {
-      if (this.currentSlicer > this.list.length) {
+      if (this.currentSlicer === this.list.length) {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
