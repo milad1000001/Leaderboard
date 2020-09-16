@@ -17,7 +17,7 @@ export const state = {
 
 export const getters = {
   rankingList: (state) => state.rankingList.rankingGroupViewModels,
-  rankingTitle: (state) => state.headerTitle,
+  rankingTitle: (state) => state.rankingTitlesList,
   getLoadingState: (state) => state.isActive,
   getPersonPhoto: (state) => state.personPhoto,
 };
@@ -29,7 +29,12 @@ export const mutations = {
   SAVE_PERSONS_PHOTOS: (state, personPhoto) => Vue.set(state, 'personPhoto', personPhoto),
   SET_RANKING_GROUP: (state, list) => Vue.set(state, 'rankingGroup', list),
   SET_RANKING_LIST: (state, data) => Vue.set(state, 'rankingList', data),
-  SET_RANKING_TITLE: (state, data) => Vue.set(state, 'rankingTitlesList', data),
+  SET_RANKING_TITLE: (state, data) => {
+    if (data) {
+      Vue.set(state, 'rankingTitlesList', data);
+    }
+  },
+  SET_RANKING_TITLE_NULL: (state) => Vue.set(state, 'rankingTitlesList', null),
   SET_IS_OVERALL: (state, data) => Vue.set(state, 'isOverall', data),
 };
 

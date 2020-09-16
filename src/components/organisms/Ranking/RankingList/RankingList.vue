@@ -15,7 +15,7 @@
             :adjustableHeight="false"
             :autoplay="true"
             :autoplayTimeout="5000"
-            :loop="false"
+            :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
@@ -107,8 +107,8 @@ export default {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
-        this.$emit('goToNextSlideRanking', true);
-        this.$store.commit('global/toggleChildAutoPlay', false);
+        // this.$emit('goToNextSlideRanking', true);
+        // this.$store.commit('global/toggleChildAutoPlay', false);
       }
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;

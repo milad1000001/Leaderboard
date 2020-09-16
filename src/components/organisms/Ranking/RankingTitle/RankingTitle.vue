@@ -1,5 +1,8 @@
 <template>
-    <div class="bg-blue-800 RankingTitle z-plain sticky mt-2">
+    <div
+        class="bg-blue-800 RankingTitle z-plain sticky mt-2"
+        :class="{'isSticky':this.$route.params.theme==='departments'}"
+    >
         <app-title
             :title="title"
             :look="look"
@@ -29,7 +32,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.RankingTitle:sticky{
-  background-color: yellow;
+.isSticky{
+  top:120px;
 }
 </style>

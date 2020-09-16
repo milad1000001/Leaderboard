@@ -67,25 +67,9 @@ export default {
       isAutoplay: false,
       userProfile: [],
       sliderNavigation: [0, false],
-      isNotScrolabble: false,
-      rankingArrayLength: 0,
-      rankingArrayIterator: -1,
       currentPage: 0,
       scrollingInterval: null,
       scrollingTimeout: null,
-      scrollConfiguration: {
-        pageScale: {
-
-        },
-        timing: {
-
-        },
-        isValid: {
-          isEligibleUserForAutomateScroll: this.isEligibleUserForAutomateScroll,
-          isPageScrollable: this.isPageScrollable,
-          isTimingValidate: this.isTimingValidate,
-        },
-      },
     };
   },
   components: {
@@ -205,8 +189,8 @@ export default {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 10000,
-      speed = 1,
+      after = 15000,
+      speed = 5,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
     }) {
@@ -233,6 +217,7 @@ export default {
     },
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
+        // this.rankingGroup[this.currentPage].id
         await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
         this.saveProfilePicture();
 

@@ -13,20 +13,41 @@
                 :src="require('~images/loading-2.gif')"
                 width="500px"
                 height="500px">
-            <div v-if="this.$route.params.theme==='overall'">
-                <div class="text-gray-200 text-lg">
-                    دپارتمان فروش
+            <div>
+                <div>
+                    <span
+                        class="text-gray-200 text-lg"
+                        v-if="this.$route.params.theme==='overall'"
+                    >
+                        دپارتمان فروش
+                    </span>
+                    <span
+                        class="text-gray-200 text-md"
+                        v-if="this.$route.params.theme==='departments'">
+                        {{loadingTitleFA}}
+                    </span>
                 </div>
-                <div class="text-gray-400 text-lg ">
-                    Sales
+                <div>
+                    <span
+                        class="text-gray-400 text-lg"
+                        v-if="this.$route.params.theme==='overall'"
+                    >
+                        Sales
+                    </span>
+                    <span
+                        class="text-gray-400 text-lg"
+                        v-if="this.$route.params.theme==='departments'">
+                        {{loadingTitleEN}}
+                    </span>
                 </div>
             </div>
-            <div class="text-gray-400 text-sm mt-104">
+            <div class="axon text-gray-400 text-sm">
                 Powered by Axon
             </div>
         </vue-element-loading>
         <Navigation />
         <router-view />
+
     </div>
 </template>
 <script>
@@ -36,6 +57,12 @@ import Navigation from '~layouts/Navigation/Navigation.vue';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      loadingTitleFA: '',
+      loadingTitleEN: '',
+    };
+  },
   created() {
     if (localStorage.getItem('token')) {
       setAuthHeader(localStorage.token);
@@ -49,14 +76,50 @@ export default {
       { title: 'ranking/rankingTitle' },
     ),
     ...mapState(
-      { rankingTitlesList: 'ranking/rankingTitlesList' },
+      { rankingTitlesList: 'ranking/rankingList' },
     ),
-    headerTitle() {
-      return this.title;
+    headerTitleFA() {
+      return this.$store.getters['ranking/rankingTitle'].headerTitle;
+    },
+    headerTitleEN() {
+      return this.$store.getters['ranking/rankingTitle'].englishTitle;
     },
   },
   components: {
     Navigation,
   },
+  watch: {
+    headerTitleFA(newValue, oldValue) {
+      this.loadingTitleFA = newValue;
+      setTimeout(() => {
+        this.loadingTitleFA = '';
+      }, 5000);
+      // console.log('Watcher', oldValue, newValue);
+    },
+    headerTitleEN(newValue, oldValue) {
+      this.loadingTitleEN = newValue;
+      setTimeout(() => {
+        this.loadingTitleEN = '';
+      }, 5000);
+      // console.log('Watcher', oldValue, newValue);
+    },
+  },
 };
 </script>
+<style lang="scss">
+.velmld-spinner{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width:100%;
+  height: 100%;
+  img{
+    margin:0 auto;
+  }
+}
+.axon{
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+</style>

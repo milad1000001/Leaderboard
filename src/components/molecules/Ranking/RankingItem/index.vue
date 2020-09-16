@@ -66,11 +66,12 @@
             }"
         >
             <app-rank
-                :class="{' text-lg text-White order-2 self-center':mode === 'ranklist'}"
+                :class="{' text-md text-White order-2 self-center':mode === 'ranklist'}"
                 v-if="this.$route.params.theme==='overall' && mode === 'ranklist'"
                 :rankNumber="item.rank"
             />
             <app-progress
+                class="text-gray-400"
                 :progressNumber="item.progressLevel"
             />
         </div>

@@ -1,6 +1,7 @@
 <template>
     <div
         class="RankingFeatured align-center gap-2 sticky bg-blue-800"
+        :class="{'isSticky':this.$route.params.theme==='departments'}"
     >
         <app-ranking-item
             v-for="(item,index) in featured"
@@ -35,6 +36,9 @@ export default {
 </script>
 
 <style scoped>
+.isSticky{
+  top:160px;
+}
 .RankingFeatured{
   display: flex;
   height: 300px;
