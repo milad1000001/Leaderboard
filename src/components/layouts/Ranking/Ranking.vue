@@ -60,7 +60,7 @@ export default {
 .RankingList{
   display: flex;
   flex-direction: column;
-  gap:8px;
+  gap:0px 0px;
   direction:rtl
 }
 </style>

@@ -50,15 +50,6 @@ export default {
         this.photo = getPersonArray[0].profileImage;
       }
     },
-    // async getPersonImageFrom(baseImage) {
-    //   this.photoIsLoaded = false;
-    //   const imageBase64 = await this.$store.dispatch('ranking/getPersonPhoto', baseImage)
-    //     .then((response) => {
-    //       this.photoIsLoaded = true;
-    //       this.photo = response;
-    //     });
-    //   return imageBase64;
-    // },
   },
 };
 </script>

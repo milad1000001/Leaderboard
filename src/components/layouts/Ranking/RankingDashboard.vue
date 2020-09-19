@@ -8,7 +8,7 @@
             }"
         >
             <carousel
-                v-if="this.$route.params.theme === 'overall'"
+                v-if="this.isOverall"
                 :per-page="1"
                 :adjustableHeight="true"
                 :autoplay="false"
@@ -17,17 +17,18 @@
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
                 :paginationPadding="20"
-                :navigate-to="sliderNavigation"
-                @page-change="updatePageination">
+                @page-change="getrankingListGetter()"
+            >
+                <!-- :navigate-to="sliderNavigation" -->
                 <slide
                     v-for="(slide,index) in numberOfSlider"
                     :key="index">
                     <div
-                        v-for="(item,index) in getrankingListGetter"
+                        v-for="(item,index) in getrankingListGetter()"
                         :key="index"
                     >
+                        <!-- @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)" -->
                         <Ranking
-                            @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)"
                             :title="item.title"
                             :featured="item.topRankPersonsViewModel"
                             :list="item.lowerRankPersonsViewModel"
@@ -36,9 +37,7 @@
                     </div>
                 </slide>
             </carousel>
-            <div
-                v-if="this.$route.params.theme === 'departments'"
-            >
+            <div v-if="!this.isOverall">
                 <Ranking
                     v-for="(item,index) in rankingListGetter"
                     :key="index"
@@ -53,6 +52,8 @@
 </template>
 
 <script>
+/* eslint-disable consistent-return */
+
 import { mapGetters, mapState } from 'vuex';
 import Headline from '~organisms/Headline/Headline.vue';
 import Ranking from '~layouts/Ranking/Ranking.vue';
@@ -86,51 +87,45 @@ export default {
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
-    getrankingListGetter() {
-      if (this.rankingList.rankingGroupViewModels) {
-        if (this.$route.params.theme === 'overall') {
-          if (this.sliderNavigation[0] === 2) return this.rankingList.rankingGroupViewModels.slice(2, 3);
-          if (this.sliderNavigation[0] === 0) return this.rankingList.rankingGroupViewModels.slice(0, 1);
-          if (this.sliderNavigation[0] === 1) return this.rankingList.rankingGroupViewModels.slice(1, 2);
-        }
-      }
-      return '';
-    },
     numberOfSlider() {
+      console.log(this.rankingList.rankingGroupViewModels);
       return 3;
     },
-  },
-  watch: {
-    toggleSlider() {
-      this.callForSliderChange();
+    isOverall() {
+      return this.$route.params.theme === 'overall';
     },
-    scrollingInterval(value, oldValue) {
-      if (oldValue) {
-        clearInterval(oldValue);
-      }
+    isRankingGroupFilled() {
+      return this.rankingList.rankingGroupViewModels;
     },
-    scrollingTimeout(value, oldValue) {
-      if (oldValue) {
-        clearTimeout(oldValue);
-      }
+    shouldShowSlider() {
+      return this.isRankingGroupFilled && this.isOverall;
     },
   },
   methods: {
+    getrankingListGetter(pageNumber) {
+      if (this.shouldShowSlider) {
+        return this.getRankingGroupViewModels(this.sliderNavigation[0]);
+      }
+    },
+    getRankingGroupViewModels(sliderNavigation) {
+      return this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
+    },
+    getPersonPhotos(RankPersonsViewModel) {
+      RankPersonsViewModel.forEach((person) => {
+        this.$store.dispatch('ranking/getPersonPhoto', person.username)
+          .then((response) => {
+            this.userProfile.push({
+              username: person.username,
+              profileImage: response,
+            });
+          });
+      });
+    },
     saveProfilePicture() {
       if (this.rankingList.rankingGroupViewModels) {
         this.rankingList.rankingGroupViewModels.forEach((el) => {
-          el.lowerRankPersonsViewModel.forEach((person) => {
-            this.$store.dispatch('ranking/getPersonPhoto', person.username)
-              .then((response) => {
-                this.userProfile.push({ username: person.username, profileImage: response });
-              });
-          });
-          el.topRankPersonsViewModel.forEach((person) => {
-            this.$store.dispatch('ranking/getPersonPhoto', person.username)
-              .then((response) => {
-                this.userProfile.push({ username: person.username, profileImage: response });
-              });
-          });
+          this.getPersonPhotos(el.lowerRankPersonsViewModel);
+          this.getPersonPhotos(el.topRankPersonsViewModel);
         });
         this.$store.commit('global/saveProfilePicture', this.userProfile);
       }
@@ -160,8 +155,9 @@ export default {
       // this.sliderNavigation = [this.CurrentSlider, true];
     },
     updatePageination(pn) {
-      this.sliderNavigation[0] = pn;
-      this.$store.commit('global/ParentSliderChanged', pn);
+      // console.log(pn);
+      // this.sliderNavigation[0] = pn;
+      // this.$store.commit('global/ParentSliderChanged', pn);
 
       // this.$store.commit('global/toggleChildAutoPlay', true);
     },
@@ -253,6 +249,24 @@ export default {
         },
       });
     },
+  },
+  watch: {
+    toggleSlider() {
+      this.callForSliderChange();
+    },
+    scrollingInterval(value, oldValue) {
+      if (oldValue) {
+        clearInterval(oldValue);
+      }
+    },
+    scrollingTimeout(value, oldValue) {
+      if (oldValue) {
+        clearTimeout(oldValue);
+      }
+    },
+  },
+  created() {
+    // this.getrankingListGetter();
   },
   async mounted() {
     await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);

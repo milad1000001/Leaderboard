@@ -19,7 +19,8 @@
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
-            :navigate-to="navigationVaribale">
+        >
+            <!-- :navigate-to="navigationVaribale" -->
             <slide
                 v-for="(slide,index) in numberOfSlider"
                 :key="index">
@@ -68,7 +69,7 @@ export default {
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: [],
-      recordPerSlide: 10,
+      recordPerSlide: 20,
     };
   },
   props: {
@@ -103,7 +104,7 @@ export default {
       this.navigationVaribale = [0, false];
     },
     dividedList(pn) {
-      if (this.currentSlicer === this.list.length) {
+      if (this.currentSlicer >= this.list.length) {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
@@ -118,10 +119,11 @@ export default {
   },
   created() {
     this.dividedList();
-    this.$store.commit('global/toggleChildAutoPlay', true);
+    // this.$store.commit('global/toggleChildAutoPlay', true);
   },
   watch: {
     ParentSliderChanged() {
+      console.log('asd');
       this.resetNav();
     },
   },

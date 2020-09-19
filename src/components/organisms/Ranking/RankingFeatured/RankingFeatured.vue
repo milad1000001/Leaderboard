@@ -1,6 +1,6 @@
 <template>
     <div
-        class="RankingFeatured align-center gap-2 sticky bg-blue-800"
+        class="RankingFeatured align-center gap-2 sticky bg-blue-800 border-8 border-blue-800 border-l-0 border-r-0"
         :class="{'isSticky':this.$route.params.theme==='departments'}"
     >
         <app-ranking-item

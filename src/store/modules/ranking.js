@@ -53,10 +53,6 @@ export const actions = {
         commit('SET_IS_OVERALL', payload === 'overall');
       });
   },
-  // async updateDeparmentState({ commit }) {
-  //   return api.getRankingList()
-  //     .then((response) => commit('SET_RANKING_LIST', response.data.rankingGroupViewModels));
-  // },
   async getPersonPhoto({ commit }, payload) {
     return api.getPersonPhoto(payload)
       .then((response) => {
