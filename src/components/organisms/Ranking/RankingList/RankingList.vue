@@ -1,11 +1,11 @@
 <template>
     <div
         class="defualtClass rounded-base"
-        :class="[{
-            look,'listWrapperTv':isApplicationUser,
+        :class="{
+            'listWrapperTv':isApplicationUser,
             'listWrapper overflow-y-scroll':!isApplicationUser,
             'bg-blue-600':this.$route.params.theme === 'departments'
-        }]"
+        }"
     >
 
         <carousel
@@ -31,7 +31,6 @@
                         :key="index"
                         :item="item"
                         :mode="'ranklist'"
-                        :look="look"
                     />
                 </div>
             </slide>
@@ -44,7 +43,6 @@
                 :key="index"
                 :item="item"
                 :mode="'ranklist'"
-                :look="look"
             />
         </div>
     </div>
@@ -75,10 +73,6 @@ export default {
   props: {
     list: {
       type: Array,
-      required: false,
-    },
-    look: {
-      type: String,
       required: false,
     },
   },

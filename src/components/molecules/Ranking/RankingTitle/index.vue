@@ -1,7 +1,6 @@
 <template>
     <div
         class="rankingTitle py-2 rounded-base"
-        :class="look"
     >
         {{title}}
     </div>
@@ -12,10 +11,6 @@ export default {
   name: 'RankingTitle',
   props: {
     title: {
-      type: String,
-      required: true,
-    },
-    look: {
       type: String,
       required: true,
     },

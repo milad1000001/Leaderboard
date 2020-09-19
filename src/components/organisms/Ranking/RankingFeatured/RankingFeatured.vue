@@ -9,7 +9,6 @@
             :item="item"
             :mode="'toprank'"
             class="featuredWrapper"
-            :look="look"
         />
     </div>
 </template>
@@ -25,10 +24,6 @@ export default {
   props: {
     featured: {
       type: Array,
-      required: true,
-    },
-    look: {
-      type: String,
       required: true,
     },
   },

@@ -2,16 +2,13 @@
     <div class="RankingList">
         <rank-title
             :title="title"
-            :look="look"
         />
         <rank-featured
             :featured="featured"
-            :look="look"
         />
         <rank-list
             @goToNextSlideRanking="goToNextSlideRankingDashboard($event)"
             :list="list"
-            :look="look"
         />
     </div>
 </template>
@@ -37,10 +34,6 @@ export default {
     list: {
       type: Array,
       required: false,
-    },
-    look: {
-      type: String,
-      required: true,
     },
   },
   components: {

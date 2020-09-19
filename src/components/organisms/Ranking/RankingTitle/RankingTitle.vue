@@ -5,7 +5,6 @@
     >
         <app-title
             :title="title"
-            :look="look"
         />
     </div>
 </template>
@@ -22,10 +21,6 @@ export default {
     title: {
       type: String,
       requrired: true,
-    },
-    look: {
-      type: String,
-      required: true,
     },
   },
 };

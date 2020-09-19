@@ -32,7 +32,6 @@
                             :title="item.title"
                             :featured="item.topRankPersonsViewModel"
                             :list="item.lowerRankPersonsViewModel"
-                            :look="'MEDREP'"
                         />
                     </div>
                 </slide>
@@ -44,7 +43,6 @@
                     :title="item.title"
                     :featured="item.topRankPersonsViewModel"
                     :list="item.lowerRankPersonsViewModel"
-                    :look="'MEDREP'"
                 />
             </div>
         </div>

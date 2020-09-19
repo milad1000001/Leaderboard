@@ -3,7 +3,7 @@
         class="rankingItem flex flex-wrap py-2 pr-5 pl-3 align-middle"
         :class="[
             mode === 'toprank'
-                ? 'rounded-base ' + look
+                ? 'rounded-base '
                 : 'ranklist h-20 justify-between '
         ]"
     >
@@ -127,10 +127,6 @@ export default {
     },
     item: {
       type: Object,
-      required: true,
-    },
-    look: {
-      type: String,
       required: true,
     },
   },
