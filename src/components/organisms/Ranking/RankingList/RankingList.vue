@@ -4,7 +4,6 @@
         :class="{
             'listWrapperTv':isApplicationUser,
             'listWrapper overflow-y-scroll':!isApplicationUser,
-            'bg-blue-600':this.$route.params.theme === 'departments'
         }"
     >
         <carousel
@@ -25,7 +24,7 @@
                 <div class="grid grid-cols-2 gap-2">
                     <app-ranking-item
                         v-for="(item,index) in devidedListGenerated"
-                        class="overallRankingListItem"
+                        class="bg-gray-800 rounded-base"
                         :key="index"
                         :item="item"
                         :mode="'ranklist'"
@@ -35,13 +34,15 @@
         </carousel>
         <div
             v-if="this.$route.params.theme === 'departments'">
-            <app-ranking-item
-                v-for="(item,index) in list"
-                class="depRankingListItem"
-                :key="index"
-                :item="item"
-                :mode="'ranklist'"
-            />
+            <div class="grid gap-2">
+                <app-ranking-item
+                    v-for="(item,index) in list"
+                    class="bg-gray-800 rounded-base"
+                    :key="index"
+                    :item="item"
+                    :mode="'ranklist'"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -163,20 +164,5 @@ export default {
 .defualtClass{
   direction: ltr;
   // background-color: theme('colors.blue.600');
-}
-.overallRankingListItem{
-  scroll-behavior: smooth;
-  // &:nth-child(even){
-  //   background-color: theme('colors.gray.800');
-  // }
-  background-color: theme('colors.gray.800');
-  border-radius: .5rem;
-}
-
-.depRankingListItem{
-  scroll-behavior: smooth;
-  &:nth-child(even){
-    background-color: theme('colors.gray.800');
-  }
 }
 </style>
