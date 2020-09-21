@@ -1,12 +1,7 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
-        <div
-            :class="{
-                'rankingList':!isApplicationUser,
-                'rankingListTV':isApplicationUser
-            }"
-        >
+        <div :class="isApplicationUser ? 'rankingListTV' : 'rankingList'">
             <carousel
                 v-if="this.isOverall"
                 :per-page="1"
@@ -17,14 +12,14 @@
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
                 :paginationPadding="20"
-                @page-change="getrankingListGetter()"
+                @page-change="sliderPageChanged"
             >
                 <!-- :navigate-to="sliderNavigation" -->
                 <slide
                     v-for="(slide,index) in numberOfSlider"
                     :key="index">
                     <div
-                        v-for="(item,index) in getrankingListGetter()"
+                        v-for="(item,index) in getrankingListGetter(0)"
                         :key="index"
                     >
                         <!-- @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)" -->
@@ -51,6 +46,7 @@
 
 <script>
 /* eslint-disable consistent-return */
+/* eslint-disable vue/return-in-computed-property */
 
 import { mapGetters, mapState } from 'vuex';
 import Headline from '~organisms/Headline/Headline.vue';
@@ -86,8 +82,9 @@ export default {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
     numberOfSlider() {
-      console.log(this.rankingList.rankingGroupViewModels);
-      return 3;
+      if (this.isRankingGroupFilled) {
+        return this.rankingList.rankingGroupViewModels.length;
+      }
     },
     isOverall() {
       return this.$route.params.theme === 'overall';
@@ -100,12 +97,16 @@ export default {
     },
   },
   methods: {
-    getrankingListGetter(pageNumber) {
+    sliderPageChanged(pagenumber) {
+      this.getrankingListGetter(pagenumber);
+    },
+    getrankingListGetter(pagenumber) {
       if (this.shouldShowSlider) {
-        return this.getRankingGroupViewModels(this.sliderNavigation[0]);
+        return this.getRankingGroupViewModels(pagenumber);
       }
     },
     getRankingGroupViewModels(sliderNavigation) {
+      console.log(sliderNavigation, sliderNavigation + 1);
       return this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
     },
     getPersonPhotos(RankPersonsViewModel) {
@@ -152,13 +153,6 @@ export default {
       // this.CurrentSlider += 1;
       // this.sliderNavigation = [this.CurrentSlider, true];
     },
-    updatePageination(pn) {
-      // console.log(pn);
-      // this.sliderNavigation[0] = pn;
-      // this.$store.commit('global/ParentSliderChanged', pn);
-
-      // this.$store.commit('global/toggleChildAutoPlay', true);
-    },
     getrankingListGetterlength() {
       this.saveProfilePicture();
       return this.rankingListGetter.length;
@@ -183,7 +177,7 @@ export default {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 15000,
+      after = 10000,
       speed = 5,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
@@ -262,9 +256,6 @@ export default {
         clearTimeout(oldValue);
       }
     },
-  },
-  created() {
-    // this.getrankingListGetter();
   },
   async mounted() {
     await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);

@@ -1,5 +1,5 @@
 <template>
-    <div class="text-gray-200">
+    <div class="text-gray-400">
         {{scoreNumber | toPersianNumber }}
     </div>
 </template>

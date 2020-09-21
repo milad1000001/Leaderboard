@@ -7,7 +7,6 @@
             'bg-blue-600':this.$route.params.theme === 'departments'
         }"
     >
-
         <carousel
             v-if="this.$route.params.theme === 'overall'"
             :per-page="1"
