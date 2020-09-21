@@ -10,22 +10,21 @@
         <carousel
             v-if="this.$route.params.theme === 'overall'"
             :per-page="1"
-            @page-change="dividedList"
             :adjustableHeight="false"
-            :autoplay="true"
+            :autoplay="false"
             :autoplayTimeout="5000"
             :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
+            @page-change="dividedList"
         >
-            <!-- :navigate-to="navigationVaribale" -->
             <slide
                 v-for="(slide,index) in numberOfSlider"
                 :key="index">
                 <div class="grid grid-cols-2 gap-2">
                     <app-ranking-item
-                        v-for="(item,index) in devidedListGenerated"
+                        v-for="(item,index) in listUpdatedWithWatcher"
                         class="overallRankingListItem"
                         :key="index"
                         :item="item"
@@ -62,11 +61,11 @@ export default {
   },
   data() {
     return {
-      navigationVaribale: [],
+      listUpdatedWithWatcher: {},
       currentSlicer: 0,
       slideTo: 0,
-      devidedListGenerated: [],
-      recordPerSlide: 20,
+      devidedListGenerated: {},
+      recordPerSlide: 10,
     };
   },
   props: {
@@ -91,6 +90,9 @@ export default {
       const slideNumber = Math.ceil(listLength / this.recordPerSlide);
       return slideNumber;
     },
+    getDevidedListGenerated() {
+      return this.devidedListGenerated.lowerList;
+    },
   },
   methods: {
     resetNav() {
@@ -101,23 +103,24 @@ export default {
         this.slideTo = 0;
         this.currentSlicer = 0;
         this.devidedListGenerated = [];
-        // this.$emit('goToNextSlideRanking', true);
-        // this.$store.commit('global/toggleChildAutoPlay', false);
       }
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
-      this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
       this.currentSlicer = this.slideTo;
     },
   },
   created() {
     this.dividedList();
-    // this.$store.commit('global/toggleChildAutoPlay', true);
   },
   watch: {
     ParentSliderChanged() {
-      console.log('asd');
       this.resetNav();
+    },
+    list: {
+      immediate: true,
+      handler(newValue, oldValue) {
+        this.listUpdatedWithWatcher = newValue;
+      },
     },
   },
 };

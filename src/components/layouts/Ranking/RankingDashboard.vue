@@ -6,23 +6,21 @@
                 v-if="this.isOverall"
                 :per-page="1"
                 :adjustableHeight="true"
-                :autoplay="false"
+                :autoplay="true"
                 :loop="true"
                 :paginationActiveColor="'#bbbbbb98'"
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
                 :paginationPadding="20"
-                @page-change="sliderPageChanged"
+                @page-change="fireWhenSliderChanged"
             >
-                <!-- :navigate-to="sliderNavigation" -->
                 <slide
                     v-for="(slide,index) in numberOfSlider"
                     :key="index">
                     <div
-                        v-for="(item,index) in getrankingListGetter(0)"
+                        v-for="(item,index) in getListItemsUpdated"
                         :key="index"
                     >
-                        <!-- @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)" -->
                         <Ranking
                             :title="item.title"
                             :featured="item.topRankPersonsViewModel"
@@ -56,6 +54,7 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
+      listItemsUpdated: {},
       toggleSlider: false,
       CurrentSlider: -1,
       sliderNavigationConstructor: 0,
@@ -95,9 +94,12 @@ export default {
     shouldShowSlider() {
       return this.isRankingGroupFilled && this.isOverall;
     },
+    getListItemsUpdated() {
+      return this.listItemsUpdated.list;
+    },
   },
   methods: {
-    sliderPageChanged(pagenumber) {
+    fireWhenSliderChanged(pagenumber = 0) {
       this.getrankingListGetter(pagenumber);
     },
     getrankingListGetter(pagenumber) {
@@ -106,8 +108,8 @@ export default {
       }
     },
     getRankingGroupViewModels(sliderNavigation) {
-      console.log(sliderNavigation, sliderNavigation + 1);
-      return this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
+      console.log(this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1));
+      this.$set(this.listItemsUpdated, 'list', this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1));
     },
     getPersonPhotos(RankPersonsViewModel) {
       RankPersonsViewModel.forEach((person) => {
@@ -128,30 +130,6 @@ export default {
         });
         this.$store.commit('global/saveProfilePicture', this.userProfile);
       }
-    },
-    parentSliderChangeDetection(e) {
-      this.toggleSlider = !this.toggleSlider;
-      // if (this.CurrentSlider === 2) {
-      //   this.CurrentSlider = 0;
-      // }
-      // this.CurrentSlider += 1;
-      // this.sliderNavigation = [this.CurrentSlider, true];
-
-      // if (this.sliderNavigation[0] < 2) {
-      //   this.sliderNavigationConstructor += 1;
-      //   this.sliderNavigation = [this.sliderNavigationConstructor, true];
-      //   this.$store.commit('global/toggleChildAutoPlay', true);
-      // } else {
-      //   this.sliderNavigationConstructor = 0;
-      //   this.sliderNavigation = [0, true];
-      // }
-    },
-    callForSliderChange() {
-      // if (this.CurrentSlider === 2) {
-      //   this.CurrentSlider = -1;
-      // }
-      // this.CurrentSlider += 1;
-      // this.sliderNavigation = [this.CurrentSlider, true];
     },
     getrankingListGetterlength() {
       this.saveProfilePicture();
@@ -277,6 +255,7 @@ export default {
     } else {
       await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
       this.getrankingListGetterlength();
+      this.fireWhenSliderChanged();
     }
   },
 };
