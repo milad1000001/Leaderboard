@@ -8,6 +8,7 @@
                 :adjustableHeight="true"
                 :autoplay="true"
                 :loop="true"
+                :autoplayTimeout="10000"
                 :paginationActiveColor="'#bbbbbb98'"
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
@@ -108,7 +109,6 @@ export default {
       }
     },
     getRankingGroupViewModels(sliderNavigation) {
-      console.log(this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1));
       this.$set(this.listItemsUpdated, 'list', this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1));
     },
     getPersonPhotos(RankPersonsViewModel) {

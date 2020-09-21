@@ -24,7 +24,7 @@
                 :key="index">
                 <div class="grid grid-cols-2 gap-2">
                     <app-ranking-item
-                        v-for="(item,index) in listUpdatedWithWatcher"
+                        v-for="(item,index) in devidedListGenerated"
                         class="overallRankingListItem"
                         :key="index"
                         :item="item"
@@ -106,6 +106,8 @@ export default {
       }
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
+      console.log(this.list.slice(this.currentSlicer, this.slideTo));
+      this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
       this.currentSlicer = this.slideTo;
     },
   },
@@ -119,7 +121,9 @@ export default {
     list: {
       immediate: true,
       handler(newValue, oldValue) {
-        this.listUpdatedWithWatcher = newValue;
+        this.dividedList();
+        // this.devidedListGenerated = (newValue.slice(this.currentSlicer, this.slideTo));
+        // this.listUpdatedWithWatcher = newValue;
       },
     },
   },
