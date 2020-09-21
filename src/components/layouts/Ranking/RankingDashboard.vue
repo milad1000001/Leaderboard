@@ -19,7 +19,7 @@
                     v-for="(slide,index) in numberOfSlider"
                     :key="index">
                     <div
-                        v-for="(item,index) in getListItemsUpdated"
+                        v-for="(item,index) in listItemsUpdated"
                         :key="index"
                     >
                         <Ranking
@@ -95,9 +95,6 @@ export default {
     shouldShowSlider() {
       return this.isRankingGroupFilled && this.isOverall;
     },
-    getListItemsUpdated() {
-      return this.listItemsUpdated.list;
-    },
   },
   methods: {
     fireWhenSliderChanged(pagenumber = 0) {
@@ -109,7 +106,7 @@ export default {
       }
     },
     getRankingGroupViewModels(sliderNavigation) {
-      this.$set(this.listItemsUpdated, 'list', this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1));
+      this.listItemsUpdated = this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
     },
     getPersonPhotos(RankPersonsViewModel) {
       RankPersonsViewModel.forEach((person) => {

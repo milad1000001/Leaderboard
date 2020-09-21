@@ -106,7 +106,6 @@ export default {
       }
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
-      console.log(this.list.slice(this.currentSlicer, this.slideTo));
       this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
       this.currentSlicer = this.slideTo;
     },
