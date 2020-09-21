@@ -7,7 +7,7 @@
         }"
     >
         <carousel
-            v-if="this.$route.params.theme === 'overall'"
+            v-if="this.isOverall"
             :per-page="1"
             :adjustableHeight="false"
             :autoplay="false"
@@ -33,7 +33,7 @@
             </slide>
         </carousel>
         <div
-            v-if="this.$route.params.theme === 'departments'">
+            v-if="!this.isOverall">
             <div class="grid gap-2">
                 <app-ranking-item
                     v-for="(item,index) in list"
@@ -85,6 +85,9 @@ export default {
         return true;
       }
       return false;
+    },
+    isOverall() {
+      return this.$route.params.theme === 'overall';
     },
     numberOfSlider() {
       const listLength = this.list.length;
