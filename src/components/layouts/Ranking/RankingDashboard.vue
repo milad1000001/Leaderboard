@@ -1,12 +1,18 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
+        <button
+            class="text-White border-White border-2 p-2 rounded-base"
+            @click="forceToChangeSliderNavigation()"
+        >
+            Change Slider
+        </button>
         <div :class="isApplicationUser ? 'rankingListTV' : 'rankingList'">
             <carousel
                 v-if="this.isOverall"
                 :per-page="1"
                 :adjustableHeight="true"
-                :autoplay="true"
+                :autoplay="false"
                 :loop="true"
                 :autoplayTimeout="10000"
                 :paginationActiveColor="'#bbbbbb98'"
@@ -14,6 +20,7 @@
                 :paginationSize="5"
                 :paginationPadding="20"
                 @page-change="fireWhenSliderChanged"
+                :navigate-to="navigatedSlide"
             >
                 <slide
                     v-for="(slide,index) in numberOfSlider"
@@ -55,6 +62,7 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
+      navigatedSlide: [0, false],
       listItemsUpdated: {},
       toggleSlider: false,
       CurrentSlider: -1,
@@ -76,7 +84,6 @@ export default {
       rankingListGetter: 'ranking/rankingList',
       loadingState: 'ranking/getLoadingState',
     }),
-    ...mapState('global', ['toggleChildAutoPlay', 'ParentSliderChanged']),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
@@ -95,8 +102,19 @@ export default {
     shouldShowSlider() {
       return this.isRankingGroupFilled && this.isOverall;
     },
+    reachLastSlider() {
+      return this.navigatedSlide[0] < this.numberOfSlider - 1;
+    },
   },
   methods: {
+    forceToChangeSliderNavigation() {
+      if (this.reachLastSlider) {
+        this.navigatedSlide = [this.navigatedSlide[0], true];
+        this.navigatedSlide[0] += 1;
+      } else {
+        this.navigatedSlide = [0, true];
+      }
+    },
     fireWhenSliderChanged(pagenumber = 0) {
       this.getrankingListGetter(pagenumber);
     },
@@ -131,15 +149,6 @@ export default {
     getrankingListGetterlength() {
       this.saveProfilePicture();
       return this.rankingListGetter.length;
-    },
-    sliderEnd(e) {
-      if (this.sliderNavigation[0] < 2) {
-        this.sliderNavigationConstructor += 1;
-        this.sliderNavigation = [this.sliderNavigationConstructor, true];
-        this.$store.commit('global/toggleChildAutoPlay', true);
-      } else {
-        this.sliderNavigation = [0, true];
-      }
     },
     pageReachedTheEnd() {
       return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;

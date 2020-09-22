@@ -10,13 +10,14 @@
             v-if="this.isOverall"
             :per-page="1"
             :adjustableHeight="false"
-            :autoplay="false"
-            :autoplayTimeout="5000"
+            :autoplay="canAutoPlay"
+            :autoplayTimeout="autoPlayTiming"
             :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
-            @page-change="dividedList"
+            :navigate-to="navigatedSlide"
+            @page-change="initializeSlider"
         >
             <slide
                 v-for="(slide,index) in numberOfSlider"
@@ -50,9 +51,7 @@
 <script>
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-/* eslint-disable vue/no-side-effects-in-computed-properties */
 
-import { mapState, mapGetters } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -62,11 +61,13 @@ export default {
   },
   data() {
     return {
-      listUpdatedWithWatcher: {},
+      navigatedSlide: [0, false],
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: {},
-      recordPerSlide: 10,
+      recordPerSlide: 20,
+      canAutoPlay: true,
+      autoPlayTiming: 5000,
     };
   },
   props: {
@@ -76,10 +77,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ loadingState: 'ranking/getLoadingState' }),
-    ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
-    ...mapState('global', ['viewMode', 'toggleChildAutoPlay', 'ParentSliderChanged']),
-
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True' || true) {
         return true;
@@ -94,28 +91,39 @@ export default {
       const slideNumber = Math.ceil(listLength / this.recordPerSlide);
       return slideNumber;
     },
-    getDevidedListGenerated() {
-      return this.devidedListGenerated.lowerList;
+    sliderReachTheEnd() {
+      return this.currentSlicer >= this.list.length;
     },
   },
   methods: {
-    resetNav() {
+    goToTheFirstSlide() {
       this.navigationVaribale = [0, false];
     },
-    dividedList(pn) {
-      if (this.currentSlicer >= this.list.length) {
-        this.slideTo = 0;
-        this.currentSlicer = 0;
-        this.devidedListGenerated = [];
-      }
+    startSlider() {
+      this.canAutoPlay = false;
+      const sliderPageTiming = setTimeout(() => {
+        this.navigatedSlide = [0, true];
+      }, this.autoPlayTiming);
+      this.slideTo = 0;
+      this.currentSlicer = 0;
+      this.devidedListGenerated = [];
+      this.$store.dispatch('', true);
+    },
+    generateNextSlide() {
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
       this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
       this.currentSlicer = this.slideTo;
     },
+    initializeSlider(pn) {
+      if (this.sliderReachTheEnd) {
+        this.startSlider();
+      }
+      this.generateNextSlide();
+    },
   },
   created() {
-    this.dividedList();
+    this.initializeSlider();
   },
   watch: {
     ParentSliderChanged() {
@@ -124,9 +132,7 @@ export default {
     list: {
       immediate: true,
       handler(newValue, oldValue) {
-        this.dividedList();
-        // this.devidedListGenerated = (newValue.slice(this.currentSlicer, this.slideTo));
-        // this.listUpdatedWithWatcher = newValue;
+        this.initializeSlider();
       },
     },
   },
@@ -166,6 +172,5 @@ export default {
 }
 .defualtClass{
   direction: ltr;
-  // background-color: theme('colors.blue.600');
 }
 </style>
