@@ -1,12 +1,6 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
-        <button
-            class="text-White border-White border-2 p-2 rounded-base"
-            @click="forceToChangeSliderNavigation()"
-        >
-            Change Slider
-        </button>
         <div :class="isApplicationUser ? 'rankingListTV' : 'rankingList'">
             <div
                 v-if="this.isOverall"
@@ -236,16 +230,19 @@ export default {
     },
   },
   watch: {
-    parentSliderInation() {
-      if (this.number === 2) {
-        this.number = 0;
-      }
-      if (this.childSliderCount <= 1) {
-        setImmediate(() => {
-          this.number += 1;
+    childSliderCount(value, oldValue) {
+      if(value === 1){
+        const sliderTimeOut = setTimeout(() => {
+          this.number=0
           this.getRankingGroupViewModels(this.number);
-        }, 5000);
+        },5000)
       }
+    },
+    parentSliderInation() {
+      clearTimeout('sliderTimeOut');
+      if(this.number === 2) {
+        console.log('Done')
+      };
       this.number += 1;
       this.getRankingGroupViewModels(this.number);
     },

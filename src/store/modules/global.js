@@ -11,7 +11,7 @@ export const state = {
   viewMode: 'overall',
   profilePicture: {},
   parentSliderInation: false,
-  childSliderCount: {},
+  childSliderCount: 0,
   childAutoPlay: true,
 };
 

@@ -1,64 +1,61 @@
 <template>
-    <div
-        class="defualtClass rounded-base"
-        :class="{
-            'listWrapperTv':isApplicationUser,
-            'listWrapper overflow-y-scroll':!isApplicationUser,
-        }"
+  <div
+    class="defualtClass rounded-base"
+    :class="{
+      listWrapperTv: isApplicationUser,
+      'listWrapper overflow-y-scroll': !isApplicationUser
+    }"
+  >
+    <carousel
+      v-if="this.isOverall"
+      :per-page="1"
+      :adjustableHeight="false"
+      :autoplay="canAutoPlay"
+      :autoplayTimeout="autoPlayTiming"
+      :loop="true"
+      :paginationActiveColor="'#bbbbbb98'"
+      :paginationColor="'#1F2A41'"
+      :paginationSize="5"
+      :navigate-to="navigatedSlide"
+      @page-change="initializeSlider"
     >
-        <carousel
-            v-if="this.isOverall"
-            :per-page="1"
-            :adjustableHeight="false"
-            :autoplay="canAutoPlay"
-            :autoplayTimeout="autoPlayTiming"
-            :loop="true"
-            :paginationActiveColor="'#bbbbbb98'"
-            :paginationColor="'#1F2A41'"
-            :paginationSize="5"
-            :navigate-to="navigatedSlide"
-            @page-change="initializeSlider"
-        >
-            <slide
-                v-for="(slide,index) in numberOfSlider"
-                :key="index">
-                <div class="grid grid-cols-2 gap-2">
-                    <app-ranking-item
-                        v-for="(item,index) in devidedListGenerated"
-                        class="bg-gray-800 rounded-base"
-                        :key="index"
-                        :item="item"
-                        :mode="'ranklist'"
-                    />
-                </div>
-            </slide>
-        </carousel>
-        <div
-            v-if="!this.isOverall">
-            <div class="grid gap-2">
-                <app-ranking-item
-                    v-for="(item,index) in list"
-                    class="bg-gray-800 rounded-base"
-                    :key="index"
-                    :item="item"
-                    :mode="'ranklist'"
-                />
-            </div>
+      <slide v-for="(slide, index) in numberOfSlider" :key="index">
+        <div class="grid grid-cols-2 gap-2">
+          <app-ranking-item
+            v-for="(item, index) in devidedListGenerated"
+            class="bg-gray-800 rounded-base"
+            :key="index"
+            :item="item"
+            :mode="'ranklist'"
+          />
         </div>
+      </slide>
+    </carousel>
+    <div v-if="!this.isOverall">
+      <div class="grid gap-2">
+        <app-ranking-item
+          v-for="(item, index) in list"
+          class="bg-gray-800 rounded-base"
+          :key="index"
+          :item="item"
+          :mode="'ranklist'"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
 
-import { mapState } from 'vuex';
-import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
+import { mapState } from "vuex";
+import RankingItem from "~molecules/Ranking/RankingItem/index.vue";
 
 export default {
-  name: 'RankingList',
+  name: "RankingList",
   components: {
-    'app-ranking-item': RankingItem,
+    "app-ranking-item": RankingItem
   },
   data() {
     return {
@@ -69,26 +66,26 @@ export default {
       devidedListGenerated: {},
       recordPerSlide: 10,
       canAutoPlay: true,
-      autoPlayTiming: 5000,
+      autoPlayTiming: 5000
     };
   },
   props: {
     list: {
       type: Array,
-      required: false,
-    },
+      required: false
+    }
   },
   computed: {
-    ...mapState('global', ['childAutoPlay']),
+    ...mapState("global", ["childAutoPlay"]),
 
     isApplicationUser() {
-      if (localStorage.getItem('isApplicationUser') === 'True' || true) {
+      if (localStorage.getItem("isApplicationUser") === "True" || true) {
         return true;
       }
       return false;
     },
     isOverall() {
-      return this.$route.params.theme === 'overall';
+      return this.$route.params.theme === "overall";
     },
     numberOfSlider() {
       const listLength = this.list.length;
@@ -96,8 +93,9 @@ export default {
       return slideNumber;
     },
     sliderReachTheEnd() {
-      return this.currentSlicer > this.list.length;
-    },
+      console.log(this.currentSlicer >= this.list.length, this.currentSlicer, this.list.length);
+      return this.currentSlicer >= this.list.length;
+    }
   },
   methods: {
     navigateToSpecificSlide(slideNumber, haveAnimation) {
@@ -111,65 +109,63 @@ export default {
     generateNextSlide() {
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
-      this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
+      this.devidedListGenerated = this.list.slice(this.currentSlicer, this.slideTo);
       this.currentSlicer = this.slideTo;
     },
     initializeSlider(pn) {
       if (this.sliderReachTheEnd) {
         this.currentSlicer = 0;
-        this.$store.commit('global/parentSliderInation', this.devidedListGenerated);
+        this.$store.commit("global/parentSliderInation", this.devidedListGenerated);
         this.startSlider();
       }
       this.generateNextSlide();
-    },
+    }
   },
   created() {
     this.initializeSlider();
   },
   watch: {
-    list: {
-      immediate: false,
-      handler(newValue, oldValue) {
-        this.currentSlicer = 0;
-        this.initializeSlider();
-      },
-    },
-  },
+    list(value, oldValue)  {
+      this.$store.commit("global/SET_Child_Slider_Count", this.numberOfSlider);
+      this.currentSlicer = 0;
+      this.initializeSlider();
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (max-width: 958px){
-.listWrapper{
-    max-height:max-content !important;
+@media only screen and (max-width: 958px) {
+  .listWrapper {
+    max-height: max-content !important;
   }
 }
-.listWrapperTV{
-  max-height:max-content !important;
+.listWrapperTV {
+  max-height: max-content !important;
 }
-.listWrapper{
+.listWrapper {
   scroll-behavior: smooth;
-  max-height: calc(7*64px);
+  max-height: calc(7 * 64px);
   &::-webkit-scrollbar {
-        width: 3px;
-        height: 5px;
-    }
+    width: 3px;
+    height: 5px;
+  }
 
-    &::-webkit-scrollbar-track {
-        border-radius: 5px;
-        margin: 20px 0;
-    }
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    margin: 20px 0;
+  }
 
-    &::-webkit-scrollbar-thumb {
-        background: theme('colors.blue.400');
-        border-radius: 10px;
-    }
+  &::-webkit-scrollbar-thumb {
+    background: theme("colors.blue.400");
+    border-radius: 10px;
+  }
 
-    &::-webkit-scrollbar-thumb:hover {
-        background: theme('colors.blue.200');
-    }
+  &::-webkit-scrollbar-thumb:hover {
+    background: theme("colors.blue.200");
+  }
 }
-.defualtClass{
+.defualtClass {
   direction: ltr;
 }
 </style>
