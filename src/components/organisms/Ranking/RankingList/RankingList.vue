@@ -130,6 +130,7 @@ export default {
     list: {
       immediate: false,
       handler(newValue, oldValue) {
+        this.currentSlicer = 0;
         this.initializeSlider();
       },
     },

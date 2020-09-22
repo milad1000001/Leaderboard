@@ -237,10 +237,6 @@ export default {
   },
   watch: {
     parentSliderInation() {
-      // if (this.number === 2) {
-      //   this.number = 0;
-      //   return;
-      // }
       if (this.number === 2) {
         this.number = 0;
       }
@@ -252,8 +248,6 @@ export default {
       }
       this.number += 1;
       this.getRankingGroupViewModels(this.number);
-      // this.$store.commit('global/SET_CHILD_SLIDER_AUTOPLAY', true);
-      // this.forceToChangeSliderNavigation();
     },
     scrollingInterval(value, oldValue) {
       if (oldValue) {
