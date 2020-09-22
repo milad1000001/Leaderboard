@@ -7,20 +7,15 @@ export const namespaced = true;
 
 export const state = {
   navigationToggle: false,
-  isTVMode: false,
   token: [],
   viewMode: 'overall',
-  toggleChildAutoPlay: false,
-  ParentSliderChanged: false,
   profilePicture: {},
+  parentSliderInation: false,
 };
 
 export const getters = {
   navigationState(state) {
     return state.navigationToggle;
-  },
-  iSTVMode(state) {
-    return state.isTVMode;
   },
   isApplicationUser() {
     return localStorage.getItem('isApplicationUser') === 'True' || true;
@@ -31,17 +26,8 @@ export const mutations = {
   saveProfilePicture(state, baseImg) {
     Vue.set(state, 'profilePicture', baseImg);
   },
-  toggleNavigation(state, value) {
-    Vue.set(state, 'navigationToggle', value);
-  },
-  toggleChildAutoPlay(state, toggleValue) {
-    Vue.set(state, 'toggleChildAutoPlay', toggleValue);
-  },
-  ParentSliderChanged(state, toggleValue) {
-    Vue.set(state, 'ParentSliderChanged', toggleValue);
-  },
-  changeToTVMode(state, value) {
-    Vue.set(state, 'isTVMode', value);
+  parentSliderInation(state, toggleValue) {
+    Vue.set(state, 'parentSliderInation', toggleValue);
   },
   saveTokenData(state, token) {
     localStorage.setItem('isApplicationUser', token.isApplicationUser);

@@ -19,7 +19,7 @@
                 :paginationColor="'#1F2A41'"
                 :paginationSize="5"
                 :paginationPadding="20"
-                @page-change="fireWhenSliderChanged"
+                @page-change="onSliderChanged"
                 :navigate-to="navigatedSlide"
             >
                 <slide
@@ -107,6 +107,11 @@ export default {
     },
   },
   methods: {
+    async initializeSliding() {
+      await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+      this.getrankingListGetterlength();
+      this.onSliderChanged();
+    },
     forceToChangeSliderNavigation() {
       if (this.reachLastSlider) {
         this.navigatedSlide = [this.navigatedSlide[0], true];
@@ -115,7 +120,7 @@ export default {
         this.navigatedSlide = [0, true];
       }
     },
-    fireWhenSliderChanged(pagenumber = 0) {
+    onSliderChanged(pagenumber = 0) {
       this.getrankingListGetter(pagenumber);
     },
     getrankingListGetter(pagenumber) {
@@ -225,6 +230,25 @@ export default {
         },
       });
     },
+    listenPageEvent() {
+      ['wheel', 'click'].forEach((eventType) => {
+        document.addEventListener(eventType, () => {
+          this.stopScrolling();
+          this.startScrolling({
+            atTheEnd() {
+              setTimeout(() => {
+                this.currentPage += 1;
+                this.startPagePresentation();
+              }, 5000);
+            },
+          });
+        });
+      });
+    },
+    async initializeScrolling() {
+      await this.startPagePresentation();
+      this.listenPageEvent();
+    },
   },
   watch: {
     toggleSlider() {
@@ -243,25 +267,10 @@ export default {
   },
   async mounted() {
     await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);
-    if (this.$route.params.theme === 'departments') {
-      await this.startPagePresentation();
-      ['wheel', 'click'].forEach((eventType) => {
-        document.addEventListener(eventType, () => {
-          this.stopScrolling();
-          this.startScrolling({
-            atTheEnd() {
-              setTimeout(() => {
-                this.currentPage += 1;
-                this.startPagePresentation();
-              }, 5000);
-            },
-          });
-        });
-      });
+    if (!this.isOverall) {
+      this.initializeScrolling();
     } else {
-      await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
-      this.getrankingListGetterlength();
-      this.fireWhenSliderChanged();
+      this.initializeSliding();
     }
   },
 };

@@ -126,9 +126,6 @@ export default {
     this.initializeSlider();
   },
   watch: {
-    ParentSliderChanged() {
-      this.resetNav();
-    },
     list: {
       immediate: true,
       handler(newValue, oldValue) {
