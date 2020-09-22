@@ -8,35 +8,17 @@
             Change Slider
         </button>
         <div :class="isApplicationUser ? 'rankingListTV' : 'rankingList'">
-            <carousel
+            <div
                 v-if="this.isOverall"
-                :per-page="1"
-                :adjustableHeight="true"
-                :autoplay="false"
-                :loop="true"
-                :autoplayTimeout="10000"
-                :paginationActiveColor="'#bbbbbb98'"
-                :paginationColor="'#1F2A41'"
-                :paginationSize="5"
-                :paginationPadding="20"
-                @page-change="onSliderChanged"
-                :navigate-to="navigatedSlide"
             >
-                <slide
-                    v-for="(slide,index) in numberOfSlider"
-                    :key="index">
-                    <div
-                        v-for="(item,index) in listItemsUpdated"
-                        :key="index"
-                    >
-                        <Ranking
-                            :title="item.title"
-                            :featured="item.topRankPersonsViewModel"
-                            :list="item.lowerRankPersonsViewModel"
-                        />
-                    </div>
-                </slide>
-            </carousel>
+                <Ranking
+                    v-for="(item,index) in listItemsUpdated"
+                    :key="index"
+                    :title="item.title"
+                    :featured="item.topRankPersonsViewModel"
+                    :list="item.lowerRankPersonsViewModel"
+                />
+            </div>
             <div v-if="!this.isOverall">
                 <Ranking
                     v-for="(item,index) in rankingListGetter"
@@ -62,9 +44,9 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
+      autoPlayTiming: 10000,
       navigatedSlide: [0, false],
       listItemsUpdated: {},
-      toggleSlider: false,
       CurrentSlider: -1,
       sliderNavigationConstructor: 0,
       isAutoplay: false,
@@ -73,6 +55,7 @@ export default {
       currentPage: 0,
       scrollingInterval: null,
       scrollingTimeout: null,
+      number: 0,
     };
   },
   components: {
@@ -85,6 +68,8 @@ export default {
       loadingState: 'ranking/getLoadingState',
     }),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
+    ...mapState('global', ['parentSliderInation', 'childSliderCount']),
+
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
@@ -251,8 +236,24 @@ export default {
     },
   },
   watch: {
-    toggleSlider() {
-      this.callForSliderChange();
+    parentSliderInation() {
+      // if (this.number === 2) {
+      //   this.number = 0;
+      //   return;
+      // }
+      if (this.number === 2) {
+        this.number = 0;
+      }
+      if (this.childSliderCount <= 1) {
+        setImmediate(() => {
+          this.number += 1;
+          this.getRankingGroupViewModels(this.number);
+        }, 5000);
+      }
+      this.number += 1;
+      this.getRankingGroupViewModels(this.number);
+      // this.$store.commit('global/SET_CHILD_SLIDER_AUTOPLAY', true);
+      // this.forceToChangeSliderNavigation();
     },
     scrollingInterval(value, oldValue) {
       if (oldValue) {

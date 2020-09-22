@@ -11,6 +11,8 @@ export const state = {
   viewMode: 'overall',
   profilePicture: {},
   parentSliderInation: false,
+  childSliderCount: {},
+  childAutoPlay: true,
 };
 
 export const getters = {
@@ -28,6 +30,12 @@ export const mutations = {
   },
   parentSliderInation(state, toggleValue) {
     Vue.set(state, 'parentSliderInation', toggleValue);
+  },
+  SET_Child_Slider_Count(state, count) {
+    Vue.set(state, 'childSliderCount', count);
+  },
+  SET_CHILD_SLIDER_AUTOPLAY(state, toggleValue) {
+    Vue.set(state, 'childAutoPlay', toggleValue);
   },
   saveTokenData(state, token) {
     localStorage.setItem('isApplicationUser', token.isApplicationUser);

@@ -52,6 +52,7 @@
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
 
+import { mapState } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -62,10 +63,11 @@ export default {
   data() {
     return {
       navigatedSlide: [0, false],
+      booleanToggleForWatcherDetection: true,
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: {},
-      recordPerSlide: 20,
+      recordPerSlide: 10,
       canAutoPlay: true,
       autoPlayTiming: 5000,
     };
@@ -77,6 +79,8 @@ export default {
     },
   },
   computed: {
+    ...mapState('global', ['childAutoPlay']),
+
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True' || true) {
         return true;
@@ -92,22 +96,17 @@ export default {
       return slideNumber;
     },
     sliderReachTheEnd() {
-      return this.currentSlicer >= this.list.length;
+      return this.currentSlicer > this.list.length;
     },
   },
   methods: {
-    goToTheFirstSlide() {
-      this.navigationVaribale = [0, false];
+    navigateToSpecificSlide(slideNumber, haveAnimation) {
+      this.navigatedSlide = [slideNumber, haveAnimation];
     },
     startSlider() {
-      this.canAutoPlay = false;
-      const sliderPageTiming = setTimeout(() => {
-        this.navigatedSlide = [0, true];
-      }, this.autoPlayTiming);
       this.slideTo = 0;
       this.currentSlicer = 0;
       this.devidedListGenerated = [];
-      this.$store.dispatch('', true);
     },
     generateNextSlide() {
       this.slideTo = this.currentSlicer;
@@ -117,6 +116,8 @@ export default {
     },
     initializeSlider(pn) {
       if (this.sliderReachTheEnd) {
+        this.currentSlicer = 0;
+        this.$store.commit('global/parentSliderInation', this.devidedListGenerated);
         this.startSlider();
       }
       this.generateNextSlide();
@@ -127,7 +128,7 @@ export default {
   },
   watch: {
     list: {
-      immediate: true,
+      immediate: false,
       handler(newValue, oldValue) {
         this.initializeSlider();
       },
