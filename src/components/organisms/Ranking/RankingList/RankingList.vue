@@ -66,7 +66,7 @@ export default {
       currentSlicer: 0,
       slideTo: 0,
       devidedListGenerated: {},
-      recordPerSlide: 10,
+      recordPerSlide: 26,
       canAutoPlay: true,
       autoPlayTiming: 5000,
     };
@@ -95,7 +95,7 @@ export default {
       return slideNumber;
     },
     sliderReachTheEnd() {
-      console.log(this.currentSlicer >= this.list.length, this.currentSlicer, this.list.length);
+      // console.log(this.currentSlicer >= this.list.length, this.currentSlicer, this.list.length);
       return this.currentSlicer >= this.list.length;
     },
   },
@@ -116,7 +116,6 @@ export default {
     },
     initializeSlider(pn) {
       if (this.sliderReachTheEnd) {
-        this.currentSlicer = 0;
         this.$store.commit('global/parentSliderInation', this.devidedListGenerated);
         this.startSlider();
       }
@@ -128,7 +127,6 @@ export default {
   },
   watch: {
     list(value, oldValue) {
-      this.$store.commit('global/SET_Child_Slider_Count', this.numberOfSlider);
       this.currentSlicer = 0;
       this.initializeSlider();
     },

@@ -40,14 +40,11 @@ export default {
   data() {
     return {
       autoPlayTiming: 10000,
-      navigatedSlide: [0, false],
       listItemsUpdated: {},
-      CurrentSlider: -1,
-      sliderNavigationConstructor: 0,
-      isAutoplay: false,
-      userProfile: [],
-      sliderNavigation: [0, false],
+
+      userProfilePicture: [],
       currentPage: 0,
+
       scrollingInterval: null,
       scrollingTimeout: null,
       number: 0,
@@ -82,23 +79,30 @@ export default {
     shouldShowSlider() {
       return this.isRankingGroupFilled && this.isOverall;
     },
-    reachLastSlider() {
-      return this.navigatedSlide[0] < this.numberOfSlider - 1;
-    },
   },
   methods: {
+    // Slider Config
+    initializeSlider() {
+      clearTimeout('sliderTimeOut');
+      this.number += 1;
+      this.getRankingGroupViewModels(this.number);
+    },
+    initializeSliderConditions() {
+      if (this.number >= 2) {
+        const sliderTimeOut = setTimeout(() => {
+          this.number = 0;
+          this.getRankingGroupViewModels(this.number);
+        }, this.autoPlayTiming);
+      } else {
+        const sliderTimeOut = setTimeout(() => {
+          this.$store.commit('global/parentSliderInation', this.number);
+        }, this.autoPlayTiming);
+      }
+    },
     async initializeSliding() {
       await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
       this.getrankingListGetterlength();
       this.onSliderChanged();
-    },
-    forceToChangeSliderNavigation() {
-      if (this.reachLastSlider) {
-        this.navigatedSlide = [this.navigatedSlide[0], true];
-        this.navigatedSlide[0] += 1;
-      } else {
-        this.navigatedSlide = [0, true];
-      }
     },
     onSliderChanged(pagenumber = 0) {
       this.getrankingListGetter(pagenumber);
@@ -111,37 +115,18 @@ export default {
     getRankingGroupViewModels(sliderNavigation) {
       this.listItemsUpdated = this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
     },
-    getPersonPhotos(RankPersonsViewModel) {
-      RankPersonsViewModel.forEach((person) => {
-        this.$store.dispatch('ranking/getPersonPhoto', person.username)
-          .then((response) => {
-            this.userProfile.push({
-              username: person.username,
-              profileImage: response,
-            });
-          });
-      });
-    },
-    saveProfilePicture() {
-      if (this.rankingList.rankingGroupViewModels) {
-        this.rankingList.rankingGroupViewModels.forEach((el) => {
-          this.getPersonPhotos(el.lowerRankPersonsViewModel);
-          this.getPersonPhotos(el.topRankPersonsViewModel);
-        });
-        this.$store.commit('global/saveProfilePicture', this.userProfile);
-      }
-    },
     getrankingListGetterlength() {
       this.saveProfilePicture();
       return this.rankingListGetter.length;
     },
+
+    // Scroll Config
     pageReachedTheEnd() {
       return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;
     },
     pageHasNoScroll() {
       return window.innerHeight >= document.body.offsetHeight;
     },
-
     scrollTo(top) {
       window.scrollTo(0, top);
     },
@@ -168,13 +153,11 @@ export default {
       clearInterval(this.scrollingInterval);
       clearTimeout(this.scrollingTimeout);
     },
-
     gotAllRankingPages() {
       return this.currentPage === this.rankingGroup.length;
     },
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
-        // this.rankingGroup[this.currentPage].id
         await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
         this.saveProfilePicture();
 
@@ -229,23 +212,33 @@ export default {
       await this.startPagePresentation();
       this.listenPageEvent();
     },
-  },
-  watch: {
-    childSliderCount(value, oldValue) {
-      if (value === 1) {
-        const sliderTimeOut = setTimeout(() => {
-          this.number = 0;
-          this.getRankingGroupViewModels(this.number);
-        }, 5000);
+
+    // Get Photos
+    getPersonPhotos(RankPersonsViewModel) {
+      RankPersonsViewModel.forEach((person) => {
+        this.$store.dispatch('ranking/getPersonPhoto', person.username)
+          .then((response) => {
+            this.userProfilePicture.push({
+              username: person.username,
+              profileImage: response,
+            });
+          });
+      });
+    },
+    saveProfilePicture() {
+      if (this.rankingList.rankingGroupViewModels) {
+        this.rankingList.rankingGroupViewModels.forEach((el) => {
+          this.getPersonPhotos(el.lowerRankPersonsViewModel);
+          this.getPersonPhotos(el.topRankPersonsViewModel);
+        });
+        this.$store.commit('global/saveProfilePicture', this.userProfilePicture);
       }
     },
+  },
+  watch: {
     parentSliderInation() {
-      clearTimeout('sliderTimeOut');
-      if (this.number === 2) {
-        console.log('Done');
-      }
-      this.number += 1;
-      this.getRankingGroupViewModels(this.number);
+      this.initializeSlider();
+      this.initializeSliderConditions();
     },
     scrollingInterval(value, oldValue) {
       if (oldValue) {
