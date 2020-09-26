@@ -21,7 +21,7 @@ module.exports = {
         ignoreRestSiblings: false,
       },
     ],
-    lintOnSave: 1,
+    lintOnSave: 0,
     'no-param-reassign': [
       'error',
       {

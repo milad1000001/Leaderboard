@@ -28,6 +28,7 @@
 
 <script>
 /* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
 /* eslint-disable vue/return-in-computed-property */
 
 import { mapGetters, mapState } from 'vuex';
@@ -231,18 +232,18 @@ export default {
   },
   watch: {
     childSliderCount(value, oldValue) {
-      if(value === 1){
+      if (value === 1) {
         const sliderTimeOut = setTimeout(() => {
-          this.number=0
+          this.number = 0;
           this.getRankingGroupViewModels(this.number);
-        },5000)
+        }, 5000);
       }
     },
     parentSliderInation() {
       clearTimeout('sliderTimeOut');
-      if(this.number === 2) {
-        console.log('Done')
-      };
+      if (this.number === 2) {
+        console.log('Done');
+      }
       this.number += 1;
       this.getRankingGroupViewModels(this.number);
     },
