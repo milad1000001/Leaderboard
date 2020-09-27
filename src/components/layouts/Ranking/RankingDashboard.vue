@@ -1,41 +1,18 @@
 <template>
     <div class="mx-12 my-8">
         <Headline/>
-        <div
-            :class="{
-                'rankingList':!isApplicationUser,
-                'rankingListTV':isApplicationUser
-            }"
-        >
-            <carousel
+        <div :class="isApplicationUser ? 'rankingListTV' : 'rankingList'">
+            <div
                 v-if="this.isOverall"
-                :per-page="1"
-                :adjustableHeight="true"
-                :autoplay="false"
-                :loop="true"
-                :paginationActiveColor="'#bbbbbb98'"
-                :paginationColor="'#1F2A41'"
-                :paginationSize="5"
-                :paginationPadding="20"
-                @page-change="getrankingListGetter()"
             >
-                <!-- :navigate-to="sliderNavigation" -->
-                <slide
-                    v-for="(slide,index) in numberOfSlider"
-                    :key="index">
-                    <div
-                        v-for="(item,index) in getrankingListGetter()"
-                        :key="index"
-                    >
-                        <!-- @goToNextSlideRankingDashboard="parentSliderChangeDetection($event)" -->
-                        <Ranking
-                            :title="item.title"
-                            :featured="item.topRankPersonsViewModel"
-                            :list="item.lowerRankPersonsViewModel"
-                        />
-                    </div>
-                </slide>
-            </carousel>
+                <Ranking
+                    v-for="(item,index) in listItemsUpdated"
+                    :key="index"
+                    :title="item.title"
+                    :featured="item.topRankPersonsViewModel"
+                    :list="item.lowerRankPersonsViewModel"
+                />
+            </div>
             <div v-if="!this.isOverall">
                 <Ranking
                     v-for="(item,index) in rankingListGetter"
@@ -51,6 +28,8 @@
 
 <script>
 /* eslint-disable consistent-return */
+/* eslint-disable no-unused-vars */
+/* eslint-disable vue/return-in-computed-property */
 
 import { mapGetters, mapState } from 'vuex';
 import Headline from '~organisms/Headline/Headline.vue';
@@ -60,15 +39,15 @@ export default {
   name: 'RankingDashboard',
   data() {
     return {
-      toggleSlider: false,
-      CurrentSlider: -1,
-      sliderNavigationConstructor: 0,
-      isAutoplay: false,
-      userProfile: [],
-      sliderNavigation: [0, false],
+      autoPlayTiming: 10000,
+      listItemsUpdated: {},
+
+      userProfilePicture: [],
       currentPage: 0,
+
       scrollingInterval: null,
       scrollingTimeout: null,
+      number: 0,
     };
   },
   components: {
@@ -80,14 +59,16 @@ export default {
       rankingListGetter: 'ranking/rankingList',
       loadingState: 'ranking/getLoadingState',
     }),
-    ...mapState('global', ['toggleChildAutoPlay', 'ParentSliderChanged']),
     ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall', 'isActive']),
+    ...mapState('global', ['parentSliderInation', 'childSliderCount']),
+
     isApplicationUser() {
       return localStorage.getItem('isApplicationUser') === 'True' || true;
     },
     numberOfSlider() {
-      console.log(this.rankingList.rankingGroupViewModels);
-      return 3;
+      if (this.isRankingGroupFilled) {
+        return this.rankingList.rankingGroupViewModels.length;
+      }
     },
     isOverall() {
       return this.$route.params.theme === 'overall';
@@ -100,90 +81,57 @@ export default {
     },
   },
   methods: {
-    getrankingListGetter(pageNumber) {
+    // Slider Config
+    initializeSlider() {
+      clearTimeout('sliderTimeOut');
+      this.number += 1;
+      this.getRankingGroupViewModels(this.number);
+    },
+    initializeSliderConditions() {
+      if (this.number >= 2) {
+        const sliderTimeOut = setTimeout(() => {
+          this.number = 0;
+          this.getRankingGroupViewModels(this.number);
+        }, this.autoPlayTiming);
+      } else {
+        const sliderTimeOut = setTimeout(() => {
+          this.$store.commit('global/parentSliderInation', this.number);
+        }, this.autoPlayTiming);
+      }
+    },
+    async initializeSliding() {
+      await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
+      this.getrankingListGetterlength();
+      this.onSliderChanged();
+    },
+    onSliderChanged(pagenumber = 0) {
+      this.getrankingListGetter(pagenumber);
+    },
+    getrankingListGetter(pagenumber) {
       if (this.shouldShowSlider) {
-        return this.getRankingGroupViewModels(this.sliderNavigation[0]);
+        return this.getRankingGroupViewModels(pagenumber);
       }
     },
     getRankingGroupViewModels(sliderNavigation) {
-      return this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
-    },
-    getPersonPhotos(RankPersonsViewModel) {
-      RankPersonsViewModel.forEach((person) => {
-        this.$store.dispatch('ranking/getPersonPhoto', person.username)
-          .then((response) => {
-            this.userProfile.push({
-              username: person.username,
-              profileImage: response,
-            });
-          });
-      });
-    },
-    saveProfilePicture() {
-      if (this.rankingList.rankingGroupViewModels) {
-        this.rankingList.rankingGroupViewModels.forEach((el) => {
-          this.getPersonPhotos(el.lowerRankPersonsViewModel);
-          this.getPersonPhotos(el.topRankPersonsViewModel);
-        });
-        this.$store.commit('global/saveProfilePicture', this.userProfile);
-      }
-    },
-    parentSliderChangeDetection(e) {
-      this.toggleSlider = !this.toggleSlider;
-      // if (this.CurrentSlider === 2) {
-      //   this.CurrentSlider = 0;
-      // }
-      // this.CurrentSlider += 1;
-      // this.sliderNavigation = [this.CurrentSlider, true];
-
-      // if (this.sliderNavigation[0] < 2) {
-      //   this.sliderNavigationConstructor += 1;
-      //   this.sliderNavigation = [this.sliderNavigationConstructor, true];
-      //   this.$store.commit('global/toggleChildAutoPlay', true);
-      // } else {
-      //   this.sliderNavigationConstructor = 0;
-      //   this.sliderNavigation = [0, true];
-      // }
-    },
-    callForSliderChange() {
-      // if (this.CurrentSlider === 2) {
-      //   this.CurrentSlider = -1;
-      // }
-      // this.CurrentSlider += 1;
-      // this.sliderNavigation = [this.CurrentSlider, true];
-    },
-    updatePageination(pn) {
-      // console.log(pn);
-      // this.sliderNavigation[0] = pn;
-      // this.$store.commit('global/ParentSliderChanged', pn);
-
-      // this.$store.commit('global/toggleChildAutoPlay', true);
+      this.listItemsUpdated = this.rankingList.rankingGroupViewModels.slice(sliderNavigation, sliderNavigation + 1);
     },
     getrankingListGetterlength() {
       this.saveProfilePicture();
       return this.rankingListGetter.length;
     },
-    sliderEnd(e) {
-      if (this.sliderNavigation[0] < 2) {
-        this.sliderNavigationConstructor += 1;
-        this.sliderNavigation = [this.sliderNavigationConstructor, true];
-        this.$store.commit('global/toggleChildAutoPlay', true);
-      } else {
-        this.sliderNavigation = [0, true];
-      }
-    },
+
+    // Scroll Config
     pageReachedTheEnd() {
       return window.innerHeight + window.scrollY > document.body.offsetHeight + 60 && window.scrollY > 100;
     },
     pageHasNoScroll() {
       return window.innerHeight >= document.body.offsetHeight;
     },
-
     scrollTo(top) {
       window.scrollTo(0, top);
     },
     startScrolling({
-      after = 15000,
+      after = 10000,
       speed = 5,
       atTheEnd = () => {},
       atTheEndWithoudScroll = () => {},
@@ -205,13 +153,11 @@ export default {
       clearInterval(this.scrollingInterval);
       clearTimeout(this.scrollingTimeout);
     },
-
     gotAllRankingPages() {
       return this.currentPage === this.rankingGroup.length;
     },
     async fetchPage({ gotNoData, onLastPage }) {
       if (!this.gotAllRankingPages()) {
-        // this.rankingGroup[this.currentPage].id
         await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
         this.saveProfilePicture();
 
@@ -247,29 +193,7 @@ export default {
         },
       });
     },
-  },
-  watch: {
-    toggleSlider() {
-      this.callForSliderChange();
-    },
-    scrollingInterval(value, oldValue) {
-      if (oldValue) {
-        clearInterval(oldValue);
-      }
-    },
-    scrollingTimeout(value, oldValue) {
-      if (oldValue) {
-        clearTimeout(oldValue);
-      }
-    },
-  },
-  created() {
-    // this.getrankingListGetter();
-  },
-  async mounted() {
-    await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);
-    if (this.$route.params.theme === 'departments') {
-      await this.startPagePresentation();
+    listenPageEvent() {
       ['wheel', 'click'].forEach((eventType) => {
         document.addEventListener(eventType, () => {
           this.stopScrolling();
@@ -283,9 +207,56 @@ export default {
           });
         });
       });
+    },
+    async initializeScrolling() {
+      await this.startPagePresentation();
+      this.listenPageEvent();
+    },
+
+    // Get Photos
+    getPersonPhotos(RankPersonsViewModel) {
+      RankPersonsViewModel.forEach((person) => {
+        this.$store.dispatch('ranking/getPersonPhoto', person.username)
+          .then((response) => {
+            this.userProfilePicture.push({
+              username: person.username,
+              profileImage: response,
+            });
+          });
+      });
+    },
+    saveProfilePicture() {
+      if (this.rankingList.rankingGroupViewModels) {
+        this.rankingList.rankingGroupViewModels.forEach((el) => {
+          this.getPersonPhotos(el.lowerRankPersonsViewModel);
+          this.getPersonPhotos(el.topRankPersonsViewModel);
+        });
+        this.$store.commit('global/saveProfilePicture', this.userProfilePicture);
+      }
+    },
+  },
+  watch: {
+    parentSliderInation() {
+      this.initializeSlider();
+      this.initializeSliderConditions();
+    },
+    scrollingInterval(value, oldValue) {
+      if (oldValue) {
+        clearInterval(oldValue);
+      }
+    },
+    scrollingTimeout(value, oldValue) {
+      if (oldValue) {
+        clearTimeout(oldValue);
+      }
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('ranking/getRankingGroups', this.$route.params.theme);
+    if (!this.isOverall) {
+      this.initializeScrolling();
     } else {
-      await this.$store.dispatch('ranking/getRankingList', [this.rankingGroup[this.currentPage].id, this.$route.params.theme]);
-      this.getrankingListGetterlength();
+      this.initializeSliding();
     }
   },
 };

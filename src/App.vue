@@ -51,6 +51,8 @@
     </div>
 </template>
 <script>
+/* eslint-disable vue/no-async-in-computed-properties */
+
 import { mapGetters, mapState } from 'vuex';
 import { setAuthHeader } from '~services/http';
 import Navigation from '~layouts/Navigation/Navigation.vue';

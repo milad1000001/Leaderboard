@@ -40,9 +40,7 @@ appAxios.interceptors.response.use(
     if (response.status === 204) {
       store.commit('ranking/CHANGE_LOADING_STATE', true);
     } else {
-      setTimeout(() => {
-        store.commit('ranking/CHANGE_LOADING_STATE', false);
-      }, 2000);
+      store.commit('ranking/CHANGE_LOADING_STATE', false);
     }
     return response;
   },

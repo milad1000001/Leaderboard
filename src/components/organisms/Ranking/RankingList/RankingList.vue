@@ -2,32 +2,30 @@
     <div
         class="defualtClass rounded-base"
         :class="{
-            'listWrapperTv':isApplicationUser,
-            'listWrapper overflow-y-scroll':!isApplicationUser,
-            'bg-blue-600':this.$route.params.theme === 'departments'
+            listWrapperTv: isApplicationUser,
+            'listWrapper overflow-y-scroll': !isApplicationUser
         }"
     >
-
         <carousel
-            v-if="this.$route.params.theme === 'overall'"
+            v-if="this.isOverall"
             :per-page="1"
-            @page-change="dividedList"
             :adjustableHeight="false"
-            :autoplay="true"
-            :autoplayTimeout="5000"
+            :autoplay="canAutoPlay"
+            :autoplayTimeout="autoPlayTiming"
             :loop="true"
             :paginationActiveColor="'#bbbbbb98'"
             :paginationColor="'#1F2A41'"
             :paginationSize="5"
+            :navigate-to="navigatedSlide"
+            @page-change="initializeSlider"
         >
-            <!-- :navigate-to="navigationVaribale" -->
             <slide
-                v-for="(slide,index) in numberOfSlider"
+                v-for="(slide, index) in numberOfSlider"
                 :key="index">
                 <div class="grid grid-cols-2 gap-2">
                     <app-ranking-item
-                        v-for="(item,index) in devidedListGenerated"
-                        class="overallRankingListItem"
+                        v-for="(item, index) in devidedListGenerated"
+                        class="bg-gray-800 rounded-base"
                         :key="index"
                         :item="item"
                         :mode="'ranklist'"
@@ -35,15 +33,16 @@
                 </div>
             </slide>
         </carousel>
-        <div
-            v-if="this.$route.params.theme === 'departments'">
-            <app-ranking-item
-                v-for="(item,index) in list"
-                class="depRankingListItem"
-                :key="index"
-                :item="item"
-                :mode="'ranklist'"
-            />
+        <div v-if="!this.isOverall">
+            <div class="grid gap-2">
+                <app-ranking-item
+                    v-for="(item, index) in list"
+                    class="bg-gray-800 rounded-base"
+                    :key="index"
+                    :item="item"
+                    :mode="'ranklist'"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -51,9 +50,8 @@
 <script>
 /* eslint-disable no-constant-condition */
 /* eslint-disable no-unused-vars */
-/* eslint-disable vue/no-side-effects-in-computed-properties */
 
-import { mapState, mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 import RankingItem from '~molecules/Ranking/RankingItem/index.vue';
 
 export default {
@@ -63,11 +61,14 @@ export default {
   },
   data() {
     return {
-      navigationVaribale: [],
+      navigatedSlide: [0, false],
+      booleanToggleForWatcherDetection: true,
       currentSlicer: 0,
       slideTo: 0,
-      devidedListGenerated: [],
-      recordPerSlide: 20,
+      devidedListGenerated: {},
+      recordPerSlide: 26,
+      canAutoPlay: true,
+      autoPlayTiming: 5000,
     };
   },
   props: {
@@ -77,9 +78,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({ loadingState: 'ranking/getLoadingState' }),
-    ...mapState('ranking', ['rankingList', 'rankingGroup', 'isOverall']),
-    ...mapState('global', ['viewMode', 'toggleChildAutoPlay', 'ParentSliderChanged']),
+    ...mapState('global', ['childAutoPlay']),
 
     isApplicationUser() {
       if (localStorage.getItem('isApplicationUser') === 'True' || true) {
@@ -87,91 +86,86 @@ export default {
       }
       return false;
     },
+    isOverall() {
+      return this.$route.params.theme === 'overall';
+    },
     numberOfSlider() {
       const listLength = this.list.length;
       const slideNumber = Math.ceil(listLength / this.recordPerSlide);
       return slideNumber;
     },
+    sliderReachTheEnd() {
+      // console.log(this.currentSlicer >= this.list.length, this.currentSlicer, this.list.length);
+      return this.currentSlicer >= this.list.length;
+    },
   },
   methods: {
-    resetNav() {
-      this.navigationVaribale = [0, false];
+    navigateToSpecificSlide(slideNumber, haveAnimation) {
+      this.navigatedSlide = [slideNumber, haveAnimation];
     },
-    dividedList(pn) {
-      if (this.currentSlicer >= this.list.length) {
-        this.slideTo = 0;
-        this.currentSlicer = 0;
-        this.devidedListGenerated = [];
-        // this.$emit('goToNextSlideRanking', true);
-        // this.$store.commit('global/toggleChildAutoPlay', false);
-      }
+    startSlider() {
+      this.slideTo = 0;
+      this.currentSlicer = 0;
+      this.devidedListGenerated = [];
+    },
+    generateNextSlide() {
       this.slideTo = this.currentSlicer;
       this.slideTo += this.recordPerSlide;
-      this.devidedListGenerated = (this.list.slice(this.currentSlicer, this.slideTo));
+      this.devidedListGenerated = this.list.slice(this.currentSlicer, this.slideTo);
       this.currentSlicer = this.slideTo;
+    },
+    initializeSlider(pn) {
+      if (this.sliderReachTheEnd) {
+        this.$store.commit('global/parentSliderInation', this.devidedListGenerated);
+        this.startSlider();
+      }
+      this.generateNextSlide();
     },
   },
   created() {
-    this.dividedList();
-    // this.$store.commit('global/toggleChildAutoPlay', true);
+    this.initializeSlider();
   },
   watch: {
-    ParentSliderChanged() {
-      console.log('asd');
-      this.resetNav();
+    list(value, oldValue) {
+      this.currentSlicer = 0;
+      this.initializeSlider();
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@media only screen and (max-width: 958px){
-.listWrapper{
-    max-height:max-content !important;
+@media only screen and (max-width: 958px) {
+  .listWrapper {
+    max-height: max-content !important;
   }
 }
-.listWrapperTV{
-  max-height:max-content !important;
+.listWrapperTV {
+  max-height: max-content !important;
 }
-.listWrapper{
+.listWrapper {
   scroll-behavior: smooth;
-  max-height: calc(7*64px);
+  max-height: calc(7 * 64px);
   &::-webkit-scrollbar {
-        width: 3px;
-        height: 5px;
-    }
-
-    &::-webkit-scrollbar-track {
-        border-radius: 5px;
-        margin: 20px 0;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: theme('colors.blue.400');
-        border-radius: 10px;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background: theme('colors.blue.200');
-    }
-}
-.defualtClass{
-  direction: ltr;
-  // background-color: theme('colors.blue.600');
-}
-.overallRankingListItem{
-  scroll-behavior: smooth;
-  // &:nth-child(even){
-  //   background-color: theme('colors.gray.800');
-  // }
-  background-color: theme('colors.gray.800');
-  border-radius: .5rem;
-}
-
-.depRankingListItem{
-  scroll-behavior: smooth;
-  &:nth-child(even){
-    background-color: theme('colors.gray.800');
+    width: 3px;
+    height: 5px;
   }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 5px;
+    margin: 20px 0;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: theme("colors.blue.400");
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: theme("colors.blue.200");
+  }
+}
+.defualtClass {
+  direction: ltr;
 }
 </style>
