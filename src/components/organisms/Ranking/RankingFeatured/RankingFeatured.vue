@@ -1,7 +1,10 @@
 <template>
     <div
-        class="RankingFeatured align-center gap-2 sticky bg-blue-800 border-8 border-blue-800 border-l-0 border-r-0"
-        :class="{'isSticky':this.$route.params.theme==='departments'}"
+        class="RankingFeatured grid grid-cols-3 align-center gap-2 sticky bg-blue-800"
+        :class="{
+            'mb-2 border-8 border-blue-800 border-l-0 border-r-0 border-b-0':deviceDetection.ipad,
+            'border-8 border-blue-800 border-l-0 border-r-0':!deviceDetection.ipad,
+        }"
     >
         <app-ranking-item
             v-for="(item,index) in featured"
@@ -27,15 +30,16 @@ export default {
       required: true,
     },
   },
+  computed: {
+    deviceDetection() {
+      return this.$device;
+    },
+  },
 };
 </script>
 
 <style scoped>
-.isSticky{
-  top:160px;
-}
 .RankingFeatured{
-  display: flex;
   height: 300px;
 }
 .featuredWrapper{

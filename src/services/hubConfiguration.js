@@ -6,7 +6,6 @@ import store from '../store/store';
 
 export const signalR = require('@microsoft/signalr');
 
-console.log(process.env.NODE_ENV);
 const rankingHubURL = `${process.env.VUE_APP_BASE_URL_HUB}rankinghub`;
 const connection = new signalR.HubConnectionBuilder()
   .withUrl(rankingHubURL)

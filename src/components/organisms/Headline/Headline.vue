@@ -11,7 +11,7 @@
                         @click.native="logOUt()"
                     />
                     <div
-                        class="flex gap-5"
+                        class="grid grid-cols-2 gap-5"
                         v-if="!isApplicationUser"
                     >
                         <app-icon
@@ -34,7 +34,7 @@
                         class="px-4 py-1 rounded-base"
                     />
                     <div
-                        class="flex gap-5"
+                        class="grid grid-cols-2 gap-5"
                         v-if="isApplicationUser"
                     >
                         <router-link

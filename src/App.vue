@@ -96,14 +96,12 @@ export default {
       setTimeout(() => {
         this.loadingTitleFA = '';
       }, 5000);
-      // console.log('Watcher', oldValue, newValue);
     },
     headerTitleEN(newValue, oldValue) {
       this.loadingTitleEN = newValue;
       setTimeout(() => {
         this.loadingTitleEN = '';
       }, 5000);
-      // console.log('Watcher', oldValue, newValue);
     },
   },
 };

@@ -10,6 +10,7 @@ import Notifications from 'vue-notification';
 import VueJWT from 'vuejs-jwt';
 import VuePersianDigit from 'vue-persian-digit';
 import VueCarousel from 'vue-carousel';
+import Device from 'vue-device-detector';
 import router from '~src/router/router';
 import App from '~src/App.vue';
 import store from '~store/store';
@@ -22,6 +23,7 @@ Vue.use(VueAxios, axios);
 Vue.use(Notifications);
 Vue.use(VueParticles);
 Vue.use(VueJWT);
+Vue.use(Device);
 Vue.use(VuePersianDigit);
 Vue.use(VueCarousel);
 
